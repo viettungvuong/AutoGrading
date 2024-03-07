@@ -25,11 +25,16 @@ class _GradingScreenState extends State<GradingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          Image.file(File(widget.image.path)),
-        ]
+    return Container(
+        margin: EdgeInsets.all(50),
+        child: Column(
+            children: [
+              Text("Test paper",style: TextStyle(fontSize: 20),),
+              Image.file(File(widget.image.path)),
+            ]
+        )
     );
+
   }
 
   @override
