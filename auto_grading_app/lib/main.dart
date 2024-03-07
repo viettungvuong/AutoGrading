@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/screens/grading.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
@@ -78,6 +79,7 @@ class _CameraScreenState extends State<CameraScreen> {
               // For example, you can display the picture in a new screen or widget
               // You can use the picture.path to display the image
               // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: picture.path)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => GradingScreen(image: picture)));
 
             } catch (e) {
               // Handle errors that might occur during the process

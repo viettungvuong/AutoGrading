@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -25,7 +27,7 @@ class _GradingScreenState extends State<GradingScreen> {
   Widget build(BuildContext context) {
     return Column(
         children: [
-
+          Image.file(File(widget.image.path)),
         ]
     );
   }
