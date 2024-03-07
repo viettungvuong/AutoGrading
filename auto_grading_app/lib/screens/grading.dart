@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class GradingScreen extends StatefulWidget{
@@ -25,15 +26,25 @@ class _GradingScreenState extends State<GradingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.all(50),
-        child: Column(
-            children: [
-              Text("Test paper",style: TextStyle(fontSize: 20),),
-              Image.file(File(widget.image.path)),
-            ]
-        )
+    return Scaffold(
+      body:  Container(
+          margin: EdgeInsets.all(50),
+          child: Column(
+              children: [
+                Text("Test paper",style: TextStyle(fontSize: 20),),
+                Image.file(File(widget.image.path)),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                  onPressed: () async {
+
+                  },
+                  child: const Text('Start grading'),
+                ),
+              ]
+          )
+      )
     );
+
 
   }
 
