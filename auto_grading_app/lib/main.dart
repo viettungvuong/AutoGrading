@@ -67,8 +67,23 @@ class _CameraScreenState extends State<CameraScreen> {
 
         ElevatedButton(
           style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-          onPressed: (){
+          onPressed: () async {
+            try {
+              // Ensure that the camera is initialized
+              await controller!.initialize();
 
+              // Attempt to take a picture and retrieve the path
+              final XFile picture = await controller!.takePicture();
+
+              // Handle the picture captured, you can save it or do any other operation
+              // For example, you can display the picture in a new screen or widget
+              // You can use the picture.path to display the image
+              // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: picture.path)));
+
+            } catch (e) {
+              // Handle errors that might occur during the process
+              print('Error capturing picture: $e');
+            }
           },
           child: const Text('Grade'),
         ),
