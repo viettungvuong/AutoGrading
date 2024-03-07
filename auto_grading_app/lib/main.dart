@@ -51,7 +51,6 @@ class _CameraScreenState extends State<CameraScreen> {
     } catch (e){
       print(e);
     }
-
   }
 
   @override
