@@ -17,11 +17,12 @@ class GradingScreen extends StatefulWidget{
 }
 
 class _GradingScreenState extends State<GradingScreen> {
+  late XFile image;
 
   @override
   void initState() {
     super.initState();
-
+    image=widget.image;
   }
 
   @override
