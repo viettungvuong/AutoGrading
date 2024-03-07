@@ -61,9 +61,19 @@ class _CameraScreenState extends State<CameraScreen> {
         child: Text("Cannot load camera", style: TextStyle(color: Colors.white, fontSize: 25),)
       );
     }
-    return AspectRatio(
-      aspectRatio: 16/9,
-      child: CameraPreview(controller!),
+    return Column(
+      children: [
+        CameraPreview(controller!),
+
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+          onPressed: (){
+
+          },
+          child: const Text('Grade'),
+        ),
+      ]
+
     );
   }
 
