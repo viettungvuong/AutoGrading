@@ -7,9 +7,9 @@ from utils import *
 from flask import Flask, jsonify, send_file, request, redirect, url_for
 
 
-def grade(filename, available_choices):
+def grade(filename, available_choices, right_answer):
     # 1. Doc anh, chuyen thanh anh xam
-    image = cv2.imread("omr_test_02.png")  # input
+    image = cv2.imread(filename)  # input
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
@@ -17,8 +17,8 @@ def grade(filename, available_choices):
     thresh = cv2.adaptiveThreshold(
         blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 31, 3
     )
-    cv2.imshow("Anh tai buoc 2", thresh)
-    cv2.waitKey()
+    # cv2.imshow("Anh tai buoc 2", thresh)
+    # cv2.waitKey()
 
     # 3. Tim khung ben ngoai de tach van ban khoi nen
     contours, hierarchy = cv2.findContours(
@@ -45,10 +45,6 @@ def grade(filename, available_choices):
         ar = w / float(h)
         if w >= 30 and h >= 30 and 0.8 <= ar <= 1.2:
             tickcontours.append(c)
-
-    # 6. So sanh cac o tick voi dap an
-    # Dinh nghia dap an
-    right_answer = {0: 1, 1: 2, 2: 0, 3: 3}
 
     # Sap xep cac contour theo hang
     tickcontours = sort_contours(tickcontours, method="top-to-bottom")[0]
@@ -101,38 +97,46 @@ def grade(filename, available_choices):
 # cv2.waitKey()
 
 # tạo endpoint để chạy script
-UPLOAD_FOLDER = "/uploads"
+UPLOAD_FOLDER = "./uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
-from flask import request, jsonify
+from flask import request, jsonify, json
 
 
-@app.route("/upload", methods=["POST"])
-def upload_image():
+@app.route("/grade", methods=["POST"])
+def grade_image():
     if request.method == "POST":
         if "file" not in request.files:
             return jsonify({"error": "No file part"})
+
         file = request.files["file"]
+
         if file.filename == "":
             return jsonify({"error": "No selected file"})
 
-        available_choices = request.form.get(
-            "available_choices", type=int
-        )  # Get available_choices from form data
-
         if file:
             filename = file.filename
-            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            file.save(file_path)
+            current_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            file.save(current_path)
+            available_choices = int(
+                request.form.get("available_choices", 5)
+            )  # Default to 5 if not provided
 
-            correct, result_file = grade(filename, available_choices=available_choices)
+            right_answers = json.loads(
+                request.form.get("right_answers", "{}")
+            )  # convert json to dictionary
+            right_answers = {int(key): value for key, value in right_answers.items()}
 
+            correct, result_file = grade(current_path, available_choices, right_answers)
+            print(correct)
+
+            # Return the grading result
             response_data = {
                 "success": True,
-                "correct_answers": correct,
+                "correct": correct,
                 "result_file": result_file,
             }
             return jsonify(response_data)
@@ -140,4 +144,4 @@ def upload_image():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=8000)
