@@ -107,27 +107,29 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
+from flask import request, jsonify
+
+
 @app.route("/upload", methods=["POST"])
 def upload_image():
     if request.method == "POST":
-        # check if the post request has the file part
         if "file" not in request.files:
-            print("No file part")
             return jsonify({"error": "No file part"})
         file = request.files["file"]
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         if file.filename == "":
-            print("No selected file")
             return jsonify({"error": "No selected file"})
+
+        available_choices = request.form.get(
+            "available_choices", type=int
+        )  # Get available_choices from form data
+
         if file:
             filename = file.filename
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(file_path)
 
-            correct, result_file = grade(filename, available_choices=5)
+            correct, result_file = grade(filename, available_choices=available_choices)
 
-            # Construct JSON response
             response_data = {
                 "success": True,
                 "correct_answers": correct,
