@@ -79,8 +79,8 @@ class _CameraScreenState extends State<CameraScreen> {
                     // For example, you can display the picture in a new screen or widget
                     // You can use the picture.path to display the image
                     // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: picture.path)));
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => GradingScreen(image: picture)));
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => GradingScreen(image: picture, availableChoices: 5,)));
+                    // tạm thời để 5
                   } catch (e) {
                     // Handle errors that might occur during the process
                     print('Error capturing picture: $e');

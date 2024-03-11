@@ -11,7 +11,7 @@ void ConnectToGrade(XFile image, int availableChoices){
   request.files.add(http.MultipartFile.fromPath(
     'file',
     image.path,
-    contentType: new MediaType('image'),
+    contentType: new MediaType('image','png'),
   ) as http.MultipartFile);
   request.send().then((response) {
     if (response.statusCode == 200) print("Uploaded!");
