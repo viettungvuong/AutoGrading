@@ -4,10 +4,20 @@ from scan import scan
 import imutils
 from imutils import contours
 
-image = cv2.imread("omr_test_01.png")
+image = cv2.imread("IMG_0124.jpg")
 scanned = scan(image)  # scan hinh
+
+# lam hinh trang hon
+image_float = scanned.astype(np.float32) / 255.0
+factor = 1.5
+whiter_image_float = image_float * factor
+whiter_image_float = np.clip(whiter_image_float, 0.0, 1.0)
+scanned = (whiter_image_float * 255).astype(np.uint8)
+
+
 cv2.imshow("Scanned", scanned)
 cv2.waitKey(0)
+
 
 # tim phan cau tra loi
 available_choices = 5

@@ -44,6 +44,7 @@ def find_dest(pts):
 
 
 def scan(img):
+
     # Resize image to workable size
     dim_limit = 1080
     max_dim = max(img.shape)
