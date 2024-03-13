@@ -94,7 +94,7 @@ def grade_paper(imagepath, available_choices, answers):
         # return (correct, scanned)
         return correct
     except Exception as e:
-        return f"An error occurred: {str(e)}"
+        return str(e)
 
 
 if __name__ == "__main__":
