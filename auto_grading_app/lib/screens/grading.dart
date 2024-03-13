@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:auto_grading_mobile/controllers/backendService.dart';
+import 'package:auto_grading_mobile/controllers/backendGrade.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,10 @@ class _GradingScreenState extends State<GradingScreen> {
   late XFile image;
   late int availableChoices;
 
+
+  late int correctAnswers;
+  XFile? resultImage;
+
   @override
   void initState() {
     super.initState();
@@ -36,15 +40,24 @@ class _GradingScreenState extends State<GradingScreen> {
           margin: EdgeInsets.all(50),
           child: Column(
               children: [
-                Text("Test paper",style: TextStyle(fontSize: 20),),
-                Image.file(File(widget.image.path)),
+                const Text("Test paper: ",style: TextStyle(fontSize: 20),),
+                Image.file(File(resultImage==null?image.path:resultImage!.path)),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                   onPressed: () async {
-                    ConnectToGrade(image, availableChoices);
+                    var json = await ConnectToGrade(image, availableChoices);
+
+                    int correctAnswers = json?["correct_answers"];
+                    XFile resImage = json?["result_img"];
+
+                    setState(() {
+                      this.correctAnswers=correctAnswers;
+                      this.resultImage=resImage;
+                    });
                   },
                   child: const Text('Start grading'),
                 ),
+                Text("Correct answers: $correctAnswers", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20)),
               ]
           )
       )

@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen>{
     return Scaffold(
       body: Column(
         children: [
-          _screens[currentScreenIndex],
+          _screens[currentScreenIndex], // khi bấm thì sẽ đổi screen
           BottomBar(), // bottom bar
         ],
       ),

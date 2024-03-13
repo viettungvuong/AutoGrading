@@ -34,15 +34,18 @@ def grade_image():
             )  # convert json to dictionary
             right_answers = {int(key): value for key, value in right_answers.items()}
 
-            correct, result_file = grade_paper(current_path, available_choices)
+            correct, result_file = grade_paper(
+                current_path, available_choices, right_answers
+            )
             print(correct)
 
             # Return the grading result
             response_data = {
                 "success": True,
-                "correct": correct,
-                "result_file": result_file,
+                "correct_answers": correct,
             }
+
+            # hình result sẽ có sau
             return jsonify(response_data)
     return jsonify({"error": "Invalid request method"})
 

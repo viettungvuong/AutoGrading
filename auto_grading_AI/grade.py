@@ -12,20 +12,19 @@ def grade_paper(imagepath, available_choices, answers):
         scanned = scan(image)  # scan hinh
 
         # lam hinh trang hon
-        image_float = scanned.astype(np.float32) / 255.0
-        factor = 1.5
-        whiter_image_float = image_float * factor
-        whiter_image_float = np.clip(whiter_image_float, 0.0, 1.0)
-        scanned = (whiter_image_float * 255).astype(np.uint8)
-
-        cv2.imshow("Scanned", scanned)
-        cv2.waitKey(0)
+        # image_float = scanned.astype(np.float32) / 255.0
+        # factor = 1.5
+        # whiter_image_float = image_float * factor
+        # whiter_image_float = np.clip(whiter_image_float, 0.0, 1.0)
+        # scanned = (whiter_image_float * 255).astype(np.uint8)
+        # cv2.imshow("Scanned", scanned)
+        # cv2.waitKey(0)
 
         # chia phan trang va den tren anh
         gray = cv2.cvtColor(scanned, cv2.COLOR_BGR2GRAY)
         thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-        cv2.imshow("Thresh", thresh)
-        cv2.waitKey(0)
+        # cv2.imshow("Thresh", thresh)
+        # cv2.waitKey(0)
 
         # tim contour trong hinh da binary thanh den trang
         cnts = cv2.findContours(
@@ -34,11 +33,11 @@ def grade_paper(imagepath, available_choices, answers):
         cnts = imutils.grab_contours(cnts)
         scanned_cnts = scanned.copy()
         cv2.drawContours(scanned_cnts, cnts, -1, (0, 255, 0), 2)
-        cv2.imshow("Scanned with Contours", scanned_cnts)
-        cv2.waitKey(0)
+        # cv2.imshow("Scanned with Contours", scanned_cnts)
+        # cv2.waitKey(0)
         questionCnts = []
         for c in cnts:
-            (_, _, w, h) = cv2.boundingRect(c)
+            (x, y, w, h) = cv2.boundingRect(c)
             aspect_ratio = w / float(h)
             circle_threshold = 0.85
             # dieu kien de mot contour la cau hoi => phai ktra tron
@@ -50,8 +49,8 @@ def grade_paper(imagepath, available_choices, answers):
                 questionCnts.append(c)
         scanned_questcnts = scanned.copy()
         cv2.drawContours(scanned_questcnts, questionCnts, -1, (0, 255, 0), 2)
-        cv2.imshow("Scanned with Question Contours", scanned_questcnts)
-        cv2.waitKey(0)
+        # cv2.imshow("Scanned with Question Contours", scanned_questcnts)
+        # cv2.waitKey(0)
 
         scanned_each_quest = scanned.copy()
         # sort cac contour theo thu tu tu tren xuong duoi
@@ -64,8 +63,8 @@ def grade_paper(imagepath, available_choices, answers):
                 0
             ]  # cac contour cua hang hien tai
             cv2.drawContours(scanned_each_quest, cnts, -1, (0, 255, 0), 2)
-            cv2.imshow("Scanned with Each Question Contours", scanned_each_quest)
-            cv2.waitKey(0)
+            # cv2.imshow("Scanned with Each Question Contours", scanned_each_quest)
+            # cv2.waitKey(0)
             bubbled = None  # cau duoc khoanh tron
 
             for j, c in enumerate(cnts):
@@ -87,8 +86,8 @@ def grade_paper(imagepath, available_choices, answers):
             else:
                 color = (0, 0, 255)  # mau do
             cv2.drawContours(scanned, [cnts[k]], -1, color, 3)
-        cv2.imshow("Result", scanned)
-        cv2.waitKey(0)
+        # cv2.imshow("Result", scanned)
+        # cv2.waitKey(0)
         return (correct, scanned)
     except Exception as e:
         return f"An error occurred: {str(e)}"
