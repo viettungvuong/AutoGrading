@@ -1,7 +1,8 @@
-import 'package:auto_grading_mobile/controllers/appController.dart';
 import 'package:flutter/material.dart';
 
-BottomNavigationBar bottomBar(){
+import '../main.dart';
+
+BottomNavigationBar BottomBar(){
   return BottomNavigationBar(
     items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(

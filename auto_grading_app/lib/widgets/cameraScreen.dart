@@ -35,9 +35,6 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // Add your app bar title or any other customization here
-      ),
       body: (cameras.length == 0 ||
           controller == null ||
           !controller!.value.isInitialized)

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MyListScreen extends StatelessWidget {
+class SavedSessionsScreen extends StatelessWidget {
   final List<String> items = [
     'Item 1',
     'Item 2',
