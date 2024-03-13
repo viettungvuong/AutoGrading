@@ -34,9 +34,7 @@ def grade_image():
             )  # convert json to dictionary
             right_answers = {int(key): value for key, value in right_answers.items()}
 
-            correct, result_file = grade_paper(
-                current_path, available_choices, right_answers
-            )
+            correct = grade_paper(current_path, available_choices, right_answers)
             print(correct)
 
             # Return the grading result

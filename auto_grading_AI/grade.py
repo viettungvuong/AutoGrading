@@ -79,16 +79,20 @@ def grade_paper(imagepath, available_choices, answers):
                 if bubbled is None or total > bubbled[0]:
                     bubbled = (total, j)
 
-            k = answers[q]
-            if k == bubbled[1]:
+            if answers.get(q) is None:
+                raise Exception(
+                    f"Provided answer key is insufficient for grading. Got {q} but there are only {q-1}"
+                )
+            if answers[q] == bubbled[1]:
                 color = (0, 255, 0)  # mau xanh
                 correct += 1
             else:
                 color = (0, 0, 255)  # mau do
-            cv2.drawContours(scanned, [cnts[k]], -1, color, 3)
+            cv2.drawContours(scanned, [cnts[answers[q]]], -1, color, 3)
         # cv2.imshow("Result", scanned)
         # cv2.waitKey(0)
-        return (correct, scanned)
+        # return (correct, scanned)
+        return correct
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
