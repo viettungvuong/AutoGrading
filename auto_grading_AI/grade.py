@@ -7,6 +7,7 @@ import argparse
 
 
 def grade_paper(imagepath, available_choices=5, answers={0: 1, 1: 1, 2: 0, 3: 3, 4: 4}):
+    try:
     image = cv2.imread(imagepath)
     scanned = scan(image)  # scan hinh
 
@@ -85,7 +86,9 @@ def grade_paper(imagepath, available_choices=5, answers={0: 1, 1: 1, 2: 0, 3: 3,
     cv2.imshow("Result", scanned)
     cv2.waitKey(0)
     return (correct, scanned)
-
+    except Exception as e:
+        # Handle the exception
+        print(f"An error occurred: {str(e)}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Select image.")

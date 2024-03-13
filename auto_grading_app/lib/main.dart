@@ -57,43 +57,64 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
+        // Add your app bar title or any other customization here
+      ),
+      body: (cameras.length == 0 ||
+          controller == null ||
+          !controller!.value.isInitialized)
+          ? Center(
+        child: Text(
+          "Cannot load camera",
+          style: TextStyle(color: Colors.white, fontSize: 25),
         ),
-        body: (cameras.length==0||controller==null||!controller!.value.isInitialized) ? Center(
-            child: Text("Cannot load camera", style: TextStyle(color: Colors.white, fontSize: 25),)
-        ) : Column(
-            children: [
-              Container(
-                margin: EdgeInsets.all(50),
-                child: CameraPreview(controller!),
+      )
+          : Column(
+        children: [
+          Container(
+            margin: EdgeInsets.all(50),
+            child: CameraPreview(controller!),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              textStyle: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
+            ),
+            onPressed: () async {
+              try {
+                // Ensure that the camera is initialized
+                await controller!.initialize();
 
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-                onPressed: () async {
-                  try {
-                    // Ensure that the camera is initialized
-                    await controller!.initialize();
+                // Attempt to take a picture and retrieve the path
+                final XFile picture = await controller!.takePicture();
 
-                    // Attempt to take a picture and retrieve the path
-                    final XFile picture = await controller!.takePicture();
-
-                    // Handle the picture captured, you can save it or do any other operation
-                    // For example, you can display the picture in a new screen or widget
-                    // You can use the picture.path to display the image
-                    // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: picture.path)));
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => GradingScreen(image: picture, availableChoices: 5,)));
-                    // tạm thời để 5
-                  } catch (e) {
-                    // Handle errors that might occur during the process
-                    print('Error capturing picture: $e');
-                  }
-                },
-                child: const Text('Grade'),
-              ),
-            ]
-        )
-
+                // Handle the picture captured, you can save it or do any other operation
+                // For example, you can display the picture in a new screen or widget
+                // You can use the picture.path to display the image
+                // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: picture.path)));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GradingScreen(
+                      image: picture,
+                      availableChoices: 5,
+                    ),
+                  ),
+                );
+                // tạm thời để 5
+              } catch (e) {
+                // Handle errors that might occur during the process
+                print('Error capturing picture: $e');
+              }
+            },
+            child: const Text('Grade'),
+          ),
+        ],
+      ),
+     
     );
   }
 
