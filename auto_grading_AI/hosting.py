@@ -41,11 +41,11 @@ def grade_image():
 
             # Return the grading result
             response_data = {
-                "success": True,
                 "correct_answers": correct,
             }
 
             # hình result sẽ có sau
+
             return jsonify(response_data)
     return jsonify({"error": "Invalid request method"})
 

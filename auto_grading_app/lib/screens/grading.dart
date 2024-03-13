@@ -41,18 +41,18 @@ class _GradingScreenState extends State<GradingScreen> {
           child: Column(
               children: [
                 const Text("Test paper: ",style: TextStyle(fontSize: 20),),
-                Image.file(File(resultImage==null?image.path:resultImage!.path)),
+                Image.file(File(image.path)),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                   onPressed: () async {
                     var json = await ConnectToGrade(image, availableChoices);
 
                     int correctAnswers = json?["correct_answers"];
-                    XFile resImage = json?["result_img"];
+                    // XFile resImage = json?["result_img"];
 
                     setState(() {
                       this.correctAnswers=correctAnswers;
-                      this.resultImage=resImage;
+                      // this.resultImage=resImage;
                     });
                   },
                   child: const Text('Start grading'),
