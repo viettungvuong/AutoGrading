@@ -6,7 +6,7 @@ from imutils import contours
 import argparse
 
 
-def grade_paper(imagepath):
+def grade_paper(imagepath, available_choices=5, answers={0: 1, 1: 1, 2: 0, 3: 3, 4: 4}):
     image = cv2.imread(imagepath)
     scanned = scan(image)  # scan hinh
 
@@ -19,10 +19,6 @@ def grade_paper(imagepath):
 
     cv2.imshow("Scanned", scanned)
     cv2.waitKey(0)
-
-    # tim phan cau tra loi
-    available_choices = 5
-    answers = {0: 1, 1: 1, 2: 0, 3: 3, 4: 4}
 
     # chia phan trang va den tren anh
     gray = cv2.cvtColor(scanned, cv2.COLOR_BGR2GRAY)

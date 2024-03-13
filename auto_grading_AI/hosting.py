@@ -27,16 +27,14 @@ def grade_image():
             filename = file.filename
             current_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(current_path)
-            available_choices = int(
-                request.form.get("available_choices", 5)
-            )  # Default to 5 if not provided
+            available_choices = int(request.form.get("available_choices", 5))
 
             right_answers = json.loads(
                 request.form.get("right_answers", "{}")
             )  # convert json to dictionary
             right_answers = {int(key): value for key, value in right_answers.items()}
 
-            correct, result_file = grade_paper(current_path)
+            correct, result_file = grade_paper(current_path, available_choices)
             print(correct)
 
             # Return the grading result

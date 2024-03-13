@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 void ConnectToGrade(XFile image, int availableChoices){
-  var url = Uri.parse(serverUrl);
+  var url = Uri.parse(serverUrl); // ket noi den backend figma
 
   var request = new http.MultipartRequest("POST", url); // gửi qua server để chấm bài
   request.fields['available_choices'] = availableChoices.toString();
@@ -14,6 +14,6 @@ void ConnectToGrade(XFile image, int availableChoices){
     contentType: new MediaType('image','png'),
   ) as http.MultipartFile);
   request.send().then((response) {
-    if (response.statusCode == 200) print("Uploaded!");
+    if (response.statusCode == 200) print("Graded");
   });
 }
