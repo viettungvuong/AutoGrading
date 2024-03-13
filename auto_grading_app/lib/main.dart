@@ -42,7 +42,7 @@ class _CameraScreenState extends State<CameraScreen> {
       return;
     }
     try{
-      controller = CameraController(cameras[0], ResolutionPreset.medium);
+      controller = CameraController(cameras[0], ResolutionPreset.ultraHigh);
       controller?.initialize().then((_) {
         if (!mounted) {
           return;
@@ -63,7 +63,10 @@ class _CameraScreenState extends State<CameraScreen> {
             child: Text("Cannot load camera", style: TextStyle(color: Colors.white, fontSize: 25),)
         ) : Column(
             children: [
-              CameraPreview(controller!),
+              Container(
+                margin: EdgeInsets.all(50),
+                child: CameraPreview(controller!),
+              ),
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
