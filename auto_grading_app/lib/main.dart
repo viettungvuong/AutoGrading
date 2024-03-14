@@ -4,14 +4,16 @@ import 'package:auto_grading_mobile/widgets/bottomBar.dart';
 import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 List<CameraDescription> cameras=[];
-int currentScreenIndex=0;
+final selectedIndexProvider = StateProvider<int>((ref) => 0);
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 
@@ -31,24 +33,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatefulWidget{
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
 
-class _MainScreenState extends State<MainScreen>{
+class MainScreen extends ConsumerWidget{
   List<Widget> _screens = [
     CameraScreen(),
     SavedSessionsScreen()
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = ref.watch(selectedIndexProvider); // lấy giá trị từ selectedIndexProvider
     return Scaffold(
       body: Stack(
         children: [
           Container(
-            child: _screens[currentScreenIndex], // khi bấm thì sẽ đổi screen
+            child: _screens[selectedIndex], // khi bấm thì sẽ đổi screen
           ),
           Positioned(
             bottom: 0,

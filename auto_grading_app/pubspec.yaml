@@ -38,6 +38,7 @@ dependencies:
   camera: ^0.10.5+9
   http: ^1.2.0
   riverpod: ^2.5.1
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:
