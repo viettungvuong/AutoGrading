@@ -10,10 +10,23 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen>{
   int _numQuestions = 2;
   int _numChoices = 2;
 
+  List<int> _answers=[]; // luu lai nhung gi da chon
+
+  @override
+  void initState(){
+    super.initState();
+
+    for (int i=0; i<_numQuestions; i++){
+      _answers.add(0);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(16.0),
+    return Scaffold(
+
+      body: Container(
+        margin: EdgeInsets.all(30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -22,7 +35,19 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen>{
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 setState(() {
-                  _numQuestions = int.tryParse(value) ?? 0; // nhap so cau hoi
+                  int oldNumQuestions=_numQuestions;
+                  _numQuestions = int.tryParse(value) ?? 1;
+                  if (_numQuestions>oldNumQuestions){
+                    for (int i=oldNumQuestions; i<_numQuestions; i++){
+                      _answers.add(0);
+                    }
+                  }
+                  else{
+                    for (int i=oldNumQuestions-1; i>=_numQuestions; i--){
+                      _answers.removeLast();
+                    }
+                  }
+
                 });
               },
             ),
@@ -32,34 +57,45 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen>{
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 setState(() {
-                  _numChoices = int.tryParse(value) ?? 0; // nhap so cau tra loi
+                  int oldNumChoices=_numChoices;
+                  _numChoices = int.tryParse(value) ?? 1;
+                  if (oldNumChoices<_numChoices){
+                    for (int i=0; i<_numQuestions; i++){
+                      if (_answers[i]>=_numChoices){
+                        _answers[i]--;
+                      }
+                    }
+                  }
                 });
+
+
               },
             ),
-            SizedBox(height: 20),
-            Text('Grid:'),
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _numChoices, // so cot
-                  crossAxisSpacing: 5.0,
-                  mainAxisSpacing: 5.0,
+                  crossAxisCount: _numChoices,
+                  crossAxisSpacing: 1.0,
+                  mainAxisSpacing: 1.0,
                 ),
-                itemCount: _numQuestions,
+                itemCount: _numQuestions * _numChoices,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    color: Colors.blue[100],
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Q${index + 1}',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                  final questionIndex = index ~/ _numChoices;
+                  return Radio<int>(
+                    value: index,
+                    groupValue: _answers[questionIndex],
+                    onChanged: (value) {
+                      setState(() {
+                        _answers[questionIndex] = value!~/ _numChoices;
+                      });
+                    },
                   );
                 },
               ),
             ),
           ],
         ),
+      ),
     );
   }
 }

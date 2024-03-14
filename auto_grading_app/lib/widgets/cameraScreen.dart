@@ -34,7 +34,8 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return (cameras.length == 0 ||
+    return Scaffold(
+      body: (cameras.length == 0 ||
           controller == null ||
           !controller!.value.isInitialized)
           ? Center(
@@ -87,6 +88,8 @@ class _CameraScreenState extends State<CameraScreen> {
             child: const Text('Grade'),
           ),
         ],
+      ),
+
     );
   }
 

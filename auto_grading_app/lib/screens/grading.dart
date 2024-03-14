@@ -22,8 +22,7 @@ class _GradingScreenState extends State<GradingScreen> {
   late XFile image;
   late int availableChoices;
 
-
-  late int correctAnswers;
+  int? correctAnswers;
   XFile? resultImage;
 
   @override
@@ -35,7 +34,8 @@ class _GradingScreenState extends State<GradingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      body: Container(
           margin: EdgeInsets.all(50),
           child: Column(
               children: [
@@ -59,6 +59,7 @@ class _GradingScreenState extends State<GradingScreen> {
                 Text("Correct answers: $correctAnswers", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20)),
               ]
           )
+      )
     );
 
 
