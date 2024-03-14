@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CameraScreen(),
+      home: MainScreen(),
     );
   }
 }
@@ -45,10 +45,18 @@ class _MainScreenState extends State<MainScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          _screens[currentScreenIndex], // khi bấm thì sẽ đổi screen
-          BottomBar(), // bottom bar
+          Container(
+            child: _screens[currentScreenIndex], // khi bấm thì sẽ đổi screen
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: BottomBar(), // bottom bar
+          )
+
         ],
       ),
     );

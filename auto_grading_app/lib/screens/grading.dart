@@ -35,8 +35,7 @@ class _GradingScreenState extends State<GradingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:  Container(
+    return Container(
           margin: EdgeInsets.all(50),
           child: Column(
               children: [
@@ -60,7 +59,6 @@ class _GradingScreenState extends State<GradingScreen> {
                 Text("Correct answers: $correctAnswers", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20)),
               ]
           )
-      )
     );
 
 

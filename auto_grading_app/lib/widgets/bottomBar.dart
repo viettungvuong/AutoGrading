@@ -6,16 +6,16 @@ BottomNavigationBar BottomBar(){
   return BottomNavigationBar(
     items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Home',
+        icon: Icon(Icons.add),
+        label: 'Grade',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.business),
-        label: 'Business',
+        icon: Icon(Icons.library_books),
+        label: 'Graded tests',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.school),
-        label: 'School',
+        icon: Icon(Icons.account_circle_rounded),
+        label: 'Profile',
       ),
     ],
     currentIndex: currentScreenIndex,
