@@ -3,14 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
-import '../screens/grading.dart';
 
-class CameraScreen extends StatefulWidget {
+class ResultScreen extends StatefulWidget {
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  _ResultScreenState createState() => _ResultScreenState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _ResultScreenState extends State<ResultScreen> {
   late CameraController? controller;
 
   @override
@@ -66,19 +65,6 @@ class _CameraScreenState extends State<CameraScreen> {
                 // Attempt to take a picture and retrieve the path
                 final XFile picture = await controller!.takePicture();
 
-                // Handle the picture captured, you can save it or do any other operation
-                // For example, you can display the picture in a new screen or widget
-                // You can use the picture.path to display the image
-                // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: picture.path)));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GradingScreen(
-                      image: picture,
-                      availableChoices: 5,
-                    ),
-                  ),
-                );
                 // tạm thời để 5
               } catch (e) {
                 // Handle errors that might occur during the process

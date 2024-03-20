@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -77,7 +78,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   final questionIndex = index ~/ _numChoices;
                   final choiceIndex = index % _numChoices;
-                  return Column( // Wrap your Row in a Column to include the question index
+                  return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       choiceIndex==0?Text("Question ${questionIndex + 1}:"):Text(""), // Display the question index
@@ -100,6 +101,15 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 },
               ),
 
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CameraScreen()),
+                );
+              },
+              child: Text('Taking picture'),
             ),
           ],
         ),
