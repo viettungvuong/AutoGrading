@@ -69,7 +69,7 @@ class _ResultScreenState extends State<ResultScreen> {
               onPressed: ()  {
 
               },
-              child: const Text('Add to the test session'), // bam nay xong se co nut take more nua de chup tiep
+              child: const Text('Add to the current test session'), // bam nay xong se co nut take more nua de chup tiep
             ),
           ],
         )

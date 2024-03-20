@@ -35,7 +35,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
             TextField(
               controller: _controller,
               decoration: InputDecoration(
-                hintText: "Enter the test name here",
+                hintText: "Enter the test session name here",
               ),
             ),
             Text('Number of Questions:'),
