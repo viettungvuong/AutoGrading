@@ -56,9 +56,9 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 20), // Add some space between the buttons
               ElevatedButton(
                 onPressed: () {
-                  // Add functionality for the second button here
+                  // cai nay se hien danh sach cac session
                 },
-                child: Text('Continue last session'),
+                child: Text('Continue old sessions'),
               ),
             ],
           ),
