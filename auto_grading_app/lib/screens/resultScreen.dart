@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 
 class ResultScreen extends StatefulWidget {
+  int score; // so diem
+  int correct; // so cau dung
+  ResultScreen({required this.score, required this.correct});
   @override
   _ResultScreenState createState() => _ResultScreenState();
 }
@@ -12,12 +15,18 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   late CameraController? controller;
 
+  late int score;
+  late int correct;
+
+  TextEditingController _controller=TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    if (cameras.length==0){
-      return;
-    }
+
+    this.score=widget.score;
+    this.correct=widget.correct;
+
     try{
       controller = CameraController(cameras[0], ResolutionPreset.ultraHigh);
       controller?.initialize().then((_) {
@@ -34,47 +43,32 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: (cameras.length == 0 ||
-          controller == null ||
-          !controller!.value.isInitialized)
-          ? Center(
-        child: Text(
-          "Cannot load camera",
-          style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-      )
-          : Column(
-        children: [
-          Container(
-            margin: EdgeInsets.all(50),
-            child: CameraPreview(controller!),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+      body: Center(
+        child: Column(
+          children: [
+            Text(
+              "$correct correct sentences",
+              style: TextStyle(color: Colors.green, fontSize: 25),
+            ),
+
+
+            Text(
+              "Final score: $score",
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
+
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                hintText: "Enter the student name here",
               ),
             ),
-            onPressed: () async {
-              try {
-                // Ensure that the camera is initialized
-                await controller!.initialize();
+          ],
+        )
 
-                // Attempt to take a picture and retrieve the path
-                final XFile picture = await controller!.takePicture();
 
-                // tạm thời để 5
-              } catch (e) {
-                // Handle errors that might occur during the process
-                print('Error capturing picture: $e');
-              }
-            },
-            child: const Text('Grade now'),
-          ),
-        ],
       ),
+
 
     );
   }

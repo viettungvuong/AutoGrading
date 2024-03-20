@@ -17,7 +17,7 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     if (cameras.length==0){
-      return;
+      return; // neu khong co camera thi khong initialize
     }
     try{
       controller = CameraController(cameras[0], ResolutionPreset.ultraHigh);
