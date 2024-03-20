@@ -11,6 +11,8 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
   int _numQuestions = 2;
   int _numChoices = 2;
 
+  TextEditingController _controller=TextEditingController();
+
   List<int> _answers = []; // luu lai nhung gi da chon
 
   @override
@@ -30,6 +32,12 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                hintText: "Enter the test name here",
+              ),
+            ),
             Text('Number of Questions:'),
             TextField(
               keyboardType: TextInputType.number,

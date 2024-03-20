@@ -63,6 +63,14 @@ class _ResultScreenState extends State<ResultScreen> {
                 hintText: "Enter the student name here",
               ),
             ),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+              onPressed: ()  {
+
+              },
+              child: const Text('Add to the test session'), // bam nay xong se co nut take more nua de chup tiep
+            ),
           ],
         )
 
