@@ -54,7 +54,7 @@ class _GradingScreenState extends State<GradingScreen> {
                       // this.resultImage=resImage;
                     });
                   },
-                  child: const Text('Start grading'),
+                  child: const Text('Save'),
                 ),
                 Text("Correct answers: $correctAnswers", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20)),
               ]

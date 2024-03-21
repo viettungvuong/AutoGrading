@@ -1,6 +1,7 @@
 import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SpecifyTestScreen extends StatefulWidget {
   @override
@@ -118,6 +119,18 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
             ),
             ElevatedButton(
               onPressed: () {
+                if (_numChoices==0||_numQuestions==0||_controller.text.isEmpty){
+                  Fluttertoast.showToast(
+                    msg: "You have not input sufficient information ",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black45,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
+
+                }
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CameraScreen()),
