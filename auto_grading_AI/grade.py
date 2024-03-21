@@ -6,19 +6,36 @@ from imutils import contours
 import argparse
 
 
-def grade_paper(imagepath, available_choices, answers):
+def grade_paper(imagepath, available_choices=0, answers=0):
     try:
         image = cv2.imread(imagepath)
         scanned = scan(image)  # scan hinh
 
         # lam hinh trang hon
-        # image_float = scanned.astype(np.float32) / 255.0
-        # factor = 1.5
-        # whiter_image_float = image_float * factor
-        # whiter_image_float = np.clip(whiter_image_float, 0.0, 1.0)
-        # scanned = (whiter_image_float * 255).astype(np.uint8)
-        # cv2.imshow("Scanned", scanned)
-        # cv2.waitKey(0)
+        rgb_planes = cv2.split(scanned)
+
+        result_planes = []
+        result_norm_planes = []
+        for plane in rgb_planes:
+            dilated_img = cv2.dilate(plane, np.ones((7, 7), np.uint8))
+            bg_img = cv2.medianBlur(dilated_img, 21)
+            diff_img = 255 - cv2.absdiff(plane, bg_img)
+            norm_img = cv2.normalize(
+                diff_img,
+                None,
+                alpha=0,
+                beta=255,
+                norm_type=cv2.NORM_MINMAX,
+                dtype=cv2.CV_8UC1,
+            )
+            result_planes.append(diff_img)
+            result_norm_planes.append(norm_img)
+
+        scanned = cv2.merge(result_planes)
+        scanned_norm = cv2.merge(result_norm_planes)
+        cv2.imshow("Scanned", scanned)
+        cv2.imshow("Scanned norm", scanned_norm)
+        cv2.waitKey(0)
 
         # chia phan trang va den tren anh
         gray = cv2.cvtColor(scanned, cv2.COLOR_BGR2GRAY)
