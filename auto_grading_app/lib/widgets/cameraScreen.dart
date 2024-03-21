@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../main.dart';
 import '../screens/grading.dart';
@@ -11,7 +12,8 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  late CameraController? controller;
+  late CameraController? _controller;
+  XFile? _image;
 
   @override
   void initState() {
@@ -20,8 +22,8 @@ class _CameraScreenState extends State<CameraScreen> {
       return; // neu khong co camera thi khong initialize
     }
     try{
-      controller = CameraController(cameras[0], ResolutionPreset.ultraHigh);
-      controller?.initialize().then((_) {
+      _controller = CameraController(cameras[0], ResolutionPreset.ultraHigh);
+      _controller?.initialize().then((_) {
         if (!mounted) {
           return;
         }
@@ -32,12 +34,50 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    _image = pickedImage;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GradingScreen(
+          image: _image!,
+          availableChoices: 5,
+        ),
+      ),
+    );
+  }
+  
+  Future<void> _takePicture() async {
+    try {
+      await _controller!.initialize();
+
+      // anh chup
+      _image = await _controller!.takePicture();
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GradingScreen(
+            image: _image!,
+            availableChoices: 5,
+          ),
+        ),
+      );
+      // tạm thời để 5
+    } catch (e) {
+      // Handle errors that might occur during the process
+      print('Error capturing picture: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: (cameras.length == 0 ||
-          controller == null ||
-          !controller!.value.isInitialized)
+          _controller == null ||
+          !_controller!.value.isInitialized)
           ? Center(
         child: Text(
           "Cannot load camera",
@@ -48,7 +88,7 @@ class _CameraScreenState extends State<CameraScreen> {
         children: [
           Container(
             margin: EdgeInsets.all(50),
-            child: CameraPreview(controller!),
+            child: CameraPreview(_controller!),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -59,34 +99,13 @@ class _CameraScreenState extends State<CameraScreen> {
               ),
             ),
             onPressed: () async {
-              try {
-                // Ensure that the camera is initialized
-                await controller!.initialize();
-
-                // Attempt to take a picture and retrieve the path
-                final XFile picture = await controller!.takePicture();
-
-                // Handle the picture captured, you can save it or do any other operation
-                // For example, you can display the picture in a new screen or widget
-                // You can use the picture.path to display the image
-                // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: picture.path)));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GradingScreen(
-                      image: picture,
-                      availableChoices: 5,
-                    ),
-                  ),
-                );
-                // tạm thời để 5
-              } catch (e) {
-                // Handle errors that might occur during the process
-                print('Error capturing picture: $e');
-              }
+               _takePicture();
             },
             child: const Text('Grade now'),
           ),
+          ElevatedButton(onPressed: () async {
+            _pickImage();
+          }, child: const Text('Select image from the gallery'),)
         ],
       ),
 
@@ -95,7 +114,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   void dispose() {
-    controller!.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 }
