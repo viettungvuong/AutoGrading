@@ -60,10 +60,10 @@ class _GradingScreenState extends State<GradingScreen> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResultScreen(score: score, correct: correctAnswers)),
+                      MaterialPageRoute(builder: (context) => ResultScreen()),
                     );
                   },
-                  child: const Text('Save'),
+                  child: const Text('Grade now'),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
@@ -75,6 +75,7 @@ class _GradingScreenState extends State<GradingScreen> {
                   },
                   child: const Text('Retake'),
                 ),
+
                 Text("Correct answers: $correctAnswers", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20)),
               ]
           )

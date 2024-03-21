@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 
 class ResultScreen extends StatefulWidget {
-  int score; // so diem
-  int correct; // so cau dung
-  ResultScreen({required this.score, required this.correct});
+  int score=0; // so diem
+  int correct=0; // so cau dung
+  // ResultScreen({required this.score, required this.correct});
   @override
   _ResultScreenState createState() => _ResultScreenState();
 }
@@ -66,22 +66,37 @@ class _ResultScreenState extends State<ResultScreen> {
 
             ElevatedButton(
               style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-              onPressed: ()  async {
+              onPressed: () async {
                 await showDialog<void>(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      content: Stack(
-                        clipBehavior: Clip.none,
-                        children: <Widget>[
-                          Column(
-                            children: [
-                              ElevatedButton(onPressed: (){}, child: const Text("Take more")),
-                              ElevatedButton(onPressed: (){}, child: const Text("Finish")),
-                            ],
-                          )
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: Container(
+                      width: 200, // Set the width of the AlertDialog
+                      height: 150, // Set the height of the AlertDialog
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              // Take more action
+                              Navigator.of(context).pop();
+                              // Add your logic here
+                            },
+                            child: const Text("Take more"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Finish action
+                              Navigator.of(context).pop();
+                              // Add your logic here
+                            },
+                            child: const Text("Finish"),
+                          ),
                         ],
                       ),
-                    ));
+                    ),
+                  ),
+                );
               },
               child: const Text('Add to the current test session'), // bam nay xong se co nut take more nua de chup tiep
             ),
