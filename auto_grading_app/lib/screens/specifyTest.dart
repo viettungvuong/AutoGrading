@@ -38,9 +38,12 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 hintText: "Enter the test session name here",
               ),
             ),
-            Text('Number of Questions:'),
+            SizedBox(height: 30,),
             TextField(
               keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: "Enter the number of questions"
+              ),
               onChanged: (value) {
                 setState(() {
                   int oldNumQuestions = _numQuestions;
@@ -49,18 +52,22 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                     for (int i = oldNumQuestions; i < _numQuestions; i++) {
                       _answers.add(0);
                     }
+                    print(_answers);
                   } else {
                     for (int i = oldNumQuestions - 1; i >= _numQuestions; i--) {
                       _answers.removeLast();
                     }
+                    print(_answers);
                   }
                 });
               },
             ),
             SizedBox(height: 20),
-            Text('Number of Choices:'),
             TextField(
               keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Enter the number of available choices"
+              ),
               onChanged: (value) {
                 setState(() {
                   int oldNumChoices = _numChoices;
@@ -80,7 +87,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: _numChoices,
                   crossAxisSpacing: 1.0,
-                  mainAxisSpacing: 1.0,
+                  mainAxisSpacing: 2.0,
                 ),
                 itemCount: _numQuestions * _numChoices,
                 itemBuilder: (BuildContext context, int index) {
@@ -89,7 +96,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      choiceIndex==0?Text("Question ${questionIndex + 1}:"):Text(""), // Display the question index
+                      choiceIndex==0?Text("Question ${questionIndex + 1}:"):Text(""),
                       Row(
                         children: [
                           Text("${String.fromCharCode(65 + choiceIndex)}"),
@@ -98,7 +105,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                             groupValue: _answers[questionIndex],
                             onChanged: (value) {
                               setState(() {
-                                _answers[questionIndex] = value! ~/ _numChoices;
+                                _answers[questionIndex] = value!;
                               });
                             },
                           ),
@@ -108,7 +115,6 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                   );
                 },
               ),
-
             ),
             ElevatedButton(
               onPressed: () {
