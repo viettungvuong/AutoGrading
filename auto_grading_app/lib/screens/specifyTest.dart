@@ -75,7 +75,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                   if (oldNumChoices < _numChoices) {
                     for (int i = 0; i < _numQuestions; i++) {
                       if (_answers[i] >= _numChoices) {
-                        _answers[i]--;
+                        _answers[i]=_numChoices-1;
                       }
                     }
                   }
@@ -86,8 +86,8 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: _numChoices,
-                  crossAxisSpacing: 1.0,
-                  mainAxisSpacing: 2.0,
+                  crossAxisSpacing: 0.1,
+                  mainAxisSpacing: 0.5,
                 ),
                 itemCount: _numQuestions * _numChoices,
                 itemBuilder: (BuildContext context, int index) {
@@ -105,7 +105,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                             groupValue: _answers[questionIndex],
                             onChanged: (value) {
                               setState(() {
-                                _answers[questionIndex] = value!;
+                                _answers[questionIndex] = value??0;
                               });
                             },
                           ),
