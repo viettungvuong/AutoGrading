@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:auto_grading_mobile/controllers/backendGrade.dart';
+import 'package:auto_grading_mobile/screens/resultScreen.dart';
+import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class _GradingScreenState extends State<GradingScreen> {
   late int availableChoices;
 
   int? correctAnswers;
+  int? score;
   XFile? resultImage;
 
   @override
@@ -40,21 +43,37 @@ class _GradingScreenState extends State<GradingScreen> {
           child: Column(
               children: [
                 const Text("Test paper: ",style: TextStyle(fontSize: 20),),
-                Image.file(File(image.path)),
+                Image.file(File(resultImage==null?image.path:resultImage!.path)),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                   onPressed: () async {
-                    var json = await ConnectToGrade(image, availableChoices);
+                    var json = await ConnectToGrade(image, availableChoices); // goi den backend
 
                     int correctAnswers = json?["correct_answers"];
+                    int score=json?["score"];
                     // XFile resImage = json?["result_img"];
 
                     setState(() {
                       this.correctAnswers=correctAnswers;
                       // this.resultImage=resImage;
                     });
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResultScreen(score: score, correct: correctAnswers)),
+                    );
                   },
                   child: const Text('Save'),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CameraScreen()),
+                    );
+                  },
+                  child: const Text('Retake'),
                 ),
                 Text("Correct answers: $correctAnswers", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20)),
               ]
