@@ -66,8 +66,22 @@ class _ResultScreenState extends State<ResultScreen> {
 
             ElevatedButton(
               style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-              onPressed: ()  {
-
+              onPressed: ()  async {
+                await showDialog<void>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      content: Stack(
+                        clipBehavior: Clip.none,
+                        children: <Widget>[
+                          Column(
+                            children: [
+                              ElevatedButton(onPressed: (){}, child: const Text("Take more")),
+                              ElevatedButton(onPressed: (){}, child: const Text("Finish")),
+                            ],
+                          )
+                        ],
+                      ),
+                    ));
               },
               child: const Text('Add to the current test session'), // bam nay xong se co nut take more nua de chup tiep
             ),
