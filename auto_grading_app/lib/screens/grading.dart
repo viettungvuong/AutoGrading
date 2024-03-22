@@ -76,7 +76,6 @@ class _GradingScreenState extends State<GradingScreen> {
                   child: const Text('Retake'),
                 ),
 
-                Text("Correct answers: $correctAnswers", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20)),
               ]
           )
       )

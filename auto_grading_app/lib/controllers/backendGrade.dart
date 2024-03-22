@@ -7,22 +7,26 @@ import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
 Future<Map<String, dynamic>?> ConnectToGrade(XFile image, int availableChoices) async {
-  var url = Uri.parse(serverUrl); // ket noi den backend figma
-  Map<String,dynamic>? json=null;
+  var url = Uri.parse(serverUrl); // Connect to the backend server
+  Map<String, dynamic>? json;
 
-  final request = new http.MultipartRequest("POST", url); // gửi qua server để chấm bài
+  final request = http.MultipartRequest("POST", url); // Send the image to the grading server
   request.fields['available_choices'] = availableChoices.toString();
-  request.files.add(http.MultipartFile.fromPath(
+  request.files.add(await http.MultipartFile.fromPath(
     'file',
     image.path,
-    contentType: new MediaType('image','png'),
-  ) as http.MultipartFile);
-  request.send().then((response) async {
-    if (response.statusCode == 200) {
-      Response res = await Response.fromStream(response);
-      json = jsonDecode(res.body) as Map<String, dynamic>; // doi qua map duoi format json
-    };
-  });
+    contentType: MediaType('image', 'png'),
+  ));
+
+  try {
+    final streamedResponse = await request.send();
+    if (streamedResponse.statusCode == 200) {
+      final response = await http.Response.fromStream(streamedResponse);
+      json = jsonDecode(response.body) as Map<String, dynamic>; // Convert response to JSON format
+    }
+  } catch (e) {
+    print('Error connecting to server: $e');
+  }
 
   return json;
 }

@@ -6,7 +6,7 @@ from imutils import contours
 import argparse
 
 
-def grade_paper(imagepath, available_choices=4, answers={0: 2, 1: 3, 2: 0, 3: 1, 4: 1}):
+def grade_paper(imagepath, available_choices, answers):
     try:
         image = cv2.imread(imagepath)
         scanned = scan(image)  # scan hinh
@@ -33,15 +33,15 @@ def grade_paper(imagepath, available_choices=4, answers={0: 2, 1: 3, 2: 0, 3: 1,
 
         scanned = cv2.merge(result_planes)
         scanned_norm = cv2.merge(result_norm_planes)
-        cv2.imshow("Scanned", scanned)
-        cv2.imshow("Scanned norm", scanned_norm)
-        cv2.waitKey(0)
+        # cv2.imshow("Scanned", scanned)
+        # cv2.imshow("Scanned norm", scanned_norm)
+        # cv2.waitKey(0)
 
         # chia phan trang va den tren anh
         gray = cv2.cvtColor(scanned, cv2.COLOR_BGR2GRAY)
         thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-        cv2.imshow("Thresh", thresh)
-        cv2.waitKey(0)
+        # cv2.imshow("Thresh", thresh)
+        # cv2.waitKey(0)
 
         # tim contour trong hinh da binary thanh den trang
         cnts = cv2.findContours(
@@ -65,9 +65,9 @@ def grade_paper(imagepath, available_choices=4, answers={0: 2, 1: 3, 2: 0, 3: 1,
             ):
                 questionCnts.append(c)
         scanned_questcnts = scanned.copy()
-        cv2.drawContours(scanned_questcnts, questionCnts, -1, (0, 255, 0), 2)
-        cv2.imshow("Scanned with Question Contours", scanned_questcnts)
-        cv2.waitKey(0)
+        # cv2.drawContours(scanned_questcnts, questionCnts, -1, (0, 255, 0), 2)
+        # cv2.imshow("Scanned with Question Contours", scanned_questcnts)
+        # cv2.waitKey(0)
 
         scanned_each_quest = scanned.copy()
         # sort cac contour theo thu tu tu tren xuong duoi
@@ -106,8 +106,8 @@ def grade_paper(imagepath, available_choices=4, answers={0: 2, 1: 3, 2: 0, 3: 1,
             else:
                 color = (0, 0, 255)  # mau do
             cv2.drawContours(scanned, [cnts[answers[q]]], -1, color, 3)
-        cv2.imshow("Result", scanned)
-        cv2.waitKey(0)
+        # cv2.imshow("Result", scanned)
+        # cv2.waitKey(0)
         # return (correct, scanned)
         return correct
     except Exception as e:
