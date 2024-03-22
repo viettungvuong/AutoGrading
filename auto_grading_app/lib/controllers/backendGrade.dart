@@ -1,10 +1,11 @@
 import 'dart:convert';
 
-import 'package:auto_grading_mobile/constant.dart';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
+
+const String serverUrl="http://127.0.0.1:8000";
 
 Future<Map<String, dynamic>?> ConnectToGrade(XFile image, int availableChoices) async {
   var url = Uri.parse(serverUrl); // Connect to the backend server
