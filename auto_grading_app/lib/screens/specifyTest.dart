@@ -130,6 +130,8 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                     fontSize: 16.0,
                   );
 
+                  return;
+
                 }
                 Navigator.push(
                   context,

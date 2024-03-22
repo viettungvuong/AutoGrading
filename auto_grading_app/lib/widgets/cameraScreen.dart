@@ -38,15 +38,18 @@ class _CameraScreenState extends State<CameraScreen> {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     _image = pickedImage;
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GradingScreen(
-          image: _image!,
-          availableChoices: 5,
+    if (_image!=null){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GradingScreen(
+            image: _image!,
+            availableChoices: 5,
+          ),
         ),
-      ),
-    );
+      );
+    }
+
   }
   
   Future<void> _takePicture() async {
