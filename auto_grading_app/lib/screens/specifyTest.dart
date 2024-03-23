@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/models/examInformation.dart';
 import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,15 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
 
   TextEditingController _controller=TextEditingController();
 
-  List<int> _answers = []; // luu lai nhung gi da chon
+  Map<int,int> _answers = {}; // luu lai nhung gi da chon
 
+  ExamInformation _examInformation=ExamInformation();
   @override
   void initState() {
     super.initState();
 
     for (int i = 0; i < _numQuestions; i++) {
-      _answers.add(0);
+      _answers[i]=0;
     }
   }
 
@@ -49,17 +51,17 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 setState(() {
                   int oldNumQuestions = _numQuestions;
                   _numQuestions = int.tryParse(value) ?? 1;
-                  if (_numQuestions > oldNumQuestions) {
-                    for (int i = oldNumQuestions; i < _numQuestions; i++) {
-                      _answers.add(0);
-                    }
-                    print(_answers);
-                  } else {
-                    for (int i = oldNumQuestions - 1; i >= _numQuestions; i--) {
-                      _answers.removeLast();
-                    }
-                    print(_answers);
-                  }
+                  // if (_numQuestions > oldNumQuestions) {
+                  //   for (int i = oldNumQuestions; i < _numQuestions; i++) {
+                  //     _answers.add(0);
+                  //   }
+                  //   print(_answers);
+                  // } else {
+                  //   for (int i = oldNumQuestions - 1; i >= _numQuestions; i--) {
+                  //     _answers.removeLast();
+                  //   }
+                  //   print(_answers);
+                  // }
                 });
               },
             ),
@@ -73,13 +75,13 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 setState(() {
                   int oldNumChoices = _numChoices;
                   _numChoices = int.tryParse(value) ?? 1;
-                  if (oldNumChoices < _numChoices) {
-                    for (int i = 0; i < _numQuestions; i++) {
-                      if (_answers[i] >= _numChoices) {
-                        _answers[i]=_numChoices-1;
-                      }
-                    }
-                  }
+                  // if (oldNumChoices < _numChoices) {
+                  //   for (int i = 0; i < _numQuestions; i++) {
+                  //     if (_answers[i] >= _numChoices) {
+                  //       _answers[i]=_numChoices-1;
+                  //     }
+                  //   }
+                  // }
                 });
               },
             ),
@@ -129,13 +131,13 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                     textColor: Colors.white,
                     fontSize: 16.0,
                   );
-
                   return;
-
                 }
+                _examInformation.setAnswers(_answers);
+                _examInformation.setName(_controller.text);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CameraScreen()),
+                  MaterialPageRoute(builder: (context) => CameraScreen(examInformation: _examInformation,)),
                 );
               },
               child: Text('Taking picture'),

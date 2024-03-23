@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/models/examInformation.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import '../main.dart';
 import '../screens/grading.dart';
 
 class CameraScreen extends StatefulWidget {
+  ExamInformation examInformation;
+  CameraScreen({required this.examInformation});
   @override
   _CameraScreenState createState() => _CameraScreenState();
 }

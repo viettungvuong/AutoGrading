@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_grading_mobile/controllers/backendGrade.dart';
+import 'package:auto_grading_mobile/models/examInformation.dart';
 import 'package:auto_grading_mobile/screens/resultScreen.dart';
 import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
 import 'package:camera/camera.dart';
@@ -9,12 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class GradingScreen extends StatefulWidget{
-  // Define variables that you want to pass to the constructor
+  final ExamInformation information;
   final XFile image;
   final int availableChoices;
 
   // Constructor with named parameter
-  GradingScreen({required this.image, required this.availableChoices});
+  GradingScreen({required this.information, required this.image, required this.availableChoices});
 
   @override
   _GradingScreenState createState() => _GradingScreenState();
@@ -70,7 +71,7 @@ class _GradingScreenState extends State<GradingScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CameraScreen()),
+                      MaterialPageRoute(builder: (context) => CameraScreen(examInformation: widget.information,)),
                     );
                   },
                   child: const Text('Retake'),
