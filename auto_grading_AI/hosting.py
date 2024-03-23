@@ -44,6 +44,8 @@ def grade_image():
 
             # hình result sẽ có sau
 
+            os.remove(current_path)  # xoa hinh
+
             return jsonify(response_data)
     return jsonify({"error": "Invalid request method"})
 

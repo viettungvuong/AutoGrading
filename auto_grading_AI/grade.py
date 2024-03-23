@@ -98,7 +98,7 @@ def grade_paper(imagepath, available_choices, answers):
 
             if answers.get(q) is None:
                 raise Exception(
-                    f"Provided answer key is insufficient for grading. Got {q} but there are only {q-1}"
+                    f"Provided answer key is insufficient for grading. Got at least {q+1} questions but there are only {list(answers.keys())[-1]+1}"
                 )
             if answers[q] == bubbled[1]:
                 color = (0, 255, 0)  # mau xanh
