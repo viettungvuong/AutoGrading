@@ -17,7 +17,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
 
   Map<int,int> _answers = {}; // luu lai nhung gi da chon
 
-  ExamInformation _examInformation=ExamInformation();
+  ExamSession _ExamSession=ExamSession();
   @override
   void initState() {
     super.initState();
@@ -133,11 +133,11 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                   );
                   return;
                 }
-                _examInformation.setAnswers(_answers);
-                _examInformation.setName(_controller.text);
+                _ExamSession.setAnswers(_answers);
+                _ExamSession.setName(_controller.text);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CameraScreen(examInformation: _examInformation,)),
+                  MaterialPageRoute(builder: (context) => CameraScreen(examSession: _ExamSession,)),
                 );
               },
               child: Text('Taking picture'),

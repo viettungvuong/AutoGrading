@@ -1,15 +1,17 @@
-import 'package:auto_grading_mobile/models/examInformation.dart';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../main.dart';
+
+import '../models/examInformation.dart';
 import '../screens/grading.dart';
 
 class CameraScreen extends StatefulWidget {
-  ExamInformation examInformation;
-  CameraScreen({required this.examInformation});
+  ExamSession examSession;
+  CameraScreen({required this.examSession});
   @override
   _CameraScreenState createState() => _CameraScreenState();
 }
@@ -46,7 +48,7 @@ class _CameraScreenState extends State<CameraScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => GradingScreen(
-            information: widget.examInformation,
+            information: widget.examSession,
             image: _image!,
             availableChoices: 5,
 
@@ -68,7 +70,7 @@ class _CameraScreenState extends State<CameraScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => GradingScreen(
-            information: widget.examInformation,
+            information: widget.examSession,
             image: _image!,
             availableChoices: 5,
           ),

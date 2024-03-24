@@ -1,10 +1,10 @@
-class ExamInformation{
+class ExamSession{
   late String _name;
   late Map<int,int> _answers;
 
-  ExamInformation();
+  ExamSession();
 
-  ExamInformation.detailed(this._name, this._answers);
+  ExamSession.detailed(this._name, this._answers);
 
   void setName(String name){
     _name=name;
