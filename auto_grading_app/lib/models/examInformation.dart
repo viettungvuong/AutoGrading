@@ -1,6 +1,10 @@
+import 'Exam.dart';
+
 class ExamSession{
   late String _name;
   late Map<int,int> _answers;
+
+  List<Exam> exams=[];
 
   ExamSession();
 
@@ -8,6 +12,10 @@ class ExamSession{
 
   void setName(String name){
     _name=name;
+  }
+
+  String getName(){
+    return _name;
   }
 
   void setAnswers(Map<int,int> answers){

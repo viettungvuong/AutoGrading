@@ -3,11 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
+import '../models/Exam.dart';
+import '../models/Student.dart';
+import '../models/examInformation.dart';
+import '../widgets/cameraScreen.dart';
 
 class ResultScreen extends StatefulWidget {
   int score=0; // so diem
   int correct=0; // so cau dung
-  // ResultScreen({required this.score, required this.correct});
+  ExamSession session;
+  ResultScreen({required this.session});
   @override
   _ResultScreenState createState() => _ResultScreenState();
 }
@@ -78,17 +83,24 @@ class _ResultScreenState extends State<ResultScreen> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              // Take more action
-                              Navigator.of(context).pop();
-                              // Add your logic here
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),
+                              ); // chup cai khac
                             },
                             child: const Text("Take more"),
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              // Finish action
-                              Navigator.of(context).pop();
-                              // Add your logic here
+                              Student student=Student.nameOnly(_controller.text);
+                              Exam exam=Exam(student,score);
+
+                              widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => HomeScreen()),
+                              ); // ve trang chu
                             },
                             child: const Text("Finish"),
                           ),
