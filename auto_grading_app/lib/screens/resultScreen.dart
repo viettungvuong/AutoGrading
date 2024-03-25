@@ -9,7 +9,7 @@ import '../models/examInformation.dart';
 import '../widgets/cameraScreen.dart';
 
 class ResultScreen extends StatefulWidget {
-  int score=0; // so diem
+  double score=0; // so diem
   int correct=0; // so cau dung
   ExamSession session;
   ResultScreen({required this.session});
@@ -20,7 +20,7 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   late CameraController? controller;
 
-  late int score;
+  late double score;
   late int correct;
 
   TextEditingController _controller=TextEditingController();

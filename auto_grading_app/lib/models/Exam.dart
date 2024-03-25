@@ -3,7 +3,7 @@ import 'Student.dart';
 class Exam{
   late Student _student;
 
-  late int _score;
+  late double _score;
 
   Exam(this._student,this._score);
 
@@ -13,11 +13,11 @@ class Exam{
     return _student;
   }
 
-  void setScore(int score){
+  void setScore(double score){
     _score=score;
   }
 
-  int getScore(){
+  double getScore(){
     return _score;
   }
 }

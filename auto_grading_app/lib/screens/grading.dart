@@ -27,7 +27,7 @@ class _GradingScreenState extends State<GradingScreen> {
   late int availableChoices;
 
   int? correctAnswers;
-  int? score;
+  double? score;
   XFile? resultImage;
 
   @override
@@ -52,7 +52,7 @@ class _GradingScreenState extends State<GradingScreen> {
                     var json = await ConnectToGrade(image, availableChoices); // goi den backend
 
                     int correctAnswers = json?["correct_answers"];
-                    int score=json?["score"];
+                    double score=json?["score"];
                     // XFile resImage = json?["result_img"];
 
                     setState(() {
