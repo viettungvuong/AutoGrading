@@ -6,4 +6,8 @@ class Student{
 
   Student(this._name, this._studentId);
   Student.nameOnly(this._name);
+
+  String getName(){
+    return _name;
+  }
 }

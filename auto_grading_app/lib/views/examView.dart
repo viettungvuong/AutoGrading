@@ -1,11 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
 
-class TestView extends StatelessWidget {
-  final String name;
-  final double score;
+import '../models/Exam.dart';
 
-  TestView({required this.name, required this.score});
+class ExamView extends StatelessWidget {
+  final Exam exam;
+
+  ExamView({required this.exam});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +16,11 @@ class TestView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            name,
+            exam.getStudent().getName(),
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Text(
-            score.toString(),
+            exam.getScore().toString(),
             style: TextStyle(fontSize: 16),
           ),
         ],

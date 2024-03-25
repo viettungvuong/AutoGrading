@@ -3,16 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TestOverviewScreen extends StatefulWidget {
+import '../views/examView.dart';
+
+class ExamOverviewScreen extends StatefulWidget {
   final ExamSession session;
 
-  TestOverviewScreen({required this.session});
+  ExamOverviewScreen({required this.session});
 
   @override
-  TestOverviewState createState() => TestOverviewState();
+  ExamOverviewState createState() => ExamOverviewState();
 }
 
-class TestOverviewState extends State<TestOverviewScreen> {
+class ExamOverviewState extends State<ExamOverviewScreen> {
   late ExamSession _session;
   @override
   void initState() {
@@ -28,7 +30,14 @@ class TestOverviewState extends State<TestOverviewScreen> {
           children: [
             Text("${_session.getName()}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
 
-
+            ListView.builder(
+              itemCount: _session.exams.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: ExamView(exam: _session.exams[index],),
+                );
+              },
+            ),
           ],
         ),
       ),
