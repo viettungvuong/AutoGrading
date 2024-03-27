@@ -10,4 +10,8 @@ class Student{
   String getName(){
     return _name;
   }
+
+  String getStudentId(){
+    return _studentId;
+  }
 }

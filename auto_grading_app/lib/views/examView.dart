@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../models/Exam.dart';
 
-class ExamView extends StatelessWidget {
+class ExamView extends StatelessWidget { // hien bai ktra cua hoc sinh
   final Exam exam;
 
   ExamView({required this.exam});

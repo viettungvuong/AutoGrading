@@ -31,7 +31,7 @@ class ExamOverviewState extends State<ExamOverviewScreen> {
             Text("${_session.getName()}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
 
             ListView.builder(
-              itemCount: _session.exams.length,
+              itemCount: _session.exams.length, // danh sách các bài kiểm tra
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   title: ExamView(exam: _session.exams[index],),
