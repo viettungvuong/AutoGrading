@@ -1,11 +1,16 @@
+import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+
 import '../models/Exam.dart';
+import '../models/Student.dart';
 
 
 
-Exam examFromJson(Map<String, dynamic> json) {
-  return Exam(
-    studentId: json['studentId'],
-    score: json['score'],
+Exam? examFromJson(Map<String, dynamic> json) {
+  Student? student =StudentRepository.instance.findStudent(json['studentId']);
+  if (student==null){
+    return null; // exam phai co student
+  }
+  return Exam(student, json['score'],
   );
 }
 
