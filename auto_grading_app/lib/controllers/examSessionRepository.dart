@@ -13,7 +13,7 @@ class ExamSessionRepository {
 
   static ExamSessionRepository get instance => _instance;
 
-  void addStudent(ExamSession session) {
+  void addSession(ExamSession session) {
     _sessions.add(session);
   }
 

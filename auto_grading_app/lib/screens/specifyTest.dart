@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -135,6 +136,10 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 }
                 _ExamSession.setAnswers(_answers);
                 _ExamSession.setName(_controller.text);
+
+                // luu vao repository
+                ExamSessionRepository.instance.addSession(_ExamSession);
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CameraScreen(examSession: _ExamSession,)),
