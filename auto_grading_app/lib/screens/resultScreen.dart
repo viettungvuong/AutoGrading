@@ -83,6 +83,11 @@ class _ResultScreenState extends State<ResultScreen> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
+                              Student student=Student.nameOnly(_controller.text);
+                              Exam exam=Exam(student,score);
+
+                              widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
+                              
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),

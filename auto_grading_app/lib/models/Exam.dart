@@ -2,7 +2,6 @@ import 'Student.dart';
 
 class Exam{
   late Student _student;
-
   late double _score;
 
   Exam(this._student,this._score);
