@@ -10,7 +10,7 @@ Future<Map<String, dynamic>?> GetExamsFromDatabase() async {
     final response = await http.get(Uri.parse(serverUrl));
 
     if (response.statusCode == 200) {
-      return responseBody;
+      return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
       // Request failed
       print('Failed with status code: ${response.statusCode}');
@@ -21,7 +21,7 @@ Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
   final response = await http.get(Uri.parse(serverUrl));
 
   if (response.statusCode == 200) {
-    return responseBody;
+    return jsonDecode(response.body) as Map<String, dynamic>;
   } else {
     // Request failed
     print('Failed with status code: ${response.statusCode}');
