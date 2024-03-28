@@ -1,11 +1,11 @@
 import 'package:auto_grading_mobile/models/examSession.dart';
 
 class ExamSessionRepository {
-  late Set<ExamSession> _sessions;
+  late List<ExamSession> _sessions;
 
   // private constructor
   ExamSessionRepository._() {
-    _sessions = Set();
+    _sessions = [];
   }
 
   // singleton
@@ -17,8 +17,12 @@ class ExamSessionRepository {
     _sessions.add(session);
   }
 
-  Set<ExamSession> getAllSessions() {
+  List<ExamSession> getAllSessions() {
     return _sessions;
+  }
+
+  void updateLatestSession(ExamSession session){
+    _sessions.last=session;
   }
 
 }

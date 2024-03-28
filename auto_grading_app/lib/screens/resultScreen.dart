@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
@@ -90,6 +91,7 @@ class _ResultScreenState extends State<ResultScreen> {
                               StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
 
                               widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
+                              ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
 
                               Navigator.push(
                                 context,
@@ -106,6 +108,7 @@ class _ResultScreenState extends State<ResultScreen> {
                               StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
 
                               widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
+                              ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
 
                               Navigator.push(
                                 context,
