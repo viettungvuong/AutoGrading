@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/models/examInformation.dart';
+import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

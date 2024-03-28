@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 import '../models/Exam.dart';
 import '../models/Student.dart';
-import '../models/examInformation.dart';
+import '../models/examSession.dart';
 import '../widgets/cameraScreen.dart';
 
 class ResultScreen extends StatefulWidget {

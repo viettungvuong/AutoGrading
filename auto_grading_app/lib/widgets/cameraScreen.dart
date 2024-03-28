@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../main.dart';
 
-import '../models/examInformation.dart';
+import '../models/examSession.dart';
 import '../screens/grading.dart';
 
 class CameraScreen extends StatefulWidget {
