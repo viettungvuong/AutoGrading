@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -86,8 +87,10 @@ class _ResultScreenState extends State<ResultScreen> {
                               Student student=Student.nameOnly(_controller.text);
                               Exam exam=Exam(student,score);
 
+                              StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
+
                               widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
-                              
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),
@@ -99,6 +102,8 @@ class _ResultScreenState extends State<ResultScreen> {
                             onPressed: () {
                               Student student=Student.nameOnly(_controller.text);
                               Exam exam=Exam(student,score);
+
+                              StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
 
                               widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
 

@@ -1,11 +1,11 @@
 import '../models/Student.dart';
 
 class StudentRepository {
-  late List<Student> _students;
+  late Set<Student> _students;
 
   // private constructor
   StudentRepository._() {
-    _students = [];
+    _students = Set();
   }
 
   // singleton
@@ -17,14 +17,14 @@ class StudentRepository {
     _students.add(student);
   }
 
-  List<Student> getAllStudents() {
+  Set<Student> getAllStudents() {
     return _students;
   }
 
   Student? findStudent(String studentId) {
-    for (int i = 0; i < _students.length; i++) {
-      if (_students[i].getStudentId() == studentId) {
-        return _students[i];
+    for (var student in _students) {
+      if (student.getStudentId() == studentId) {
+        return Student.copy(student);
       }
     }
     return null;
