@@ -4,7 +4,7 @@ import '../models/User.dart';
 import 'package:http/http.dart' as http;
 const String serverUrl = "";
 
-Future<User> fetchUser(String username, String password) async {
+void fetchUser(String username, String password, bool login) async {
   var url = Uri.parse(serverUrl); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
@@ -23,10 +23,15 @@ Future<User> fetchUser(String username, String password) async {
     if (response.statusCode == 200) {
       // thanh cong
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      User res=new User();
-      res.userame=jsonResponse["username"];
+      User.instance.username=jsonResponse["username"];
     }
   } catch (e) {
     print('Error connecting to server: $e');
   }
+}
+
+void logout(){
+  User.instance.username="";
+
+  // xoa nhung thu lien quan toi repo
 }

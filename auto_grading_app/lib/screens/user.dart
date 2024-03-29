@@ -17,17 +17,10 @@ class UserScreen extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 20),
           Text(
-            user.name,
+            User.instance.username,
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 10),
-          Text(
-            user.email,
-            style: TextStyle(
-              fontSize: 16,
             ),
           ),
           SizedBox(height: 20),
