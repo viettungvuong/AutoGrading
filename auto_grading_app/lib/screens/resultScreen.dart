@@ -8,7 +8,7 @@ import '../main.dart';
 import '../models/Exam.dart';
 import '../models/Student.dart';
 import '../models/examSession.dart';
-import '../widgets/cameraScreen.dart';
+import 'cameraScreen.dart';
 
 class ResultScreen extends StatefulWidget {
   double score=0; // so diem

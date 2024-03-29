@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:auto_grading_mobile/controllers/backendGrade.dart';
 import 'package:auto_grading_mobile/screens/resultScreen.dart';
-import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
+import 'package:auto_grading_mobile/screens/cameraScreen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

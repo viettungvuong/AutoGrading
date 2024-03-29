@@ -1,8 +1,9 @@
 import 'package:auto_grading_mobile/screens/grading.dart';
 import 'package:auto_grading_mobile/screens/savedSessions.dart';
 import 'package:auto_grading_mobile/screens/specifyTest.dart';
+import 'package:auto_grading_mobile/screens/user.dart';
 import 'package:auto_grading_mobile/widgets/bottomBar.dart';
-import 'package:auto_grading_mobile/widgets/cameraScreen.dart';
+import 'package:auto_grading_mobile/screens/cameraScreen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,6 +58,10 @@ class HomeScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // cai nay se hien danh sach cac session
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SavedSessionsScreen()),
+                  );
                 },
                 child: Text('Continue old sessions'),
               ),
@@ -72,7 +77,8 @@ class HomeScreen extends StatelessWidget {
 class MainScreen extends ConsumerWidget{
   List<Widget> _screens = [
     HomeScreen(),
-    SavedSessionsScreen()
+    SavedSessionsScreen(),
+    UserScreen()
   ];
 
   @override
