@@ -17,13 +17,21 @@ class UserScreen extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 20),
           Text(
-            User.instance.username,
+            User.instance.username??"",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: 20),
+          ElevatedButton(onPressed: (){
+            if (User.instance.isSignedIn()){
+
+            }
+            else{
+
+            }
+          }, child: Text(User.instance.isSignedIn()?"Sign out":"Sign in")),
         ],
       ),
     );

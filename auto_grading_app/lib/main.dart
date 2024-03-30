@@ -8,6 +8,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'models/User.dart';
+
 List<CameraDescription> cameras=[];
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
 
@@ -78,7 +80,7 @@ class MainScreen extends ConsumerWidget{
   List<Widget> _screens = [
     HomeScreen(),
     SavedSessionsScreen(),
-    UserScreen()
+    UserScreen(user: User.instance,)
   ];
 
   @override

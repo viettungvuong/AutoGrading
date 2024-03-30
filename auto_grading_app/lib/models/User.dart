@@ -1,5 +1,5 @@
 class User {
-  String username = "";
+  String? username=null;
 
   // Private constructor
   User._privateConstructor();
@@ -7,4 +7,8 @@ class User {
   static final User _instance = User._privateConstructor();
 
   static User get instance => _instance;
+
+  bool isSignedIn(){
+    return !(username==null);
+  }
 }
