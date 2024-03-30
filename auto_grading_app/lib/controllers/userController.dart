@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
+import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+
 import '../models/User.dart';
 import 'package:http/http.dart' as http;
 const String serverUrl = "";
@@ -34,4 +37,6 @@ void logout(){
   User.instance.username="";
 
   // xoa nhung thu lien quan toi repo
+  ExamSessionRepository.instance.resetAll();
+  StudentRepository.instance.resetAll();
 }
