@@ -29,4 +29,8 @@ class StudentRepository {
     }
     return null;
   }
+
+  void resetAll(){
+    _students = Set();
+  }
 }

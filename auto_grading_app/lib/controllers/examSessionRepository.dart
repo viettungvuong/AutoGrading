@@ -25,4 +25,8 @@ class ExamSessionRepository {
     _sessions.last=session;
   }
 
+  void resetAll(){
+    _sessions = [];
+  }
+
 }

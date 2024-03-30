@@ -23,7 +23,7 @@ void fetchUser(String username, String password, bool login) async {
     if (response.statusCode == 200) {
       // thanh cong
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      User.instance.username=jsonResponse["username"];
+      User.instance.username=jsonResponse["username"]; // set user
     }
   } catch (e) {
     print('Error connecting to server: $e');
