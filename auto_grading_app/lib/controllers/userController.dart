@@ -5,7 +5,7 @@ import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
 import '../models/User.dart';
 import 'package:http/http.dart' as http;
-const String serverUrl = "";
+const String serverUrl="https://autogradingbackend.onrender.com/login";
 
 void fetchUser(String username, String password, bool login) async {
   var url = Uri.parse(serverUrl); // Connect to the backend server
@@ -26,7 +26,7 @@ void fetchUser(String username, String password, bool login) async {
     if (response.statusCode == 200) {
       // thanh cong
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      User.instance.username=jsonResponse["username"]; // set user
+      User.instance.email=jsonResponse["username"]; // set user
     }
   } catch (e) {
     print('Error connecting to server: $e');
@@ -34,7 +34,7 @@ void fetchUser(String username, String password, bool login) async {
 }
 
 void logout(){
-  User.instance.username="";
+  User.instance.email="";
 
   // xoa nhung thu lien quan toi repo
   ExamSessionRepository.instance.resetAll();

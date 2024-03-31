@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/User.dart';
 
-const String serverUrl="https://viettungvuong.pythonanywhere.com/grade";
+const String serverUrl="https://autogradingbackend.onrender.com";
 
 // Future<Map<String, dynamic>?> GetExamsFromDatabase() async {
 //     final response = await http.get(Uri.parse(serverUrl));
@@ -20,20 +20,23 @@ const String serverUrl="https://viettungvuong.pythonanywhere.com/grade";
 //       print('Failed with status code: ${response.statusCode}');
 //     }
 // }
-
-Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
-  final response = await http.get(Uri.parse(serverUrl));
-
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body) as Map<String, dynamic>;
-  } else {
-    // Request failed
-    print('Failed with status code: ${response.statusCode}');
-  }
-}
+//
+// Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
+//   final response = await http.get(Uri.parse(serverUrl+"/student"));
+//
+//   if (response.statusCode == 200) {
+//     return jsonDecode(response.body) as Map<String, dynamic>;
+//   } else {
+//     // Request failed
+//     print('Failed with status code: ${response.statusCode}');
+//   }
+// }
 
 Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
-  final response = await http.get(Uri.parse(serverUrl));
+  if (User.instance.email==null){
+    return null;
+  }
+  final response = await http.get(Uri.parse(serverUrl+"/session/"+User.instance.email!));
 
   if (response.statusCode == 200) {
     return jsonDecode(response.body) as Map<String, dynamic>;
@@ -70,7 +73,7 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
 // }
 
 Future<Map<String, dynamic>?> updateExamSessionToDatabase(ExamSession session) async {
-  var url = Uri.parse(serverUrl);
+  var url = Uri.parse(serverUrl+"/session");
   Map<String, dynamic>? jsonResponse;
 
   List<Map<String,dynamic>> exams=[];
@@ -92,7 +95,7 @@ Future<Map<String, dynamic>?> updateExamSessionToDatabase(ExamSession session) a
       },
       body: jsonEncode(<String, dynamic>{
         'exams': exams,
-        'userId': User.instance.username
+        'userId': User.instance.email
       }),
     );
 
@@ -107,7 +110,7 @@ Future<Map<String, dynamic>?> updateExamSessionToDatabase(ExamSession session) a
 }
 
 Future<Map<String, dynamic>?> updateStudentToDatabase(Student student) async {
-  var url = Uri.parse(serverUrl);
+  var url = Uri.parse(serverUrl+"/student");
   Map<String, dynamic>? jsonResponse;
 
 
