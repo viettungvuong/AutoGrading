@@ -1,5 +1,7 @@
 import 'package:auto_grading_mobile/models/examSession.dart';
 
+import 'backendDatabase.dart';
+
 class ExamSessionRepository {
   late List<ExamSession> _sessions;
 
@@ -23,6 +25,8 @@ class ExamSessionRepository {
 
   void updateLatestSession(ExamSession session){
     _sessions.last=session;
+
+    updateExamSessionToDatabase(_sessions.last); // update len database
   }
 
   void resetAll(){
