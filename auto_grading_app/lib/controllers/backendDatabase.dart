@@ -21,16 +21,20 @@ const String serverUrl="https://autogradingbackend.onrender.com";
 //     }
 // }
 //
-// Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
-//   final response = await http.get(Uri.parse(serverUrl+"/student"));
-//
-//   if (response.statusCode == 200) {
-//     return jsonDecode(response.body) as Map<String, dynamic>;
-//   } else {
-//     // Request failed
-//     print('Failed with status code: ${response.statusCode}');
-//   }
-// }
+
+Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
+  if (User.instance.isSignedIn()){ //chua signin thi khong lay duoc
+    return null;
+  }
+  final response = await http.get(Uri.parse(serverUrl+"/student"+User.instance.email!));
+
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  } else {
+    // Request failed
+    print('Failed with status code: ${response.statusCode}');
+  }
+}
 
 Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
   if (User.instance.isSignedIn()){ //chua signin thi khong lay duoc
