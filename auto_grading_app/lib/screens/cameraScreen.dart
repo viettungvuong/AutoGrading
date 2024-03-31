@@ -97,10 +97,14 @@ class _CameraScreenState extends State<CameraScreen> {
       )
           : Column(
         children: [
-          Container(
+          (_controller != null)
+              ? Container(
             margin: EdgeInsets.all(50),
             child: CameraPreview(_controller!),
-          ),
+          )
+              : SizedBox(), // phan camera
+
+
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               textStyle: const TextStyle(
