@@ -33,7 +33,7 @@ const String serverUrl="https://autogradingbackend.onrender.com";
 // }
 
 Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
-  if (User.instance.email==null){
+  if (User.instance.isSignedIn()){ //chua signin thi khong lay duoc
     return null;
   }
   final response = await http.get(Uri.parse(serverUrl+"/session/"+User.instance.email!));
