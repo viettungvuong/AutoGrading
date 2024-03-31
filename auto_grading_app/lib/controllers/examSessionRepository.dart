@@ -17,6 +17,8 @@ class ExamSessionRepository {
 
   void addSession(ExamSession session) {
     _sessions.add(session);
+
+    updateExamSessionToDatabase(session); // update len database
   }
 
   List<ExamSession> getAllSessions() {

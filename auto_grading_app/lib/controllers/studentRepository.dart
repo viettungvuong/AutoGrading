@@ -1,3 +1,5 @@
+import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+
 import '../models/Student.dart';
 
 class StudentRepository {
@@ -15,6 +17,7 @@ class StudentRepository {
 
   void addStudent(Student student) {
     _students.add(student);
+    updateStudentToDatabase(student); // update len database
   }
 
   Set<Student> getAllStudents() {
@@ -29,6 +32,7 @@ class StudentRepository {
     }
     return null;
   }
+
 
   void resetAll(){
     _students = Set();
