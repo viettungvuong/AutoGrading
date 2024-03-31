@@ -10,16 +10,16 @@ import '../models/User.dart';
 
 const String serverUrl="https://viettungvuong.pythonanywhere.com/grade";
 
-Future<Map<String, dynamic>?> GetExamsFromDatabase() async {
-    final response = await http.get(Uri.parse(serverUrl));
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body) as Map<String, dynamic>;
-    } else {
-      // Request failed
-      print('Failed with status code: ${response.statusCode}');
-    }
-}
+// Future<Map<String, dynamic>?> GetExamsFromDatabase() async {
+//     final response = await http.get(Uri.parse(serverUrl));
+//
+//     if (response.statusCode == 200) {
+//       return jsonDecode(response.body) as Map<String, dynamic>;
+//     } else {
+//       // Request failed
+//       print('Failed with status code: ${response.statusCode}');
+//     }
+// }
 
 Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
   final response = await http.get(Uri.parse(serverUrl));
@@ -93,6 +93,33 @@ Future<Map<String, dynamic>?> updateExamSessionToDatabase(ExamSession session) a
       body: jsonEncode(<String, dynamic>{
         'exams': exams,
         'userId': User.instance.username
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+    }
+  } catch (e) {
+    print('Error connecting to server: $e');
+  }
+
+  return jsonResponse;
+}
+
+Future<Map<String, dynamic>?> updateStudentToDatabase(Student student) async {
+  var url = Uri.parse(serverUrl);
+  Map<String, dynamic>? jsonResponse;
+
+
+  try {
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'studentId': student.getStudentId(),
+        'name': student.getName()
       }),
     );
 
