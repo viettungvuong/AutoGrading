@@ -49,10 +49,10 @@ class _GradingScreenState extends State<GradingScreen> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                   onPressed: () async {
-                    var json = await ConnectToGrade(image, availableChoices); // goi den backend
+                    var json = await ConnectToGrade(image, availableChoices, widget.information.getAnswers()); // goi den backend
 
-                    int correctAnswers = json?["correct_answers"];
-                    double score=json?["score"];
+                    int correctAnswers = json?["correct_answers"]??0;
+                    double score=json?["score"]??0;
                     // XFile resImage = json?["result_img"];
 
                     setState(() {

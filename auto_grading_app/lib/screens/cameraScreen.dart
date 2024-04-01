@@ -116,7 +116,7 @@ class _CameraScreenState extends State<CameraScreen> {
             onPressed: () async {
                _takePicture();
             },
-            child: const Text('Grade now'),
+            child: const Text('Continue'),
           ),
           ElevatedButton(onPressed: () async {
             _pickImage();

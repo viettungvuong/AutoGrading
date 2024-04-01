@@ -30,7 +30,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(resizeToAvoidBottomInset: false,
       body: Container(
         margin: EdgeInsets.all(30),
         child: Column(
@@ -87,39 +87,41 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
               },
             ),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _numChoices,
-                  crossAxisSpacing: 0.1,
-                  mainAxisSpacing: 0.5,
+              child: Container(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
                 ),
-                itemCount: _numQuestions * _numChoices,
-                itemBuilder: (BuildContext context, int index) {
-                  final questionIndex = index ~/ _numChoices;
-                  final choiceIndex = index % _numChoices;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      choiceIndex==0?Text("Question ${questionIndex + 1}:"):Text(""),
-                      Row(
-                        children: [
-                          Text("${String.fromCharCode(65 + choiceIndex)}"),
-                          Radio<int>(
-                            value: index,
-                            groupValue: _answers[questionIndex],
-                            onChanged: (value) {
-                              setState(() {
-                                _answers[questionIndex] = value??0;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
+                child: Column(
+                  children: List.generate(_numQuestions, (questionIndex) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: Text("Question ${questionIndex + 1}:"),
+                        ),
+                        DropdownButton<int>(
+                          value: _answers[questionIndex], // Set the currently selected value
+                          onChanged: (newValue) {
+                            setState(() {
+                              _answers[questionIndex] = newValue ?? 0;
+                            });
+                          },
+                          items: List.generate(_numChoices, (choiceIndex) {
+                            return DropdownMenuItem<int>(
+                              value: choiceIndex,
+                              child: Text("${String.fromCharCode(65 + choiceIndex)}"),
+                            );
+                          }),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
               ),
             ),
+
+
+
             ElevatedButton(
               onPressed: () {
                 if (_numChoices==0||_numQuestions==0||_controller.text.isEmpty){
