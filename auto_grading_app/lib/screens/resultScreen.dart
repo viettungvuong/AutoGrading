@@ -20,12 +20,13 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-  late CameraController? controller;
+  late CameraController? cameraController;
 
   late double score;
   late int correct;
 
-  TextEditingController _controller=TextEditingController();
+  TextEditingController _nameController=TextEditingController();
+  TextEditingController _idController=TextEditingController();
 
   @override
   void initState() {
@@ -35,8 +36,8 @@ class _ResultScreenState extends State<ResultScreen> {
     this.correct=widget.correct;
 
     try{
-      controller = CameraController(cameras[0], ResolutionPreset.ultraHigh);
-      controller?.initialize().then((_) {
+      cameraController = CameraController(cameras[0], ResolutionPreset.ultraHigh);
+      cameraController?.initialize().then((_) {
         if (!mounted) {
           return;
         }
@@ -50,84 +51,96 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Text(
-              "$correct correct sentences",
-              style: TextStyle(color: Colors.green, fontSize: 25),
-            ),
+      body: SafeArea(
+
+        child: Container(
+          margin: EdgeInsets.all(30),
+            child: Column(
+              children: [
+                Text(
+                  "$correct correct sentences",
+                  style: TextStyle(color: Colors.green, fontSize: 25),
+                ),
 
 
-            Text(
-              "Final score: $score",
-              style: TextStyle(color: Colors.white, fontSize: 25),
-            ),
+                Text(
+                  "Final score: $score",
+                  style: TextStyle(color: Colors.white, fontSize: 25),
+                ),
 
-            TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                hintText: "Enter the student name here",
-              ),
-            ),
-
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-              onPressed: () async {
-                await showDialog<void>(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content: Container(
-                      width: 200, // Set the width of the AlertDialog
-                      height: 150, // Set the height of the AlertDialog
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              Student student=Student.nameOnly(_controller.text);
-                              Exam exam=Exam(student,score);
-
-                              StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
-
-                              widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
-                              ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),
-                              ); // chup cai khac
-                            },
-                            child: const Text("Take more"),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Student student=Student.nameOnly(_controller.text);
-                              Exam exam=Exam(student,score);
-
-                              StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
-
-                              widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
-                              ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => HomeScreen()),
-                              ); // ve trang chu
-                            },
-                            child: const Text("Finish"),
-                          ),
-                        ],
-                      ),
-                    ),
+                TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    hintText: "Enter the student name here",
                   ),
-                );
-              },
-              child: const Text('Add to the current test session'), // bam nay xong se co nut take more nua de chup tiep
-            ),
-          ],
-        )
-      ),
+                ),
+
+                TextField(
+                  controller: _idController,
+                  decoration: InputDecoration(
+                    hintText: "Enter the student ID here",
+                  ),
+                ),
+
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                  onPressed: () async {
+                    await showDialog<void>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        content: Container(
+                          width: 200, // Set the width of the AlertDialog
+                          height: 150, // Set the height of the AlertDialog
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Student student=Student(_nameController.text,_idController.text);
+                                  Exam exam=Exam(student,score);
+
+                                  StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
+
+                                  widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
+                                  ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),
+                                  ); // chup cai khac
+                                },
+                                child: const Text("Take more"),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Student student=Student(_nameController.text,_idController.text);
+                                  Exam exam=Exam(student,score);
+
+                                  StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
+
+                                  widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
+                                  ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                                  ); // ve trang chu
+                                },
+                                child: const Text("Finish"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text('Add to the current test session'), // bam nay xong se co nut take more nua de chup tiep
+                ),
+              ],
+            )
+        ),
+      )
+
 
 
     );
@@ -135,7 +148,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   void dispose() {
-    controller!.dispose();
+    cameraController!.dispose();
     super.dispose();
   }
 }
