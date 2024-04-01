@@ -123,7 +123,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                                    MaterialPageRoute(builder: (context) => MainScreen()),
                                   ); // ve trang chu
                                 },
                                 child: const Text("Finish"),

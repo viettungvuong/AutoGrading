@@ -6,17 +6,18 @@ import 'package:auto_grading_mobile/screens/cameraScreen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/examSession.dart';
 
 class GradingScreen extends StatefulWidget{
-  final ExamSession information;
+  final ExamSession session;
   final XFile image;
   final int availableChoices;
 
   // Constructor with named parameter
-  GradingScreen({required this.information, required this.image, required this.availableChoices});
+  GradingScreen({required this.session, required this.image, required this.availableChoices});
 
   @override
   _GradingScreenState createState() => _GradingScreenState();
@@ -49,10 +50,26 @@ class _GradingScreenState extends State<GradingScreen> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                   onPressed: () async {
-                    var json = await ConnectToGrade(image, availableChoices, widget.information.getAnswers()); // goi den backend
+                    var json = await ConnectToGrade(image, widget.session); // goi den backend
 
-                    int correctAnswers = json?["correct_answers"]??0;
-                    double score=json?["score"]??0;
+                    if (json==null||json["correctAnswers"]==null){
+                      Fluttertoast.showToast(
+                        msg: "Error when grading",
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black45,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GradingScreen(session:  widget.session, image: widget.image, availableChoices: widget.availableChoices,),
+                        )); // reload màn hình hiện tại
+                        return;
+                    }
+
+                    int correctAnswers = json?["correct_answers"];
                     // XFile resImage = json?["result_img"];
 
                     setState(() {
@@ -62,7 +79,7 @@ class _GradingScreenState extends State<GradingScreen> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResultScreen(session: widget.information,)),
+                      MaterialPageRoute(builder: (context) => ResultScreen(session: widget.session,)),
                     );
                   },
                   child: const Text('Grade now'),
@@ -72,7 +89,7 @@ class _GradingScreenState extends State<GradingScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.information,)),
+                      MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),
                     );
                   },
                   child: const Text('Retake'),

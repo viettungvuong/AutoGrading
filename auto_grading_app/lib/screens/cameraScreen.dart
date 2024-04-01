@@ -48,7 +48,7 @@ class _CameraScreenState extends State<CameraScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => GradingScreen(
-            information: widget.examSession,
+            session: widget.examSession,
             image: _image!,
             availableChoices: 5,
 
@@ -70,7 +70,7 @@ class _CameraScreenState extends State<CameraScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => GradingScreen(
-            information: widget.examSession,
+            session: widget.examSession,
             image: _image!,
             availableChoices: 5,
           ),
