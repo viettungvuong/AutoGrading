@@ -50,7 +50,26 @@ class _GradingScreenState extends State<GradingScreen> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                   onPressed: () async {
+                    showDialog( // loading screen
+                      context: context,
+                      barrierDismissible: false, // Prevent user from dismissing dialog
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CircularProgressIndicator(),
+                              SizedBox(height: 16),
+                              Text("Loading..."),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+
                     var json = await ConnectToGrade(image, widget.session); // goi den backend
+
+                    Navigator.of(context).pop(); // tat loading screen
 
                     if (json==null||json["correct_answers"]==null){
                       Fluttertoast.showToast(
@@ -69,7 +88,7 @@ class _GradingScreenState extends State<GradingScreen> {
                         return;
                     }
 
-                    int correctAnswers = json?["correct_answers"];
+                    int correctAnswers = json["correct_answers"];
                     // XFile resImage = json?["result_img"];
 
                     setState(() {
@@ -79,7 +98,7 @@ class _GradingScreenState extends State<GradingScreen> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResultScreen(session: widget.session,)),
+                      MaterialPageRoute(builder: (context) => ResultScreen(correct: correctAnswers, session: widget.session,)),
                     );
                   },
                   child: const Text('Grade now'),

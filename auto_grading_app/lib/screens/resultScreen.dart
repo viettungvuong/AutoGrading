@@ -14,7 +14,7 @@ class ResultScreen extends StatefulWidget {
   double score=0; // so diem
   int correct=0; // so cau dung
   ExamSession session;
-  ResultScreen({required this.session});
+  ResultScreen({required this.correct, required this.session});
   @override
   _ResultScreenState createState() => _ResultScreenState();
 }
