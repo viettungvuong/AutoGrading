@@ -15,12 +15,15 @@ Future<Map<String, dynamic>?> ConnectToGrade(XFile image, ExamSession session) a
   Map<int,int> correctAnswers = session.getAnswers();
   int availableChoices = session.getAvailableChoices();
 
-  Map<String, String> convertedCorrectAnswers = correctAnswers.map((key, value) => MapEntry(key.toString(), value.toString()));
+  Map<String,String> convertedAnswers={};
+  correctAnswers.forEach((key, value) {
+    convertedAnswers['"$key"']="$value";
+  });
 
   final request = http.MultipartRequest("POST", url);
   request.fields['available_choices'] = availableChoices.toString();
-  request.fields['right_answers'] = convertedCorrectAnswers.toString();
-  print(convertedCorrectAnswers.toString());
+  request.fields['right_answers'] = convertedAnswers.toString();
+  print(convertedAnswers);
   request.files.add(await http.MultipartFile.fromPath(
     'file',
     image.path,
@@ -32,8 +35,8 @@ Future<Map<String, dynamic>?> ConnectToGrade(XFile image, ExamSession session) a
     print(streamedResponse.statusCode);
     if (streamedResponse.statusCode == 200) {
       final response = await http.Response.fromStream(streamedResponse);
-      print(response);
       json = jsonDecode(response.body) as Map<String, dynamic>; // chuyen qua json
+      print(json);
     }
     else{
       print(streamedResponse.reasonPhrase);
