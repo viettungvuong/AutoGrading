@@ -52,7 +52,7 @@ class _GradingScreenState extends State<GradingScreen> {
                   onPressed: () async {
                     var json = await ConnectToGrade(image, widget.session); // goi den backend
 
-                    if (json==null||json["correctAnswers"]==null){
+                    if (json==null||json["correct_answers"]==null){
                       Fluttertoast.showToast(
                         msg: "Error when grading",
                         toastLength: Toast.LENGTH_LONG,
