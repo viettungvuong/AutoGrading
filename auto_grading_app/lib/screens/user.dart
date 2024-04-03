@@ -1,3 +1,5 @@
+import 'package:auto_grading_mobile/controllers/userController.dart';
+import 'package:auto_grading_mobile/screens/loginRegister.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,11 +28,12 @@ class UserScreen extends StatelessWidget {
           SizedBox(height: 20),
           ElevatedButton(onPressed: (){
             if (User.instance.isSignedIn()){
-
+              Logout(); // thoat dang nhap
             }
-            else{
-
-            }
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginRegisterScreen()),
+            );
           }, child: Text(User.instance.isSignedIn()?"Sign out":"Sign in")),
         ],
       ),
