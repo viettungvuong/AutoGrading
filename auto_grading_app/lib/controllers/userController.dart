@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 const String serverUrl="https://autogradingbackend.onrender.com/login";
 
 Future<bool> login(String username, String password, bool login) async {
-  var url = Uri.parse(serverUrl); // Connect to the backend server
+  var url = Uri.parse(serverUrl+"/signin"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
   try {
@@ -19,7 +19,7 @@ Future<bool> login(String username, String password, bool login) async {
       },
       body: jsonEncode(<String, dynamic>{
         'username': username,
-        'inputPassword': password,
+        'password': password,
       }),
     );
 
@@ -39,7 +39,7 @@ Future<bool> login(String username, String password, bool login) async {
 }
 
 Future<bool> signup(String username, String password, bool login) async {
-  var url = Uri.parse(serverUrl); // Connect to the backend server
+  var url = Uri.parse(serverUrl+"/signup"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
   try {
@@ -50,7 +50,7 @@ Future<bool> signup(String username, String password, bool login) async {
       },
       body: jsonEncode(<String, dynamic>{
         'username': username,
-        'inputPassword': password,
+        'password': password,
       }),
     );
 
