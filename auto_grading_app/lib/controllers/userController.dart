@@ -7,7 +7,7 @@ import '../models/User.dart';
 import 'package:http/http.dart' as http;
 const String serverUrl="https://autogradingbackend.onrender.com/login";
 
-Future<bool> login(String username, String password, bool login) async {
+Future<bool> Signin(String username, String password) async {
   var url = Uri.parse(serverUrl+"/signin"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
@@ -38,7 +38,7 @@ Future<bool> login(String username, String password, bool login) async {
   }
 }
 
-Future<bool> signup(String username, String password, bool login) async {
+Future<bool> Signup(String username, String password) async {
   var url = Uri.parse(serverUrl+"/signup"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
@@ -69,7 +69,7 @@ Future<bool> signup(String username, String password, bool login) async {
   }
 }
 
-void logout(){
+void Logout(){
   User.instance.email="";
 
   // xoa nhung thu lien quan toi repo

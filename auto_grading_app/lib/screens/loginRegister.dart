@@ -1,7 +1,13 @@
+import 'package:auto_grading_mobile/controllers/userController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../main.dart';
 
 class LoginRegisterScreen extends StatelessWidget {
+  TextEditingController _emailController=TextEditingController();
+  TextEditingController _passwordController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,12 +20,14 @@ class LoginRegisterScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
               ),
             ),
             SizedBox(height: 16.0),
             TextField(
+              controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -30,14 +38,53 @@ class LoginRegisterScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    // TODO: Implement login functionality
+                  onPressed: () async {
+                    String username = _emailController.text;
+                    String password = _passwordController.text;
+                    bool res = await Signin(username, password);
+
+                    if (res==true){ // dang nhap thanh cong
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainScreen()),
+                      );
+                    }
+                    else{
+                      Fluttertoast.showToast( // nay de ghi ra loi gi luon
+                        msg: "Login failed",
+                        toastLength: Toast.LENGTH_SHORT, // Duration for which the toast should be displayed
+                        gravity: ToastGravity.BOTTOM, // Position of the toast message
+                        timeInSecForIosWeb: 1, // Duration for iOS and web platforms
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                      );
+                    }
                   },
                   child: Text('Login'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    // TODO: Implement register functionality
+                  onPressed: () async {
+                    String username = _emailController.text;
+                    String password = _passwordController.text;
+                    bool res = await Signup(username, password);
+
+                    if (res==true){ // dang nhap thanh cong
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainScreen()),
+                      );
+                    }
+                    else{
+                      Fluttertoast.showToast(
+                        msg: "Register failed",
+                        toastLength: Toast.LENGTH_SHORT, // Duration for which the toast should be displayed
+                        gravity: ToastGravity.BOTTOM, // Position of the toast message
+                        timeInSecForIosWeb: 1, // Duration for iOS and web platforms
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                      );
+
+                    }
                   },
                   child: Text('Register'),
                 ),

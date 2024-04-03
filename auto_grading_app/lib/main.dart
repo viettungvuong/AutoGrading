@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget { // phan man hinh chinh
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +77,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 
-class MainScreen extends ConsumerWidget{
+class MainScreen extends ConsumerWidget{ // man hinh tong
   List<Widget> _screens = [
     HomeScreen(),
     SavedSessionsScreen(),
