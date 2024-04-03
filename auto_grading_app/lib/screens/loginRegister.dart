@@ -53,7 +53,7 @@ class LoginRegisterScreen extends StatelessWidget {
                     else{
                       Fluttertoast.showToast( // nay de ghi ra loi gi luon
                         msg: res.b, // xuat thong bao loi
-                        toastLength: Toast.LENGTH_SHORT, // Duration for which the toast should be displayed
+                        toastLength: Toast.LENGTH_LONG, // Duration for which the toast should be displayed
                         gravity: ToastGravity.BOTTOM, // Position of the toast message
                         timeInSecForIosWeb: 1, // Duration for iOS and web platforms
                         backgroundColor: Colors.black,
@@ -69,6 +69,9 @@ class LoginRegisterScreen extends StatelessWidget {
                     String password = _passwordController.text;
                     Pair res = await Signup(username, password);
 
+                    print(res.a);
+                    print(res.b);
+
                     if (res.a==true){ // dang nhap thanh cong
                       Navigator.push(
                         context,
@@ -78,7 +81,7 @@ class LoginRegisterScreen extends StatelessWidget {
                     else{
                       Fluttertoast.showToast(
                         msg: res.b,
-                        toastLength: Toast.LENGTH_SHORT, // Duration for which the toast should be displayed
+                        toastLength: Toast.LENGTH_LONG, // Duration for which the toast should be displayed
                         gravity: ToastGravity.BOTTOM, // Position of the toast message
                         timeInSecForIosWeb: 1, // Duration for iOS and web platforms
                         backgroundColor: Colors.black,

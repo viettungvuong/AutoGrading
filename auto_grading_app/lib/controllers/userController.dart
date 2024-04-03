@@ -20,7 +20,7 @@ Future<Pair> Signin(String username, String password) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'username': username,
+        'email': username,
         'password': password,
       }),
     );
@@ -53,7 +53,7 @@ Future<Pair> Signup(String username, String password) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'username': username,
+        'email': username,
         'password': password,
       }),
     );
