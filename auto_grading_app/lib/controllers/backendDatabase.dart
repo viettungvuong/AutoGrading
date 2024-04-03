@@ -79,12 +79,13 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
 Future<Map<String, dynamic>?> updateExamSessionToDatabase(ExamSession session) async {
   var url = Uri.parse(serverUrl+"/session");
   Map<String, dynamic>? jsonResponse;
+  print("Updating exam session");
 
-  List<Map<String,dynamic>> exams=[];
+  List<Map<String,String>> exams=[];
   int n=session.exams.length;
   for (int i=0; i<n; i++){
     String studentId = session.exams[i].getStudent().getStudentId();
-    dynamic score = session.exams[i].getScore();
+    String score = session.exams[i].getScore().toString();
     exams.add({
       'studentId': studentId,
       'score': score,
@@ -102,6 +103,8 @@ Future<Map<String, dynamic>?> updateExamSessionToDatabase(ExamSession session) a
         'userId': User.instance.email
       }),
     );
+
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;

@@ -27,8 +27,7 @@ class _GradingScreenState extends State<GradingScreen> {
   late XFile image;
   late int availableChoices;
 
-  int? correctAnswers;
-  double? score;
+
   XFile? resultImage;
 
   @override
@@ -71,7 +70,7 @@ class _GradingScreenState extends State<GradingScreen> {
 
                     Navigator.of(context).pop(); // tat loading screen
 
-                    if (json==null||json["correct_answers"]==null){
+                    if (json==null||json["correct_answers"]==null){ // neu khong nhan duoc correct_answers => goi den backend bi loi
                       Fluttertoast.showToast(
                         msg: "Error when grading",
                         toastLength: Toast.LENGTH_LONG,
@@ -90,11 +89,6 @@ class _GradingScreenState extends State<GradingScreen> {
 
                     int correctAnswers = json["correct_answers"];
                     // XFile resImage = json?["result_img"];
-
-                    setState(() {
-                      this.correctAnswers=correctAnswers;
-                      // this.resultImage=resImage;
-                    });
 
                     Navigator.push(
                       context,

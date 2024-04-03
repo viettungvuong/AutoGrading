@@ -1,4 +1,5 @@
 import 'package:auto_grading_mobile/screens/grading.dart';
+import 'package:auto_grading_mobile/screens/loginRegister.dart';
 import 'package:auto_grading_mobile/screens/savedSessions.dart';
 import 'package:auto_grading_mobile/screens/specifyTest.dart';
 import 'package:auto_grading_mobile/screens/user.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainScreen(),
+      home: LoginRegisterScreen(),
     );
   }
 }
