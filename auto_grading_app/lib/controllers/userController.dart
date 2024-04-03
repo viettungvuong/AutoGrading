@@ -25,15 +25,15 @@ Future<Pair> Signin(String username, String password) async {
       }),
     );
 
-    jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-
     if (response.statusCode == 200) {
       // thanh cong
-      User.instance.email=jsonResponse["username"]; // set user
+
+      User.instance.email=username; // set user
       return Pair(true,"");
     }
     else{
       // xuat loi ra o day
+      jsonResponse = await jsonDecode(response.body) as Map<String, dynamic>;
       return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {
@@ -58,15 +58,18 @@ Future<Pair> Signup(String username, String password) async {
       }),
     );
 
-    jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
       // thanh cong
-      User.instance.email=jsonResponse["username"]; // set user
+
+      User.instance.email=username; // set user
       return Pair(true,"");
     }
     else{
       // xuat loi ra o day
+      jsonResponse = await jsonDecode(response.body) as Map<String, dynamic>;
       return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {

@@ -69,8 +69,6 @@ class LoginRegisterScreen extends StatelessWidget {
                     String password = _passwordController.text;
                     Pair res = await Signup(username, password);
 
-                    print(res.a);
-                    print(res.b);
 
                     if (res.a==true){ // dang nhap thanh cong
                       Navigator.push(
