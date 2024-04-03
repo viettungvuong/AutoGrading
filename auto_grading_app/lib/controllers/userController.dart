@@ -5,9 +5,11 @@ import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
 import '../models/User.dart';
 import 'package:http/http.dart' as http;
+
+import '../structs/pair.dart';
 const String serverUrl="https://autogradingbackend.onrender.com/login";
 
-Future<bool> Signin(String username, String password) async {
+Future<Pair> Signin(String username, String password) async {
   var url = Uri.parse(serverUrl+"/signin"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
@@ -23,22 +25,24 @@ Future<bool> Signin(String username, String password) async {
       }),
     );
 
+    jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+
     if (response.statusCode == 200) {
       // thanh cong
-      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       User.instance.email=jsonResponse["username"]; // set user
-      return true;
+      return Pair(true,"");
     }
     else{
-      return false;
+      // xuat loi ra o day
+      return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {
     print('Error connecting to server: $e');
-    return false;
+    return Pair(false,e);
   }
 }
 
-Future<bool> Signup(String username, String password) async {
+Future<Pair> Signup(String username, String password) async {
   var url = Uri.parse(serverUrl+"/signup"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
@@ -54,18 +58,20 @@ Future<bool> Signup(String username, String password) async {
       }),
     );
 
+    jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+
     if (response.statusCode == 200) {
       // thanh cong
-      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       User.instance.email=jsonResponse["username"]; // set user
-      return true;
+      return Pair(true,"");
     }
     else{
-      return false;
+      // xuat loi ra o day
+      return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {
     print('Error connecting to server: $e');
-    return false;
+    return Pair(false,e);
   }
 }
 

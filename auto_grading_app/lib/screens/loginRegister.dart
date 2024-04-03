@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../main.dart';
+import '../structs/pair.dart';
 
 class LoginRegisterScreen extends StatelessWidget {
   TextEditingController _emailController=TextEditingController();
@@ -41,9 +42,9 @@ class LoginRegisterScreen extends StatelessWidget {
                   onPressed: () async {
                     String username = _emailController.text;
                     String password = _passwordController.text;
-                    bool res = await Signin(username, password);
+                    Pair res = await Signup(username, password);
 
-                    if (res==true){ // dang nhap thanh cong
+                    if (res.a==true){ // dang nhap thanh cong
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => MainScreen()),
@@ -51,7 +52,7 @@ class LoginRegisterScreen extends StatelessWidget {
                     }
                     else{
                       Fluttertoast.showToast( // nay de ghi ra loi gi luon
-                        msg: "Login failed",
+                        msg: res.b, // xuat thong bao loi
                         toastLength: Toast.LENGTH_SHORT, // Duration for which the toast should be displayed
                         gravity: ToastGravity.BOTTOM, // Position of the toast message
                         timeInSecForIosWeb: 1, // Duration for iOS and web platforms
@@ -66,9 +67,9 @@ class LoginRegisterScreen extends StatelessWidget {
                   onPressed: () async {
                     String username = _emailController.text;
                     String password = _passwordController.text;
-                    bool res = await Signup(username, password);
+                    Pair res = await Signup(username, password);
 
-                    if (res==true){ // dang nhap thanh cong
+                    if (res.a==true){ // dang nhap thanh cong
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => MainScreen()),
@@ -76,7 +77,7 @@ class LoginRegisterScreen extends StatelessWidget {
                     }
                     else{
                       Fluttertoast.showToast(
-                        msg: "Register failed",
+                        msg: res.b,
                         toastLength: Toast.LENGTH_SHORT, // Duration for which the toast should be displayed
                         gravity: ToastGravity.BOTTOM, // Position of the toast message
                         timeInSecForIosWeb: 1, // Duration for iOS and web platforms
