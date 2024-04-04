@@ -34,4 +34,8 @@ class ExamSession{
   int getAvailableChoices(){
     return _availableChoices;
   }
+
+  int getNumOfQuestions(){
+    return _answers.length;
+  }
 }

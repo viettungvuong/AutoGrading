@@ -42,7 +42,7 @@ class LoginRegisterScreen extends StatelessWidget {
                   onPressed: () async {
                     String username = _emailController.text;
                     String password = _passwordController.text;
-                    Pair res = await Signup(username, password);
+                    Pair res = await Signin(username, password);
 
                     if (res.a==true){ // dang nhap thanh cong
                       Navigator.push(

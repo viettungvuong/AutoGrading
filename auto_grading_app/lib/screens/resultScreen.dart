@@ -8,10 +8,11 @@ import '../main.dart';
 import '../models/Exam.dart';
 import '../models/Student.dart';
 import '../models/examSession.dart';
+import '../structs/pair.dart';
 import 'cameraScreen.dart';
 
 class ResultScreen extends StatefulWidget {
-  double score=0; // so diem
+
   int correct=0; // so cau dung
   ExamSession session;
   ResultScreen({required this.correct, required this.session});
@@ -22,7 +23,7 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   late CameraController? cameraController;
 
-  late double score;
+  double score=0;
   late int correct;
 
   TextEditingController _nameController=TextEditingController();
@@ -32,7 +33,6 @@ class _ResultScreenState extends State<ResultScreen> {
   void initState() {
     super.initState();
 
-    this.score=widget.score;
     this.correct=widget.correct;
 
     try{
@@ -96,7 +96,10 @@ class _ResultScreenState extends State<ResultScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
+                                  //tinh diem
+                                  score = correct/widget.session.getNumOfQuestions()*10;
                                   Student student=Student(_nameController.text,_idController.text);
+
                                   Exam exam=Exam(student,score);
 
                                   StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository

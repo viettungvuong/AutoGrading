@@ -7,6 +7,7 @@ import '../models/Student.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/User.dart';
+import '../structs/pair.dart';
 
 const String serverUrl="https://autogradingbackend.onrender.com";
 
@@ -76,7 +77,7 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
 //   return jsonResponse;
 // }
 
-Future<Map<String, dynamic>?> updateExamSessionToDatabase(ExamSession session) async {
+Future<Pair> updateExamSessionToDatabase(ExamSession session) async {
   var url = Uri.parse(serverUrl+"/session");
   Map<String, dynamic>? jsonResponse;
   print("Updating exam session");
@@ -104,19 +105,23 @@ Future<Map<String, dynamic>?> updateExamSessionToDatabase(ExamSession session) a
       }),
     );
 
-    print(response.statusCode);
+    print("Status code: "+response.statusCode.toString());
 
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return Pair(true,"");
+    }
+    else{
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {
-    print('Error connecting to server: $e');
+    return Pair(false,e);
   }
 
-  return jsonResponse;
 }
 
-Future<Map<String, dynamic>?> updateStudentToDatabase(Student student) async {
+Future<Pair> updateStudentToDatabase(Student student) async {
   var url = Uri.parse(serverUrl+"/student");
   Map<String, dynamic>? jsonResponse;
 
@@ -135,10 +140,14 @@ Future<Map<String, dynamic>?> updateStudentToDatabase(Student student) async {
 
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return Pair(true,"");
+    }
+    else{
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {
-    print('Error connecting to server: $e');
+    return Pair(false,e);
   }
 
-  return jsonResponse;
 }
