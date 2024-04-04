@@ -1,19 +1,27 @@
+import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SavedSessionsScreen extends StatelessWidget {
-  final List<String> items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-    'Item 6',
-    'Item 7',
-    'Item 8',
-    'Item 9',
-    'Item 10',
-  ];
+
+import 'package:flutter/material.dart';
+
+import '../models/examSession.dart';
+
+class SavedSessionsScreen extends StatefulWidget {
+  @override
+  _SavedSessionsScreenState createState() => _SavedSessionsScreenState();
+}
+
+class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
+  late List<ExamSession> sessions;
+
+  @override
+  void initState() async {
+    setState(() async {
+      dynamic map = await GetExamSessionsFromDatabase();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

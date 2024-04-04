@@ -11,6 +11,8 @@ class ExamSession{
 
   ExamSession.detailed(this._name, this._availableChoices, this._answers);
 
+  ExamSession.examsOnly(this.exams);
+
   void setName(String name){
     _name=name;
   }
