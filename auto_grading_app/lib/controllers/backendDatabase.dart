@@ -77,7 +77,7 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
 //   return jsonResponse;
 // }
 
-Future<Pair> updateExamSessionToDatabase(ExamSession session) async {
+Future<Pair> createExamSessionToDatabase(ExamSession session) async {
   var url = Uri.parse(serverUrl+"/session");
   Map<String, dynamic>? jsonResponse;
   print("Updating exam session");
@@ -109,14 +109,59 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session) async {
 
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      return Pair(true,"");
+      return Pair(jsonResponse["_id"],""); //tra ve _id
     }
     else{
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      return Pair(false,jsonResponse["error"]);
+      return Pair(null,jsonResponse["error"]);
     }
   } catch (e) {
-    return Pair(false,e);
+    return Pair(null,e);
+  }
+
+}
+
+Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
+  var url = Uri.parse(serverUrl+"/session");
+  Map<String, dynamic>? jsonResponse;
+  print("Updating exam session");
+
+  List<Map<String,String>> exams=[];
+  int n=session.exams.length;
+  for (int i=0; i<n; i++){
+    String studentId = session.exams[i].getStudent().getStudentId();
+    String score = session.exams[i].getScore().toString();
+    exams.add({
+      'studentId': studentId,
+      'score': score,
+    });
+  } // luu cac bai thi cua session vao trong json
+
+  try {
+    final response = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'id': id,
+        'exams': exams,
+        'userId': User.instance.email
+      }),
+    );
+
+    print("Status code: "+response.statusCode.toString());
+
+    if (response.statusCode == 200) {
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return Pair(jsonResponse["_id"],"");
+    }
+    else{
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return Pair(null,jsonResponse["error"]);
+    }
+  } catch (e) {
+    return Pair(null,e);
   }
 
 }

@@ -6,11 +6,12 @@ import '../structs/pair.dart';
 import 'backendDatabase.dart';
 
 class ExamSessionRepository {
-  late List<ExamSession> _sessions;
+  late Map<String,ExamSession> _sessions;
+  late String _lastId;
 
   // private constructor
   ExamSessionRepository._() {
-    _sessions = [];
+    _sessions = {};
   }
 
   // singleton
@@ -19,10 +20,9 @@ class ExamSessionRepository {
   static ExamSessionRepository get instance => _instance;
 
   void addSession(ExamSession session) async {
-    _sessions.add(session);
 
-    Pair res = await updateExamSessionToDatabase(session); // update len database
-    if (!res.a){
+    Pair res = await createExamSessionToDatabase(session); // update len database
+    if (res.a==null){
       Fluttertoast.showToast(
         msg: res.b,
         toastLength: Toast.LENGTH_LONG,
@@ -33,17 +33,24 @@ class ExamSessionRepository {
         fontSize: 16.0,
       );
     }
+    else{
+      String id = res.a;
+      _sessions[id]=session;
+      _lastId=id; // luu id cua session moi add (de update sau nay)
+    }
+
+
   }
 
   List<ExamSession> getAllSessions() {
-    return _sessions;
+    return _sessions.values.toList();
   }
 
   void updateLatestSession(ExamSession session) async {
-    _sessions.last=session;
+    _sessions[_lastId]=session;
 
-    Pair res = await updateExamSessionToDatabase(_sessions.last); // update len database
-    if (!res.a){
+    Pair res = await updateExamSessionToDatabase(session,_lastId); // update len database
+    if (res.a==null){
       Fluttertoast.showToast(
         msg: res.b,
         toastLength: Toast.LENGTH_LONG,
@@ -53,11 +60,14 @@ class ExamSessionRepository {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+    }
+    else{
+      _lastId=res.a;
     }
   }
 
   void resetAll(){
-    _sessions = [];
+    _sessions = {};
   }
 
 }
