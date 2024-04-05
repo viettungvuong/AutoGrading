@@ -30,7 +30,7 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
         title: Text('Beautiful List Screen'),
       ),
       body: ListView.builder(
-        itemCount: items.length,
+        itemCount: sessions.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -39,19 +39,7 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: ListTile(
-                title: Text(
-                  items[index],
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
-                ),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  // Add onTap functionality here
-                },
-              ),
+              child: null,
             ),
           );
         },

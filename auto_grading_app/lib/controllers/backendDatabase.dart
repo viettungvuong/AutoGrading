@@ -82,16 +82,6 @@ Future<Pair> createExamSessionToDatabase(ExamSession session) async {
   Map<String, dynamic>? jsonResponse;
   print("Updating exam session");
 
-  List<Map<String,String>> exams=[];
-  int n=session.exams.length;
-  for (int i=0; i<n; i++){
-    String studentId = session.exams[i].getStudent().getStudentId();
-    String score = session.exams[i].getScore().toString();
-    exams.add({
-      'studentId': studentId,
-      'score': score,
-    });
-  } // luu cac bai thi cua session vao trong json
 
   try {
     final response = await http.post(
@@ -100,7 +90,6 @@ Future<Pair> createExamSessionToDatabase(ExamSession session) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'exams': exams,
         'userId': User.instance.email
       }),
     );
