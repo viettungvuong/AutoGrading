@@ -3,6 +3,7 @@ import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../main.dart';
 import '../models/Exam.dart';
@@ -95,14 +96,26 @@ class _ResultScreenState extends State<ResultScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   //tinh diem
                                   score = correct/widget.session.getNumOfQuestions()*10;
                                   Student student=Student(_nameController.text,_idController.text);
+                                  String? id = await StudentRepository.instance.addStudent(student); //them vao repository
 
+                                  if (id==null){
+                                    Fluttertoast.showToast(
+                                      msg: "Error when adding student",
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.black45,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
+                                    return;
+                                  }
+                                  student.setUniqueId(id);
                                   Exam exam=Exam(student,score);
-
-                                  StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
 
                                   widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
                                   ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
@@ -115,11 +128,25 @@ class _ResultScreenState extends State<ResultScreen> {
                                 child: const Text("Take more"),
                               ),
                               ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   Student student=Student(_nameController.text,_idController.text);
+                                  String? id = await StudentRepository.instance.addStudent(student); //them vao repository
+
+                                  if (id==null){
+                                    Fluttertoast.showToast(
+                                      msg: "Error when adding student",
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.black45,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
+                                    return;
+                                  }
+                                  student.setUniqueId(id);
                                   Exam exam=Exam(student,score);
 
-                                  StudentRepository.instance.addStudent(Student.copy(student)); //them vao repository
 
                                   widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
                                   ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo

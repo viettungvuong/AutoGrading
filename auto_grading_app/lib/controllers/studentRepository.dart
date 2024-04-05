@@ -1,6 +1,9 @@
 import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/Student.dart';
+import '../structs/pair.dart';
 
 class StudentRepository {
   late Set<Student> _students;
@@ -15,9 +18,17 @@ class StudentRepository {
 
   static StudentRepository get instance => _instance;
 
-  void addStudent(Student student) {
+  Future<String?> addStudent(Student student) async {
     _students.add(student);
-    updateStudentToDatabase(student); // update len database
+    Pair res = await updateStudentToDatabase(student); // update len database
+
+    if (res.a){
+      return res.b; // tra ra id tren mongodb
+    }
+    else{
+
+      return null;
+    }
   }
 
   Set<Student> getAllStudents() {

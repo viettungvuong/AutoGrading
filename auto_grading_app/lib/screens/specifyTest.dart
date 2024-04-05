@@ -136,6 +136,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                   );
                   return;
                 }
+                _ExamSession.setNumOfQuestions(_numQuestions);
                 _ExamSession.setAnswers(_answers);
                 _ExamSession.setName(_controller.text);
                 _ExamSession.setAvailableChoices(_numChoices);

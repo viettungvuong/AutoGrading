@@ -4,6 +4,7 @@ class ExamSession{
   late String _name;
   late Map<int,int> _answers; // đáp án đúng
   late int _availableChoices;
+  late int _questions;
 
   List<Exam> exams=[];
 
@@ -37,7 +38,11 @@ class ExamSession{
     return _availableChoices;
   }
 
+  void setNumOfQuestions(int questions){
+    _questions=questions;
+  }
+
   int getNumOfQuestions(){
-    return _answers.length;
+    return _questions;
   }
 }

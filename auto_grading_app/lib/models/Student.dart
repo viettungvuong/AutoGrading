@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 class Student{
   late String _name;
   late String _studentId;
+  late String _uniqueId;
 
   Student(this._name, this._studentId);
 
@@ -17,5 +18,13 @@ class Student{
 
   String getStudentId(){
     return _studentId;
+  }
+
+  void setUniqueId(String uniqueId){
+    _uniqueId=uniqueId;
+  }
+
+  String getUniqueId(){
+    return _uniqueId;
   }
 }

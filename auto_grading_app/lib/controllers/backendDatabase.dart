@@ -111,20 +111,22 @@ Future<Pair> createExamSessionToDatabase(ExamSession session) async {
 }
 
 Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
-  var url = Uri.parse(serverUrl+"/session");
+  var url = Uri.parse("$serverUrl/session/$id");
   Map<String, dynamic>? jsonResponse;
   print("Updating exam session");
 
   List<Map<String,String>> exams=[];
   int n=session.exams.length;
   for (int i=0; i<n; i++){
-    String studentId = session.exams[i].getStudent().getStudentId();
+    String studentId = session.exams[i].getStudent().getUniqueId(); // lay id tren database (k phai mongodb)
     String score = session.exams[i].getScore().toString();
     exams.add({
       'studentId': studentId,
       'score': score,
     });
   } // luu cac bai thi cua session vao trong json
+
+  print(exams);
 
   try {
     final response = await http.put(
@@ -174,7 +176,8 @@ Future<Pair> updateStudentToDatabase(Student student) async {
 
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      return Pair(true,"");
+      String id = jsonResponse["id"];
+      return Pair(true,id);
     }
     else{
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
