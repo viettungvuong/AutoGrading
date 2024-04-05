@@ -52,12 +52,12 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 setState(() {
                   int oldNumQuestions = _numQuestions;
                   _numQuestions = int.tryParse(value) ?? 1;
-                  // if (_numQuestions > oldNumQuestions) {
-                  //   for (int i = oldNumQuestions; i < _numQuestions; i++) {
-                  //     _answers.add(0);
-                  //   }
-                  //   print(_answers);
-                  // } else {
+                  if (_numQuestions > oldNumQuestions) {
+                    for (int i = oldNumQuestions; i < _numQuestions; i++) {
+                      _answers[i]=0;
+                    }
+                    print(_answers);
+                  }
                   //   for (int i = oldNumQuestions - 1; i >= _numQuestions; i--) {
                   //     _answers.removeLast();
                   //   }
@@ -100,7 +100,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                           child: Text("Question ${questionIndex + 1}:"),
                         ),
                         DropdownButton<int>(
-                          value: _answers[questionIndex], // Set the currently selected value
+                          value: _answers[questionIndex],
                           onChanged: (newValue) {
                             setState(() {
                               _answers[questionIndex] = newValue ?? 0;

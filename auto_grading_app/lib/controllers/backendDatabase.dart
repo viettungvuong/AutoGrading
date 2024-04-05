@@ -159,7 +159,7 @@ Future<Pair> updateStudentToDatabase(Student student) async {
   var url = Uri.parse(serverUrl+"/student");
   Map<String, dynamic>? jsonResponse;
 
-
+  print("Updating student");
   try {
     final response = await http.post(
       url,
