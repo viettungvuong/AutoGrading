@@ -26,7 +26,6 @@ class StudentRepository {
       return res.b; // tra ra id tren mongodb
     }
     else{
-
       return null;
     }
   }

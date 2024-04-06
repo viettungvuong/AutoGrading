@@ -135,7 +135,6 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'id': id,
         'exams': exams,
         'userId': User.instance.email
       }),
@@ -181,9 +180,11 @@ Future<Pair> updateStudentToDatabase(Student student) async {
     }
     else{
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      print(jsonResponse["error"]);
       return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {
+    print(e);
     return Pair(false,e);
   }
 
