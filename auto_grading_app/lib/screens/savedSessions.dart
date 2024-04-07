@@ -41,7 +41,7 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: null,
+              child: Text(sessions[index].getName(), style: TextStyle(fontWeight: FontWeight.bold),),
             ),
           );
         },
