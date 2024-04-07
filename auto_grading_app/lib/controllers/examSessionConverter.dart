@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
   Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
     const String serverUrl="https://autogradingbackend.onrender.com/exam/byId";
-    List<String> examIds = json["exams"];
+    List<dynamic> examIds = json["exams"];
     List<Exam> exams = [];
 
     // get exam by id
@@ -16,10 +16,10 @@ Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
       final response = await http.get(Uri.parse("$serverUrl/$examId"));
 
       if (response.statusCode == 200) {
-        dynamic json = jsonDecode(response.body) as Map<String, dynamic>;
-        double score = json["score"];
-        String studentName = json["student"]["name"];
-        String studentId = json["student"]["studentId"];
+        dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
+        double score = jsonFor["score"];
+        String studentName = jsonFor["student"]["name"];
+        String studentId = jsonFor["student"]["studentId"];
         Student student = Student(studentName,studentId);
         Exam exam = Exam(student,score);
         exams.add(exam);
@@ -30,6 +30,7 @@ Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
     });
 
     ExamSession session = ExamSession.examsOnly(exams);
+    session.setName(json["name"]);
     return session;
   }
 

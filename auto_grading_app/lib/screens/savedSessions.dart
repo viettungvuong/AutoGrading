@@ -14,15 +14,19 @@ class SavedSessionsScreen extends StatefulWidget {
 }
 
 class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
-  late List<ExamSession> sessions;
+  Future<List<ExamSession>>? _sessions;
 
   @override
-  void initState() async {
-    setState(() async {
-      dynamic map = await GetExamSessionsFromDatabase();
-      sessions=await sessionsFromJson(map);
+  void initState() {
+    super.initState(); // Call super.initState() first
+    _loadSessions();
+  }
+
+  Future<void> _loadSessions() async {
+    dynamic map = await GetExamSessionsFromDatabase();
+    setState(() {
+      _sessions = sessionsFromJson(map);
     });
-    super.initState();
   }
 
   @override
@@ -31,21 +35,42 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
       appBar: AppBar(
         title: Text('Beautiful List Screen'),
       ),
-      body: ListView.builder(
-        itemCount: sessions.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child: Card(
-              elevation: 4.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Text(sessions[index].getName(), style: TextStyle(fontWeight: FontWeight.bold),),
-            ),
-          );
+      body: FutureBuilder<List<ExamSession>>(
+        future: _sessions,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(), // Show a loading indicator while waiting for data
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'), // Show error message if fetching data fails
+            );
+          } else {
+            // Data has been successfully fetched
+            final sessions = snapshot.data!;
+            return ListView.builder(
+              itemCount: sessions.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  child: Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Text(
+                      sessions[index].getName(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                );
+              },
+            );
+          }
         },
       ),
     );
   }
 }
+

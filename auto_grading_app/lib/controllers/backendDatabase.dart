@@ -38,12 +38,14 @@ Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
 }
 
 Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
-  if (User.instance.isSignedIn()){ //chua signin thi khong lay duoc
+  if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
     return null;
   }
+
   final response = await http.get(Uri.parse(serverUrl+"/session/"+User.instance.email!));
 
   if (response.statusCode == 200) {
+    print("Okay");
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else {
     // Request failed
