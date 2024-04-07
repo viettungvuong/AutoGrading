@@ -1,4 +1,5 @@
 import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+import 'package:auto_grading_mobile/controllers/examSessionConverter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
   void initState() async {
     setState(() async {
       dynamic map = await GetExamSessionsFromDatabase();
+      sessions=await sessionsFromJson(map);
     });
     super.initState();
   }
