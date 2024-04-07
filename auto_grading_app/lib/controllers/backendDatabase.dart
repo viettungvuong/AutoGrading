@@ -92,6 +92,7 @@ Future<Pair> createExamSessionToDatabase(ExamSession session) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
+        'name': session.getName(),
         'userId': User.instance.email
       }),
     );
