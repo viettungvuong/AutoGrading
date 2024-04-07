@@ -79,6 +79,21 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
 //   return jsonResponse;
 // }
 
+Future<Student?> getStudentFromId(String id) async{
+  var url = Uri.parse("$serverUrl/student/byId/$id");
+
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    dynamic json =  jsonDecode(response.body) as Map<String, dynamic>;
+    Student student = Student(json["name"],json["studentId"]);
+    return student;
+  } else {
+    return null;
+  }
+}
+
+
 Future<Pair> createExamSessionToDatabase(ExamSession session) async {
   var url = Uri.parse(serverUrl+"/session");
   Map<String, dynamic>? jsonResponse;

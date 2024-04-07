@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+
 import '../models/Exam.dart';
 import '../models/Student.dart';
 import '../models/examSession.dart';
@@ -18,13 +20,14 @@ Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
       if (response.statusCode == 200) {
         dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
         print(jsonFor);
-        int score = jsonFor["score"];
+        double score = int.parse(jsonFor["score"]).toDouble();
         // find student by id
-        // String studentName = jsonFor["student"]["name"];
-        // String studentId = jsonFor["student"]["studentId"];
-        Student student = Student(studentName,studentId);
-        Exam exam = Exam(student,score);
-        exams.add(exam);
+        Student? student = await getStudentFromId(jsonFor["student"]);
+        if (student!=null){
+          Exam exam = Exam(student,score);
+          exams.add(exam);
+        }
+
       } else {
         // Request failed
         print('Failed with status code: ${response.statusCode}');
