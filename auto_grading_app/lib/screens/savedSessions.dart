@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 
 import '../models/examSession.dart';
+import '../views/examView.dart';
 
 class SavedSessionsScreen extends StatefulWidget {
   @override
@@ -52,19 +53,45 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
             return ListView.builder(
               itemCount: sessions.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: Card(
-                    elevation: 4.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Text(
-                      sessions[index].getName(),
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                return GestureDetector(
+                  onTap: () {
+                    showDialog( // hien popup thong tin ve session
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('List Popup'),
+                          content: Container(
+                            width: double.maxFinite,
+                            child: ListView.builder(
+                              itemCount: sessions[index].exams.length,
+                              itemBuilder: (context, indexExam) {
+                                return ExamView(exam: sessions[index].exams[indexExam]
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    child: Card(
+                      elevation: 4.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          sessions[index].getName(),
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                   ),
                 );
+
               },
             );
           }

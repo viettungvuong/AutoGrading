@@ -17,9 +17,11 @@ Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
 
       if (response.statusCode == 200) {
         dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
-        double score = jsonFor["score"];
-        String studentName = jsonFor["student"]["name"];
-        String studentId = jsonFor["student"]["studentId"];
+        print(jsonFor);
+        int score = jsonFor["score"];
+        // find student by id
+        // String studentName = jsonFor["student"]["name"];
+        // String studentId = jsonFor["student"]["studentId"];
         Student student = Student(studentName,studentId);
         Exam exam = Exam(student,score);
         exams.add(exam);
@@ -28,7 +30,7 @@ Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
         print('Failed with status code: ${response.statusCode}');
       }
     });
-
+    print(exams.length);
     ExamSession session = ExamSession.examsOnly(exams);
     session.setName(json["name"]);
     return session;
