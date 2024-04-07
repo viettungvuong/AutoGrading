@@ -33,7 +33,7 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Beautiful List Screen'),
+        title: Text('Saved sessions'),
       ),
       body: FutureBuilder<List<ExamSession>>(
         future: _sessions,
