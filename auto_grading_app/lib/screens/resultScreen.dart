@@ -99,6 +99,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                 onPressed: () async {
                                   //tinh diem
                                   score = correct/widget.session.getNumOfQuestions()*10;
+                                  print(score);
                                   Student student=Student(_nameController.text,_idController.text);
                                   String? id = await StudentRepository.instance.addStudent(student); //them vao repository
 
@@ -129,6 +130,8 @@ class _ResultScreenState extends State<ResultScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
+                                  score = correct/widget.session.getNumOfQuestions()*10;
+                                  print(score);
                                   Student student=Student(_nameController.text,_idController.text);
                                   String? id = await StudentRepository.instance.addStudent(student); //them vao repository
 
