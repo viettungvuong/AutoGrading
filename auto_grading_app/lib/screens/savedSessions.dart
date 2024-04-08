@@ -47,15 +47,18 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
             return Center(
               child: Text('Error: ${snapshot.error}'), // Show error message if fetching data fails
             );
+          } else if (snapshot.data == null) { // Handle the case where snapshot.data is null
+            return Center(
+              child: Text('No data available'), // Show a message indicating no data available
+            );
           } else {
-            // Data has been successfully fetched
             final sessions = snapshot.data!;
             return ListView.builder(
               itemCount: sessions.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    showDialog( // hien popup thong tin ve session
+                    showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
@@ -65,8 +68,7 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
                             child: ListView.builder(
                               itemCount: sessions[index].exams.length,
                               itemBuilder: (context, indexExam) {
-                                return ExamView(exam: sessions[index].exams[indexExam]
-                                );
+                                return ExamView(exam: sessions[index].exams[indexExam]);
                               },
                             ),
                           ),
@@ -91,7 +93,6 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
                     ),
                   ),
                 );
-
               },
             );
           }
@@ -99,5 +100,6 @@ class _SavedSessionsScreenState extends State<SavedSessionsScreen> {
       ),
     );
   }
+
 }
 

@@ -20,9 +20,10 @@ Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
       if (response.statusCode == 200) {
         dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
         print(jsonFor);
-        double score = int.parse(jsonFor["score"]).toDouble();
+        double score = jsonFor["score"].toDouble();
         // find student by id
         Student? student = await getStudentFromId(jsonFor["student"]);
+        print(student);
         if (student!=null){
           Exam exam = Exam(student,score);
           exams.add(exam);

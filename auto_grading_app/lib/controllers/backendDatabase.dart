@@ -81,12 +81,15 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
 
 Future<Student?> getStudentFromId(String id) async{
   var url = Uri.parse("$serverUrl/student/byId/$id");
+  print("fetching student");
 
   final response = await http.get(url);
-
+  print(response.statusCode);
   if (response.statusCode == 200) {
     dynamic json =  jsonDecode(response.body) as Map<String, dynamic>;
+    print(json);
     Student student = Student(json["name"],json["studentId"]);
+
     return student;
   } else {
     return null;
