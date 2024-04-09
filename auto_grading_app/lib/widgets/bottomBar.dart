@@ -12,10 +12,7 @@ class BottomBar extends ConsumerWidget{
           icon: Icon(Icons.add),
           label: 'Grade',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.library_books),
-          label: 'Graded tests',
-        ),
+
         BottomNavigationBarItem(
           icon: Icon(Icons.account_circle_rounded),
           label: 'Profile',
