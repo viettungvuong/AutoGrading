@@ -7,39 +7,39 @@ import '../models/Student.dart';
 import '../models/examSession.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
-  Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
-    const String serverUrl="https://autogradingbackend.onrender.com/exam/byId";
-    List<dynamic> examIds = json["exams"];
-    List<Exam> exams = [];
+import 'examSessionRepository.dart';
+Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
+  const String serverUrl="https://autogradingbackend.onrender.com/exam/byId";
+  List<dynamic> examIds = json["exams"];
+  List<Exam> exams = [];
 
-    // get exam by id
-    examIds.forEach((examId) async {
-      final response = await http.get(Uri.parse("$serverUrl/$examId"));
+  // get exam by id
+  examIds.forEach((examId) async {
+    final response = await http.get(Uri.parse("$serverUrl/$examId"));
 
-      if (response.statusCode == 200) {
-        dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
-        print(jsonFor);
-        double score = jsonFor["score"].toDouble();
-        // find student by id
-        Student? student = await getStudentFromId(jsonFor["student"]);
-        print(student);
-        if (student!=null){
-          Exam exam = Exam(student,score);
-          exams.add(exam);
-        }
-
-      } else {
-        // Request failed
-        print('Failed with status code: ${response.statusCode}');
+    if (response.statusCode == 200) {
+      dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
+      print(jsonFor);
+      double score = jsonFor["score"].toDouble();
+      // find student by id
+      Student? student = await getStudentFromId(jsonFor["student"]);
+      print(student);
+      if (student!=null){
+        Exam exam = Exam(student,score);
+        exams.add(exam);
       }
-    });
-    print(exams.length);
-    ExamSession session = ExamSession.examsOnly(exams);
-    session.setName(json["name"]);
-    return session;
-  }
 
+    } else {
+      // Request failed
+      print('Failed with status code: ${response.statusCode}');
+    }
+  });
+  print(exams.length);
+  ExamSession session = ExamSession.examsOnly(exams);
+  session.setName(json["name"]);
+  return session;
+}
+Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
   List<dynamic> jsonArray = json["sessions"];
   List<ExamSession> sessions = [];
 
@@ -50,6 +50,7 @@ Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
     }
     sessions.add(session);
   }
+  ExamSessionRepository.instance.addFromList(sessions);
 
   return sessions;
 }

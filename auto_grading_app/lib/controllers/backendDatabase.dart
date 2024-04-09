@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 
 import '../models/Exam.dart';
@@ -45,7 +46,6 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
   final response = await http.get(Uri.parse(serverUrl+"/session/"+User.instance.email!));
 
   if (response.statusCode == 200) {
-    print("Okay");
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else {
     // Request failed

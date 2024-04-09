@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/controllers/examSessionConverter.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,12 +7,12 @@ import '../structs/pair.dart';
 import 'backendDatabase.dart';
 
 class ExamSessionRepository {
-  late Map<String,ExamSession> _sessions;
+  late List<ExamSession> _sessions;
   late String _lastId;
 
   // private constructor
   ExamSessionRepository._() {
-    _sessions = {};
+    _sessions = [];
   }
 
   // singleton
@@ -35,7 +36,7 @@ class ExamSessionRepository {
     }
     else{
       String id = res.a;
-      _sessions[id]=session;
+      _sessions.add(session);
       _lastId=id; // luu id cua session moi add (de update sau nay)
     }
 
@@ -43,11 +44,12 @@ class ExamSessionRepository {
   }
 
   List<ExamSession> getAllSessions() {
-    return _sessions.values.toList();
+    return _sessions;
   }
 
   void updateLatestSession(ExamSession session) async {
-    _sessions[_lastId]=session;
+    _sessions.removeLast();
+    _sessions.add(session);
 
     Pair res = await updateExamSessionToDatabase(session,_lastId); // update len database
     if (res.a==null){
@@ -67,7 +69,17 @@ class ExamSessionRepository {
   }
 
   void resetAll(){
-    _sessions = {};
+    _sessions.clear();
   }
+
+  List<ExamSession> filter(String query){
+    return _sessions.where((element) => element.getName().toLowerCase().contains(query.toLowerCase())).toList();
+  }
+
+  void addFromList(List<ExamSession> sessions) async{
+    _sessions.addAll(sessions);
+  }
+
+
 
 }

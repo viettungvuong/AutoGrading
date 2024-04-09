@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
-  final void Function(String) onSearch;
+  final void Function(String query) onSearch;
 
   const Search({Key? key, required this.onSearch}) : super(key: key);
 

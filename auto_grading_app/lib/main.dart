@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/screens/grading.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
 
@@ -61,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
     dynamic map = await GetExamSessionsFromDatabase();
     setState(() {
       _sessions = sessionsFromJson(map);
+
     });
   }
 
@@ -92,7 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 20), // Add some space between the buttons
-            Search(onSearch: (String) {}),
+            Search(onSearch: (query) {
+              setState(() {
+                _sessions = Future.value(ExamSessionRepository.instance.filter(query));
+              });
+            }),
             Expanded(
               child: FutureBuilder<List<ExamSession>>(
                 future: _sessions,
