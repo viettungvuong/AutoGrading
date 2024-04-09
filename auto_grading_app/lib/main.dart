@@ -1,11 +1,12 @@
 import 'package:auto_grading_mobile/screens/grading.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
-import 'package:auto_grading_mobile/screens/savedSessions.dart';
+
 import 'package:auto_grading_mobile/screens/specifyTest.dart';
 import 'package:auto_grading_mobile/screens/user.dart';
 import 'package:auto_grading_mobile/views/examView.dart';
 import 'package:auto_grading_mobile/widgets/bottomBar.dart';
 import 'package:auto_grading_mobile/screens/cameraScreen.dart';
+import 'package:auto_grading_mobile/widgets/searchBar.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,91 +66,100 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SpecifyTestScreen()),
-                );
-              },
-              child: Text('Start grading'),
+    return WillPopScope(
+      onWillPop: () async {
+        // Return false to prevent going back
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text('Home'),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SpecifyTestScreen()),
+                  );
+                },
+                child: Text('Start grading'),
+              ),
             ),
-          ),
-          SizedBox(height: 20), // Add some space between the buttons
-          Expanded(
-            child: FutureBuilder<List<ExamSession>>(
-              future: _sessions,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(), // Show a loading indicator while waiting for data
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'), // Show error message if fetching data fails
-                  );
-                } else if (snapshot.data == null || snapshot.data!.isEmpty) { // Handle the case where snapshot.data is null or empty
-                  return Center(
-                    child: Text('No sessions available'), // Show a message indicating no sessions available
-                  );
-                } else {
-                  final sessions = snapshot.data!;
-                  return ListView.builder(
-                    itemCount: sessions.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('List Popup'),
-                                  content: Container(
-                                    width: double.maxFinite,
-                                    child: ListView.builder(
-                                      itemCount: sessions[index].exams.length,
-                                      itemBuilder: (context, indexExam) {
-                                        return ExamView(exam: sessions[index].exams[indexExam]);
-                                      },
+            SizedBox(height: 20), // Add some space between the buttons
+            Search(onSearch: (String) {}),
+            Expanded(
+              child: FutureBuilder<List<ExamSession>>(
+                future: _sessions,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(), // Show a loading indicator while waiting for data
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'), // Show error message if fetching data fails
+                    );
+                  } else if (snapshot.data == null || snapshot.data!.isEmpty) {
+                    // Handle the case where snapshot.data is null or empty
+                    return Center(
+                      child: Text('No sessions available'), // Show a message indicating no sessions available
+                    );
+                  } else {
+                    final sessions = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: sessions.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('List Popup'),
+                                    content: Container(
+                                      width: double.maxFinite,
+                                      child: ListView.builder(
+                                        itemCount: sessions[index].exams.length,
+                                        itemBuilder: (context, indexExam) {
+                                          return ExamView(exam: sessions[index].exams[indexExam]);
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          child: Card(
-                            elevation: 4.0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                sessions[index].getName(),
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                  );
+                                },
+                              );
+                            },
+                            child: Card(
+                              elevation: 4.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  sessions[index].getName(),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -165,21 +175,26 @@ class MainScreen extends ConsumerWidget{ // man hinh tong
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedIndex = ref.watch(selectedIndexProvider); // lấy giá trị từ selectedIndexProvider
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            child: _screens[selectedIndex], // khi bấm thì sẽ đổi screen
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: BottomBar(), // bottom bar
-          )
-
-        ],
+    final selectedIndex = ref.watch(selectedIndexProvider);
+    return WillPopScope(
+      onWillPop: () async {
+        // Return false to prevent going back
+        return false;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              child: _screens[selectedIndex],
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: BottomBar(),
+            )
+          ],
+        ),
       ),
     );
   }

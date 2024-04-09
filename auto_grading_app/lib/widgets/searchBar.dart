@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SearchBar extends StatefulWidget {
+class Search extends StatefulWidget {
   final void Function(String) onSearch;
 
-  const SearchBar({Key? key, required this.onSearch}) : super(key: key);
+  const Search({Key? key, required this.onSearch}) : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchBarState extends State<Search> {
   late TextEditingController _controller;
 
   @override
@@ -32,6 +32,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: TextField(
         controller: _controller,
         decoration: InputDecoration(
