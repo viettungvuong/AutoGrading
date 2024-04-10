@@ -1,11 +1,10 @@
-
 import 'package:flutter/cupertino.dart';
 
-import '../models/Exam.dart';
+import '../models/Student.dart';
 import 'View.dart';
 
-class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
-  ExamView({required super.t});
+class StudentView extends ObjectView<Student>{ // hien bai ktra cua hoc sinh
+  StudentView({required super.t});
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +14,10 @@ class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            t.getStudent().getName(),
+            t.getName(),
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          Text(
-            t.getScore().toString(),
-            style: TextStyle(fontSize: 16),
-          ),
+
         ],
       ),
     );

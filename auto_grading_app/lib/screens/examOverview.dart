@@ -34,7 +34,7 @@ class ExamOverviewState extends State<ExamOverviewScreen> {
               itemCount: _session.exams.length, // danh sách các bài kiểm tra
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                  title: ExamView(exam: _session.exams[index],),
+                  title: ExamView(t: _session.exams[index],),
                 );
               },
             ),

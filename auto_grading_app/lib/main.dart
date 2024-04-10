@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: ListView.builder(
                                         itemCount: sessions[index].exams.length,
                                         itemBuilder: (context, indexExam) {
-                                          return ExamView(exam: sessions[index].exams[indexExam]);
+                                          return ExamView(t: sessions[index].exams[indexExam]);
                                         },
                                       ),
                                     ),
