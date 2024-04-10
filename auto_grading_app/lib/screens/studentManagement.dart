@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/Student.dart';
+import '../views/studentView.dart';
 
 class StudentManagementScreen extends StatefulWidget {
 
@@ -29,7 +30,7 @@ class _StudentManagementScreenState extends State<StudentManagementScreen> {
             itemCount: _students.length,
             itemBuilder: (context, index) {
               Student student = _students[index];
-              return /* Your item widget */;
+              return StudentView(t: student);
             },
           ),
         ),
