@@ -1,16 +1,16 @@
 import '../models/Student.dart';
 
 List<Student> studentsFromJson(Map<String, dynamic> json){
-  Student studentFromJson(Map<String, dynamic> json) {
-    return Student(json['name'], json['studentId'],
-    );
-  }
+  // Student studentFromJson(Map<String, dynamic> json) {
+  //   return Student(json['name'], json['studentId'],
+  //   );
+  // }
 
   List<dynamic> students = json["students"];
   List<Student> res = [];
 
   students.forEach((student) async {
-   res.add(studentFromJson(student));
+   res.add(Student(student,""));
   });
 
   return res;

@@ -25,7 +25,7 @@ const String serverUrl="https://autogradingbackend.onrender.com";
 //
 
 Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
-  if (User.instance.isSignedIn()){ //chua signin thi khong lay duoc
+  if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
     return null;
   }
   final response = await http.get(Uri.parse("$serverUrl/student/${User.instance.email!}"));
