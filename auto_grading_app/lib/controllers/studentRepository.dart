@@ -6,11 +6,11 @@ import '../models/Student.dart';
 import '../structs/pair.dart';
 
 class StudentRepository {
-  late Set<Student> _students;
+  late List<Student> _students;
 
   // private constructor
   StudentRepository._() {
-    _students = Set();
+    _students = [];
   }
 
   // singleton
@@ -30,7 +30,7 @@ class StudentRepository {
     }
   }
 
-  Set<Student> getAllStudents() {
+  List<Student> getAllStudents() {
     return _students;
   }
 
@@ -45,7 +45,7 @@ class StudentRepository {
 
 
   void resetAll(){
-    _students = Set();
+    _students = [];
   }
 
 }

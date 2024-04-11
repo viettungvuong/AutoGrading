@@ -14,6 +14,11 @@ class BottomBar extends ConsumerWidget{
         ),
 
         BottomNavigationBarItem(
+          icon: Icon(Icons.school),
+          label: 'Students',
+        ),
+
+        BottomNavigationBarItem(
           icon: Icon(Icons.account_circle_rounded),
           label: 'Profile',
         ),

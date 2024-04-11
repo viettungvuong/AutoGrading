@@ -3,6 +3,7 @@ import 'package:auto_grading_mobile/screens/grading.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
 
 import 'package:auto_grading_mobile/screens/specifyTest.dart';
+import 'package:auto_grading_mobile/screens/studentManagement.dart';
 import 'package:auto_grading_mobile/screens/user.dart';
 import 'package:auto_grading_mobile/views/examView.dart';
 import 'package:auto_grading_mobile/widgets/bottomBar.dart';
@@ -176,6 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class MainScreen extends ConsumerWidget{ // man hinh tong
   List<Widget> _screens = [
     HomeScreen(),
+    StudentManagementScreen(),
     UserScreen(user: User.instance,)
   ];
 

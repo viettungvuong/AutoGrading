@@ -3,12 +3,44 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../controllers/localPreferences.dart';
 import '../main.dart';
 import '../structs/pair.dart';
+const String prefKey="login";
+const String userNameKey="username";
+const String passwordKey="password";
 
-class LoginRegisterScreen extends StatelessWidget {
-  TextEditingController _emailController=TextEditingController();
-  TextEditingController _passwordController=TextEditingController();
+class LoginRegisterScreen extends StatefulWidget {
+  @override
+  _LoginRegisterScreenState createState() => _LoginRegisterScreenState();
+}
+
+class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    checkAndSignIn();
+  }
+
+  Future<void> checkAndSignIn() async {
+    if (Preferences.instance.getBool(prefKey) == true) {
+      String? username = Preferences.instance.getString(userNameKey);
+      String? password = Preferences.instance.getString(passwordKey);
+      if (username != null && password != null) {
+        Pair res = await Signin(username, password);
+        if (res.a) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreen()),
+          );
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,55 +71,11 @@ class LoginRegisterScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () async {
-                    String username = _emailController.text;
-                    String password = _passwordController.text;
-                    Pair res = await Signin(username, password);
-
-                    if (res.a==true){ // dang nhap thanh cong
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MainScreen()),
-                      );
-                    }
-                    else{
-                      Fluttertoast.showToast( // nay de ghi ra loi gi luon
-                        msg: res.b, // xuat thong bao loi
-                        toastLength: Toast.LENGTH_LONG, // Duration for which the toast should be displayed
-                        gravity: ToastGravity.BOTTOM, // Position of the toast message
-                        timeInSecForIosWeb: 1, // Duration for iOS and web platforms
-                        backgroundColor: Colors.black,
-                        textColor: Colors.white,
-                      );
-                    }
-                  },
+                  onPressed: () => login(),
                   child: Text('Login'),
                 ),
                 ElevatedButton(
-                  onPressed: () async {
-                    String username = _emailController.text;
-                    String password = _passwordController.text;
-                    Pair res = await Signup(username, password);
-
-
-                    if (res.a==true){ // dang nhap thanh cong
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MainScreen()),
-                      );
-                    }
-                    else{
-                      Fluttertoast.showToast(
-                        msg: res.b,
-                        toastLength: Toast.LENGTH_LONG, // Duration for which the toast should be displayed
-                        gravity: ToastGravity.BOTTOM, // Position of the toast message
-                        timeInSecForIosWeb: 1, // Duration for iOS and web platforms
-                        backgroundColor: Colors.black,
-                        textColor: Colors.white,
-                      );
-
-                    }
-                  },
+                  onPressed: () => register(),
                   child: Text('Register'),
                 ),
               ],
@@ -95,6 +83,55 @@ class LoginRegisterScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> login() async {
+    String username = _emailController.text;
+    String password = _passwordController.text;
+    Pair res = await Signin(username, password);
+
+    if (res.a) {
+      saveLoginInfo(username, password);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+    } else {
+      showError(res.b);
+    }
+  }
+
+  Future<void> register() async {
+    String username = _emailController.text;
+    String password = _passwordController.text;
+    Pair res = await Signup(username, password);
+
+    if (res.a) {
+      saveLoginInfo(username, password);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+    } else {
+      showError(res.b);
+    }
+  }
+
+  void saveLoginInfo(String username, String password) {
+    Preferences.instance.saveBoolean(prefKey, true);
+    Preferences.instance.saveString(userNameKey, username);
+    Preferences.instance.saveString(passwordKey, password);
+  }
+
+  void showError(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
     );
   }
 }
