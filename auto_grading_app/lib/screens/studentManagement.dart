@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 
 import '../models/Student.dart';
 import '../views/studentView.dart';
+import '../widgets/searchBar.dart';
 
 class StudentManagementScreen extends StatefulWidget {
-
   @override
-  _StudentManagementScreenState createState() => _StudentManagementScreenState();
+  _StudentManagementScreenState createState() =>
+      _StudentManagementScreenState();
 }
+
 class _StudentManagementScreenState extends State<StudentManagementScreen> {
   Future<List<Student>>? _students;
 
@@ -30,53 +32,64 @@ class _StudentManagementScreenState extends State<StudentManagementScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.all(30),
-          child: FutureBuilder<List<Student>>(
-            future: _students,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(), // Show a loading indicator while waiting for data
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'), // Show error message if fetching data fails
-                );
-              } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-                // Handle the case where snapshot.data is null or empty
-                return Center(
-                  child: Text('No students available'), // Show a message indicating no students available
-                );
-              } else {
-                final students = snapshot.data!;
-                return ListView.builder(
-                  itemCount: students.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      child: Card(
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            students[index].getName(),
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
+        child: Column(
+          children: [
+            Search(
+              onSearch: (query) {
+                setState(() {
+                  _students = Future.value(
+                      StudentRepository.instance.filter(query));
+                });
+              },
+            ),
+            Expanded(
+              child: FutureBuilder<List<Student>>(
+                future: _students,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
                     );
-                  },
-                );
-              }
-            },
-          ),
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else if (snapshot.data == null ||
+                      snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text('No students available'),
+                    );
+                  } else {
+                    final students = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: students.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          child: Card(
+                            elevation: 4.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                students[index].getName(),
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
