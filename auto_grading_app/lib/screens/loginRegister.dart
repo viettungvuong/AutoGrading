@@ -18,6 +18,7 @@ class LoginRegisterScreen extends StatefulWidget {
 class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false; // Track loading state
 
   @override
   void initState() {
@@ -26,11 +27,13 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   }
 
   Future<void> checkAndSignIn() async {
+    setState(() {
+      _isLoading = true; // Set loading state to true before starting async operation
+    });
     await Preferences.instance.initPreferences();
     if (Preferences.instance.getBool(prefKey) == true) {
       String? username = Preferences.instance.getString(userNameKey);
       String? password = Preferences.instance.getString(passwordKey);
-      print(username);
       if (username != null && password != null) {
         Pair res = await Signin(username, password);
         if (res.a) {
@@ -41,6 +44,9 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
         }
       }
     }
+    setState(() {
+      _isLoading = false; // Set loading state to false once async operation is completed
+    });
   }
 
   @override
@@ -51,7 +57,11 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: _isLoading // Show loading indicator if _isLoading is true
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
@@ -73,11 +83,11 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () => login(),
+                  onPressed: _isLoading ? null : login, // Disable button when loading
                   child: Text('Login'),
                 ),
                 ElevatedButton(
-                  onPressed: () => register(),
+                  onPressed: _isLoading ? null : register, // Disable button when loading
                   child: Text('Register'),
                 ),
               ],
