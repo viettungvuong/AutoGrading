@@ -13,12 +13,20 @@ class ExamSessionRepository {
   // private constructor
   ExamSessionRepository._() {
     _sessions = [];
+
   }
 
   // singleton
   static final ExamSessionRepository _instance = ExamSessionRepository._();
 
   static ExamSessionRepository get instance => _instance;
+
+  Future<void> initialize() async {
+    dynamic map = await GetExamSessionsFromDatabase();
+    _sessions = await sessionsFromJson(map);
+
+    print(_sessions);
+  }
 
   void addSession(ExamSession session) async {
 

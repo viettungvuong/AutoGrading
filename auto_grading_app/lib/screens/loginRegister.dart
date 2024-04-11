@@ -26,9 +26,11 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   }
 
   Future<void> checkAndSignIn() async {
+    await Preferences.instance.initPreferences();
     if (Preferences.instance.getBool(prefKey) == true) {
       String? username = Preferences.instance.getString(userNameKey);
       String? password = Preferences.instance.getString(passwordKey);
+      print(username);
       if (username != null && password != null) {
         Pair res = await Signin(username, password);
         if (res.a) {
@@ -118,7 +120,8 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     }
   }
 
-  void saveLoginInfo(String username, String password) {
+  void saveLoginInfo(String username, String password) async {
+    await Preferences.instance.initPreferences();
     Preferences.instance.saveBoolean(prefKey, true);
     Preferences.instance.saveString(userNameKey, username);
     Preferences.instance.saveString(passwordKey, password);

@@ -1,4 +1,5 @@
 import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+import 'package:auto_grading_mobile/controllers/studentConverter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -17,6 +18,13 @@ class StudentRepository {
   static final StudentRepository _instance = StudentRepository._();
 
   static StudentRepository get instance => _instance;
+
+  Future<void> initialize() async {
+    dynamic map = await GetStudentsFromDatabase();
+    print(map);
+    _students = studentsFromJson(map);
+  }
+
 
   Future<String?> addStudent(Student student) async {
     _students.add(student);

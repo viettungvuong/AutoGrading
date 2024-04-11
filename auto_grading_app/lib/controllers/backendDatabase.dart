@@ -28,9 +28,10 @@ Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
   if (User.instance.isSignedIn()){ //chua signin thi khong lay duoc
     return null;
   }
-  final response = await http.get(Uri.parse(serverUrl+"/student"+User.instance.email!));
-
+  final response = await http.get(Uri.parse("$serverUrl/student/${User.instance.email!}"));
+  print("Fetching student $response");
   if (response.statusCode == 200) {
+    print("Get student successfully");
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else {
     // Request failed
@@ -81,7 +82,6 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
 
 Future<Student?> getStudentFromId(String id) async{
   var url = Uri.parse("$serverUrl/student/byId/$id");
-  print("fetching student");
 
   final response = await http.get(url);
   print(response.statusCode);

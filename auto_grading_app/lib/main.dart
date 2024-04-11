@@ -60,10 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadSessions() async {
-    dynamic map = await GetExamSessionsFromDatabase();
+    await ExamSessionRepository.instance.initialize();
     setState(() {
-      _sessions = sessionsFromJson(map);
-
+      _sessions = Future.value(ExamSessionRepository.instance.getAllSessions());
     });
   }
 
