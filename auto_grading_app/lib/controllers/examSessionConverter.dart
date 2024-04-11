@@ -50,7 +50,7 @@ Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
     }
     sessions.add(session);
   }
-  ExamSessionRepository.instance.addFromList(sessions);
+  ExamSessionRepository.instance.addAll(sessions);
 
   return sessions;
 }

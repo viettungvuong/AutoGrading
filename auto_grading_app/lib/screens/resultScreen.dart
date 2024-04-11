@@ -101,7 +101,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   score = correct/widget.session.getNumOfQuestions()*10;
                                   print(score);
                                   Student student=Student(_nameController.text,_idController.text);
-                                  String? id = await StudentRepository.instance.addStudent(student); //them vao repository
+                                  String? id = await StudentRepository.instance.add(student); //them vao repository
 
                                   if (id==null){
                                     Fluttertoast.showToast(
@@ -133,7 +133,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   score = correct/widget.session.getNumOfQuestions()*10;
                                   print(score);
                                   Student student=Student(_nameController.text,_idController.text);
-                                  String? id = await StudentRepository.instance.addStudent(student); //them vao repository
+                                  String? id = await StudentRepository.instance.add(student); //them vao repository
 
                                   if (id==null){
                                     Fluttertoast.showToast(

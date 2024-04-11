@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadSessions() async {
     await ExamSessionRepository.instance.initialize();
     setState(() {
-      _sessions = Future.value(ExamSessionRepository.instance.getAllSessions());
+      _sessions = Future.value(ExamSessionRepository.instance.getAll());
     });
   }
 

@@ -142,7 +142,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 _ExamSession.setAvailableChoices(_numChoices);
 
                 // luu vao repository
-                ExamSessionRepository.instance.addSession(_ExamSession);
+                ExamSessionRepository.instance.add(_ExamSession);
 
                 Navigator.push(
                   context,

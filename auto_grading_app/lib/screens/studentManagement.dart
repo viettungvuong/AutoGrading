@@ -16,7 +16,7 @@ class _StudentManagementScreenState extends State<StudentManagementScreen> {
   Future<void> _loadStudents() async {
     await StudentRepository.instance.initialize();
     setState(() {
-      _students = Future.value(StudentRepository.instance.getAllStudents());
+      _students = Future.value(StudentRepository.instance.getAll());
     });
   }
 

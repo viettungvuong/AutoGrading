@@ -6,7 +6,7 @@ import '../models/Student.dart';
 
 
 Exam? examFromJson(Map<String, dynamic> json) {
-  Student? student =StudentRepository.instance.findStudent(json['studentId']);
+  Student? student =StudentRepository.instance.find(json['studentId']);
   if (student==null){
     return null; // exam phai co student
   }
