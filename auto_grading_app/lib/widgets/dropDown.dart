@@ -1,111 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class Dropdown extends StatefulWidget {
-  List<String> classes;
-  Dropdown({required this.classes});
+  final List<String> list;
+  final void Function(String?) onChanged; //callback
+
+  Dropdown({required this.list, required this.onChanged});
+
   @override
   _DropdownState createState() => _DropdownState();
 }
 
 class _DropdownState extends State<Dropdown> {
-  List<String> classes=[];
-  String? selectedList;
-  String? _chosenModel=null;
+  List<String> _list = [];
+  String? _chosenModel;
   TextEditingController _newClassController = TextEditingController();
 
   @override
-  void initState(){
-    classes=widget.classes;
-    _chosenModel=(classes.isNotEmpty)?classes[0]:null;
+  void initState() {
+    _list = widget.list;
+    _chosenModel = (_list.isNotEmpty) ? _list[0] : null;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: Column(
-          children: [
-            DropdownButton<String>(
-              value: _chosenModel,
-              items: classes.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                setState(() {
-                  _chosenModel = newValue!;
-                });
-              },
-              hint: Text(
-                "Choose a class",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
+      child: Column(
+        children: [
+          DropdownSearch<String>(
+            popupProps: PopupProps.menu(
+              showSelectedItems: true,
+            ),
+            items: _list,
+            dropdownDecoratorProps: DropDownDecoratorProps(
+              dropdownSearchDecoration: InputDecoration(
+                labelText: "Menu mode",
+                hintText: "country in menu mode",
               ),
             ),
-
-            TextField(
-              controller: _newClassController,
-              decoration: InputDecoration(
-                labelText: 'Enter a new class',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    setState(() {
-                      classes.add(_newClassController.text);
-                      _newClassController.text="";
-                    });
-                  },
-                ),
-              ),
-            ),
-          ],
-        )
-    );
-
-  }
-
-  Future<void> _showNewListDialog(BuildContext context) async {
-    String newListName = '';
-
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Create new'),
-          content: TextField(
             onChanged: (value) {
-              newListName = value;
+              setState(() {
+                _chosenModel = value;
+
+                widget.onChanged(value);
+
+              });
             },
-            decoration: InputDecoration(hintText: 'Enter class name'),
+            selectedItem: _chosenModel,
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Create'),
-              onPressed: () {
-                // Handle the creation of the new list
-                if (newListName.isNotEmpty) {
-                  // Add the new list to the existing lists
+
+          TextField(
+            controller: _newClassController,
+            decoration: InputDecoration(
+              labelText: 'Enter a new class',
+              suffixIcon: IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
                   setState(() {
-                    classes.add(newListName);
-                    selectedList = newListName;
+                    _list.add(_newClassController.text);
+                    _newClassController.text = "";
                   });
-                  Navigator.of(context).pop();
-                }
-              },
+                },
+              ),
             ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 }

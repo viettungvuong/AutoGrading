@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
 import '../models/Exam.dart';
 import '../models/Student.dart';
@@ -21,8 +22,9 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
       dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
       print(jsonFor);
       double score = jsonFor["score"].toDouble();
-      // find student by id
-      Student? student = await getStudentFromId(jsonFor["student"]);
+      String studentId = jsonFor["student"]["studentId"];
+      // find student by id (studentid)
+      Student? student = StudentRepository.instance.findById(studentId);
       print(student);
       if (student!=null){
         Exam exam = Exam(student,score);

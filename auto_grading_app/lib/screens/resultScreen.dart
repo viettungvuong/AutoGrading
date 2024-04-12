@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../main.dart';
+import '../models/Class.dart';
 import '../models/Exam.dart';
 import '../models/Student.dart';
 import '../models/examSession.dart';
@@ -30,6 +31,8 @@ class _ResultScreenState extends State<ResultScreen> {
 
   TextEditingController _nameController=TextEditingController();
   TextEditingController _idController=TextEditingController();
+
+  String? selectedClassId;
 
   @override
   void initState() {
@@ -84,9 +87,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                 ),
 
-                Center(
-                  child: Dropdown(classes: [],),
-                ),
+
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),

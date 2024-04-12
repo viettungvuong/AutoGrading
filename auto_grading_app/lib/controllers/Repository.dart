@@ -26,5 +26,4 @@ abstract class BaseRepository<T> {
   List<T> filter(String query);
 
 
-  Future<Pair> updateToDatabase(T item);
 }

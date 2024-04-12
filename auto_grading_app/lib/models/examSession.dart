@@ -1,3 +1,4 @@
+import 'Class.dart';
 import 'Exam.dart';
 
 class ExamSession{
@@ -5,6 +6,8 @@ class ExamSession{
   late Map<int,int> _answers; // đáp án đúng
   late int _availableChoices;
   late int _questions;
+
+  late Class _class;
 
   List<Exam> exams=[];
 
@@ -20,6 +23,14 @@ class ExamSession{
 
   String getName(){
     return _name;
+  }
+
+  void setClass(Class sClass){
+    _class=sClass;
+  }
+
+  Class getClass(){
+    return _class;
   }
 
   void setAnswers(Map<int,int> answers){

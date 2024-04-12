@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
+import 'Class.dart';
+
 class Student{
   late String _name;
   late String _studentId;
-  late String _uniqueId;
+  List<Class> classes = [];
 
   Student(this._name, this._studentId);
 

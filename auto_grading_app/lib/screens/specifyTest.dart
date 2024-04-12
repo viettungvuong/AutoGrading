@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../widgets/dropDown.dart';
+
 class SpecifyTestScreen extends StatefulWidget {
   @override
   _SpecifyTestScreenState createState() => _SpecifyTestScreenState();
@@ -15,6 +17,8 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
   int _numChoices = 2;
 
   TextEditingController _controller=TextEditingController();
+
+  String? _selectedClassId;
 
   Map<int,int> _answers = {}; // luu lai nhung gi da chon
 
@@ -42,6 +46,12 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 hintText: "Enter the test session name here",
               ),
             ),
+            SizedBox(height: 30,),
+            // Center(
+            //   child: Dropdown(list: [], onChanged: (selected){
+            //     _selectedClassId = selected; // callback
+            //   },),
+            // ),
             SizedBox(height: 30,),
             TextField(
               keyboardType: TextInputType.number,
@@ -140,6 +150,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 _ExamSession.setAnswers(_answers);
                 _ExamSession.setName(_controller.text);
                 _ExamSession.setAvailableChoices(_numChoices);
+                // _ExamSession.setClass(sClass)
 
                 // luu vao repository
                 ExamSessionRepository.instance.add(_ExamSession);

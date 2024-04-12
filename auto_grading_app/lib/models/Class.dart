@@ -2,18 +2,12 @@ import 'Student.dart';
 
 class Class{
   late String _name;
+  late String _classId;
 
-  List<Student> _students=[];
+  List<Student> students=[];
 
   Class(this._name);
 
-  void addStudent(Student student){
-    _students.add(student);
-  }
-
-  List<Student> getStudents(){
-    return _students;
-  }
 
   void setName(String name){
     _name=name;
@@ -21,5 +15,13 @@ class Class{
 
   String getName(){
     return _name;
+  }
+
+  void setId(String classId){
+    _classId=classId;
+  }
+
+  String getId(){
+    return _classId;
   }
 }

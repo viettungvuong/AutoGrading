@@ -1,7 +1,7 @@
 import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
 import 'package:auto_grading_mobile/controllers/studentConverter.dart';
 import 'package:auto_grading_mobile/models/Student.dart';
-
+import 'package:collection/collection.dart';
 
 import '../structs/pair.dart';
 
@@ -46,15 +46,15 @@ class StudentRepository extends BaseRepository<Student> {
     return null;
   }
 
-  @override
-  Future<Pair> updateToDatabase(Student item) async {
-    // Implement update logic specific to StudentRepository
-    return Pair(false, "Not implemented");
-  }
 
   @override
   List<Student> filter(String query) {
     return items.where((element) => element.getName().toLowerCase().contains(query.toLowerCase())).toList();
+  }
+
+  Student? findById(String studentId) {
+    return items.firstWhereOrNull((element) => element.getStudentId() == studentId);
+
   }
 
 }
