@@ -84,9 +84,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                 ),
 
-                SizedBox(
-                  width: 500.0,
-                  height: 500.0,
+                Center(
                   child: Dropdown(classes: [],),
                 ),
 
