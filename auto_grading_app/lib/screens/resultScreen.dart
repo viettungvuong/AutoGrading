@@ -120,7 +120,6 @@ class _ResultScreenState extends State<ResultScreen> {
                                     );
                                     return;
                                   }
-                                  student.setUniqueId(id);
                                   Exam exam=Exam(student,score);
 
                                   widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
@@ -152,7 +151,6 @@ class _ResultScreenState extends State<ResultScreen> {
                                     );
                                     return;
                                   }
-                                  student.setUniqueId(id);
                                   Exam exam=Exam(student,score);
 
 

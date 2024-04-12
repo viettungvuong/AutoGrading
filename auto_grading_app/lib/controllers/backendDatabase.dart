@@ -139,7 +139,7 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
   List<Map<String,String>> exams=[];
   int n=session.exams.length;
   for (int i=0; i<n; i++){
-    String studentId = session.exams[i].getStudent().getUniqueId(); // lay id tren database (k phai mongodb)
+    String studentId = session.exams[i].getStudent().getStudentId(); // lay id tren database (k phai mongodb)
     String score = session.exams[i].getScore().toString();
     exams.add({
       'studentId': studentId,

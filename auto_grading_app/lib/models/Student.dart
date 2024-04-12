@@ -20,11 +20,4 @@ class Student{
     return _studentId;
   }
 
-  void setUniqueId(String uniqueId){
-    _uniqueId=uniqueId;
-  }
-
-  String getUniqueId(){
-    return _uniqueId;
-  }
 }
