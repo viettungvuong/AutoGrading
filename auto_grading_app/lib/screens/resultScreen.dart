@@ -85,9 +85,9 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
 
                 SizedBox(
-                  width: 200.0,
-                  height: 300.0,
-                  child: Dropdown(),
+                  width: 500.0,
+                  height: 500.0,
+                  child: Dropdown(classes: [],),
                 ),
 
                 ElevatedButton(

@@ -1,50 +1,49 @@
 import 'package:flutter/material.dart';
 
 class Dropdown extends StatefulWidget {
+  List<String> classes;
+  Dropdown({required this.classes});
   @override
   _DropdownState createState() => _DropdownState();
 }
 
 class _DropdownState extends State<Dropdown> {
-  List<String> lists = ['List 1', 'List 2', 'List 3']; // Existing lists
+  List<String> classes=[];
   String? selectedList;
+  String _chosenModel="";
+
+  @override
+  void initState(){
+    classes=widget.classes;
+    _chosenModel=(classes.isNotEmpty)?classes[0]:"";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        margin: EdgeInsets.all(50),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container( // Wrap DropdownButton with Container to constrain its size
-              width: 200, // Example width, adjust as needed
-              child: DropdownButton<String>(
-                value: selectedList,
-                hint: Text('Select a list'),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedList = newValue;
-                  });
-                },
-                items: lists.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _showNewListDialog(context);
-              },
-              child: Text('Create New List'),
-            ),
-          ],
+    return Container(
+        padding: EdgeInsets.all(50),
+        child: DropdownButton<String>(
+          value: _chosenModel,
+          items: classes.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          onChanged: (newValue) {
+            setState(() {
+              _chosenModel = newValue!;
+            });
+          },
+          hint: Text(
+            "Choose a class",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w600),
+          ),
         ),
-      ),
     );
 
   }
@@ -77,7 +76,7 @@ class _DropdownState extends State<Dropdown> {
                 if (newListName.isNotEmpty) {
                   // Add the new list to the existing lists
                   setState(() {
-                    lists.add(newListName);
+                    classes.add(newListName);
                     selectedList = newListName;
                   });
                   Navigator.of(context).pop();
