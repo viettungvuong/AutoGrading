@@ -10,6 +10,7 @@ import '../models/Exam.dart';
 import '../models/Student.dart';
 import '../models/examSession.dart';
 import '../structs/pair.dart';
+import '../widgets/dropDown.dart';
 import 'cameraScreen.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -81,6 +82,12 @@ class _ResultScreenState extends State<ResultScreen> {
                   decoration: InputDecoration(
                     hintText: "Enter the student ID here",
                   ),
+                ),
+
+                SizedBox(
+                  width: 200.0,
+                  height: 300.0,
+                  child: Dropdown(),
                 ),
 
                 ElevatedButton(

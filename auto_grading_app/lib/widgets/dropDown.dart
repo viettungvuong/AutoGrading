@@ -12,39 +12,41 @@ class _DropdownState extends State<Dropdown> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Dropdown Example'),
-      ),
-      body: Center(
+      body: Container(
+        margin: EdgeInsets.all(50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            DropdownButton<String>(
-              value: selectedList,
-              hint: Text('Select'),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedList = newValue;
-                });
-              },
-              items: lists.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            Container( // Wrap DropdownButton with Container to constrain its size
+              width: 200, // Example width, adjust as needed
+              child: DropdownButton<String>(
+                value: selectedList,
+                hint: Text('Select a list'),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedList = newValue;
+                  });
+                },
+                items: lists.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 _showNewListDialog(context);
               },
-              child: Text('Create new'),
+              child: Text('Create New List'),
             ),
           ],
         ),
       ),
     );
+
   }
 
   Future<void> _showNewListDialog(BuildContext context) async {
