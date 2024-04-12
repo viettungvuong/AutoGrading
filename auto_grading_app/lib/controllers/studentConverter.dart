@@ -10,7 +10,7 @@ List<Student> studentsFromJson(Map<String, dynamic> json){
   List<Student> res = [];
 
   students.forEach((student) async {
-   res.add(Student(student,""));
+   res.add(Student(student["name"],student["studentId"]));
   });
 
   return res;

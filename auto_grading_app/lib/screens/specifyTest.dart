@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:auto_grading_mobile/screens/cameraScreen.dart';
@@ -47,11 +48,11 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
               ),
             ),
             SizedBox(height: 30,),
-            // Center(
-            //   child: Dropdown(list: [], onChanged: (selected){
-            //     _selectedClassId = selected; // callback
-            //   },),
-            // ),
+            Center(
+              child: Dropdown(list: [], onChanged: (selected){
+                _selectedClassId = selected; // callback
+              },),
+            ),
             SizedBox(height: 30,),
             TextField(
               keyboardType: TextInputType.number,
@@ -150,7 +151,10 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 _ExamSession.setAnswers(_answers);
                 _ExamSession.setName(_controller.text);
                 _ExamSession.setAvailableChoices(_numChoices);
-                // _ExamSession.setClass(sClass)
+                if (_selectedClassId!=null){
+                  _ExamSession.setClass(ClassRepository.instance.findById(_selectedClassId!)!);
+                }
+
 
                 // luu vao repository
                 ExamSessionRepository.instance.add(_ExamSession);

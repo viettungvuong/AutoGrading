@@ -6,6 +6,14 @@ import 'package:collection/collection.dart';
 import '../models/Class.dart';
 
 class ClassRepository extends BaseRepository<Class>{
+  // private constructor
+  ClassRepository._() : super();
+
+  // singleton
+  static final ClassRepository _instance = ClassRepository._();
+
+  static ClassRepository get instance => _instance;
+
   @override
   add(Class item) {
     super.items.add(item);
