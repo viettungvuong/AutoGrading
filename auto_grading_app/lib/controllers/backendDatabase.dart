@@ -53,6 +53,21 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
     print('Failed with status code: ${response.statusCode}');
   }
 }
+
+Future<Map<String, dynamic>?> GetClassesFromDatabase() async {
+  if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
+    return null;
+  }
+
+  final response = await http.get(Uri.parse(serverUrl+"/class/"+User.instance.email!));
+
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  } else {
+    // Request failed
+    print('Failed with status code: ${response.statusCode}');
+  }
+}
 //
 // Future<Map<String, dynamic>?> updateExamToDatabase(Exam exam) async {
 //   var url = Uri.parse(serverUrl);
@@ -111,7 +126,9 @@ Future<Pair> createExamSessionToDatabase(ExamSession session) async {
       },
       body: jsonEncode(<String, dynamic>{
         'name': session.getName(),
-        'userId': User.instance.email
+        'userId': User.instance.email,
+        'classId': session.getClass().getId(),
+        'className': session.getClass().getName()
       }),
     );
 
@@ -144,6 +161,7 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
     exams.add({
       'studentId': studentId,
       'score': score,
+      'classId': session.getClass().getId()
     });
   } // luu cac bai thi cua session vao trong json
 

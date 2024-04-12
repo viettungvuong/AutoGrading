@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
 import '../models/Class.dart';
+import 'backendDatabase.dart';
+import 'classConverter.dart';
 
 class ClassRepository extends BaseRepository<Class>{
   // private constructor

@@ -6,7 +6,7 @@ class Class{
 
   List<Student> students=[];
 
-  Class(this._name);
+  Class(this._name,this._classId);
 
 
   void setName(String name){
