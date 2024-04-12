@@ -10,40 +10,60 @@ class Dropdown extends StatefulWidget {
 class _DropdownState extends State<Dropdown> {
   List<String> classes=[];
   String? selectedList;
-  String _chosenModel="";
+  String? _chosenModel=null;
+  TextEditingController _newClassController = TextEditingController();
 
   @override
   void initState(){
     classes=widget.classes;
-    _chosenModel=(classes.isNotEmpty)?classes[0]:"";
+    _chosenModel=(classes.isNotEmpty)?classes[0]:null;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.all(50),
-        child: DropdownButton<String>(
-          value: _chosenModel,
-          items: classes.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          onChanged: (newValue) {
-            setState(() {
-              _chosenModel = newValue!;
-            });
-          },
-          hint: Text(
-            "Choose a class",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w600),
-          ),
-        ),
+    return Expanded(
+        child: Column(
+          children: [
+            DropdownButton<String>(
+              value: _chosenModel,
+              items: classes.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (newValue) {
+                setState(() {
+                  _chosenModel = newValue!;
+                });
+              },
+              hint: Text(
+                "Choose a class",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+
+            TextField(
+              controller: _newClassController,
+              decoration: InputDecoration(
+                labelText: 'Enter a new class',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {
+                      classes.add(_newClassController.text);
+                      _newClassController.text="";
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        )
     );
 
   }
