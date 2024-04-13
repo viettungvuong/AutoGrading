@@ -87,6 +87,19 @@ class _GradingScreenState extends State<GradingScreen> {
                         return;
                     }
 
+                    if (json["correct_answers"] is String){
+                      Fluttertoast.showToast(
+                        msg: json["correct_anaswers"],
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black45,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                      return;
+                    }
+
                     int correctAnswers = json["correct_answers"];
                     // XFile resImage = json?["result_img"];
 

@@ -162,7 +162,7 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
     exams.add({
       'studentId': studentId,
       'score': score,
-      'classId': session.getClass().getId()
+
     });
   } // luu cac bai thi cua session vao trong json
 
@@ -176,7 +176,8 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
       },
       body: jsonEncode(<String, dynamic>{
         'exams': exams,
-        'userId': User.instance.email
+        'userId': User.instance.email,
+        'classId': session.getClass().getId()
       }),
     );
 

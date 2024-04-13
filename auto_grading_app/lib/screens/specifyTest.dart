@@ -53,6 +53,10 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
               child: Dropdown(repository: ClassRepository.instance, onChanged: (selected){
                 _selectedClassId = selected; // callback
                 print(_selectedClassId);
+                if (_selectedClassId!=null){
+                  _ExamSession.setClass(ClassRepository.instance.findById(_selectedClassId!)!);
+                  print(_ExamSession.getClass().getName());
+                }
               }, onAdded: (addedPair){
                 // add class moi vao repository
                 print(addedPair.a);
@@ -160,9 +164,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 _ExamSession.setAnswers(_answers);
                 _ExamSession.setName(_controller.text);
                 _ExamSession.setAvailableChoices(_numChoices);
-                if (_selectedClassId!=null){
-                  _ExamSession.setClass(ClassRepository.instance.findById(_selectedClassId!)!);
-                }
+
 
 
                 // luu vao repository

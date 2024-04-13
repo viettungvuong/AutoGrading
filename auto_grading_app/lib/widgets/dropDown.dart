@@ -26,7 +26,7 @@ class _DropdownState extends State<Dropdown> {
   void initState() {
     _dropdownList = widget.repository.convertForDropdown();
     _dropdownList.forEach((element) {_list.add(element.a+"-"+element.b);});
-    _chosenModel = (_dropdownList.isNotEmpty) ? _dropdownList[0].b : null;
+    _chosenModel = null;
     super.initState();
   }
 
