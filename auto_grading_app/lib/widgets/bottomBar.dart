@@ -15,6 +15,11 @@ class BottomBar extends ConsumerWidget{
 
         BottomNavigationBarItem(
           icon: Icon(Icons.school),
+          label: 'Classes',
+        ),
+
+        BottomNavigationBarItem(
+          icon: Icon(Icons.people),
           label: 'Students',
         ),
 
