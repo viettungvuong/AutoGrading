@@ -2,6 +2,8 @@ import 'package:auto_grading_mobile/controllers/Repository.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
+import '../structs/pair.dart';
+
 class Dropdown extends StatefulWidget {
   final BaseRepository repository;
   final void Function(String?) onChanged; //callback
@@ -15,13 +17,15 @@ class Dropdown extends StatefulWidget {
 class _DropdownState extends State<Dropdown> {
   List<String> _list = [];
   String? _chosenModel;
-  TextEditingController _newClassController = TextEditingController(); // de nhap id
-  TextEditingController _newClassController2 = TextEditingController(); // de nhap ten
+  TextEditingController _newClassController = TextEditingController(); // for entering ID
+  TextEditingController _newClassController2 = TextEditingController(); // for entering name
+  late List<Pair> _dropdownList;
 
   @override
   void initState() {
-    _list = widget.repository.convertForDropdown(); // doi danh sach cua repository qua dang dropdown
-    _chosenModel = (_list.isNotEmpty) ? _list[0] : null;
+    _dropdownList = widget.repository.convertForDropdown();
+    _dropdownList.forEach((element) {_list.add(element.a+"-"+element.b);});
+    _chosenModel = (_dropdownList.isNotEmpty) ? _dropdownList[0].b : null;
     super.initState();
   }
 
@@ -44,7 +48,8 @@ class _DropdownState extends State<Dropdown> {
             onChanged: (value) {
               setState(() {
                 _chosenModel = value;
-                widget.onChanged(value);
+                int selectedIndex = _list.indexOf(value!);
+                widget.onChanged(_dropdownList[selectedIndex].b); // lay id cua cai vua moi chon
               });
             },
             selectedItem: _chosenModel,
@@ -101,7 +106,7 @@ class _DropdownState extends State<Dropdown> {
           ),
         ],
       ),
-
     );
   }
 }
+

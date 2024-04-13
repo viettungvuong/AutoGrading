@@ -52,6 +52,19 @@ class StudentRepository extends BaseRepository<Student> {
     return items.where((element) => element.getName().toLowerCase().contains(query.toLowerCase())).toList();
   }
 
+  @override
+  List<Pair> convertForDropdown(){
+    List<Pair> res=[];
+    items.forEach((element) {
+      String name = element.getName();
+      String id = element.getStudentId();
+      res.add(Pair(name,id));
+    });
+
+    return res;
+
+  }
+
   Student? findById(String studentId) {
     return items.firstWhereOrNull((element) => element.getStudentId() == studentId);
 

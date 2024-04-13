@@ -48,6 +48,11 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
     }
   }
 
+  @override
+  List<Pair> convertForDropdown(){ // session khong nam trong dropdown
+    throw UnimplementedError();
+  }
+
 
   @override
   Future<Pair> updateToDatabase(ExamSession item) async {

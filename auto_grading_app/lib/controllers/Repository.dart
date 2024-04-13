@@ -25,5 +25,5 @@ abstract class BaseRepository<T> {
 
   List<T> filter(String query);
 
-
+  List<Pair> convertForDropdown();
 }

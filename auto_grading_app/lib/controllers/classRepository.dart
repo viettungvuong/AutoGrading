@@ -33,6 +33,19 @@ class ClassRepository extends BaseRepository<Class>{
 
   }
 
+  @override
+  List<Pair> convertForDropdown(){
+    List<Pair> res=[];
+    items.forEach((element) {
+      String name = element.getName();
+      String id = element.getId();
+      res.add(Pair(name,id));
+    });
+
+    return res;
+
+  }
+
   Class? findById(String classId) {
     return items.firstWhereOrNull((element) => element.getId() == classId);
 
