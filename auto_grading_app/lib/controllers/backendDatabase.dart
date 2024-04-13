@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 
+import '../models/Class.dart';
 import '../models/Exam.dart';
 import '../models/Student.dart';
 import 'package:http/http.dart' as http;
@@ -200,6 +201,7 @@ Future<Pair> updateStudentToDatabase(Student student) async {
   Map<String, dynamic>? jsonResponse;
 
   print("Updating student");
+
   try {
     final response = await http.post(
       url,
@@ -208,9 +210,56 @@ Future<Pair> updateStudentToDatabase(Student student) async {
       },
       body: jsonEncode(<String, dynamic>{
         'studentId': student.getStudentId(),
-        'name': student.getName()
+        'name': student.getName(),
+        'classId': student.classes.elementAt(student.classes.length-1).getId()
       }),
     );
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      String id = jsonResponse["id"];
+      return Pair(true,id);
+    }
+    else{
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      print(jsonResponse["error"]);
+      return Pair(false,jsonResponse["error"]);
+    }
+  } catch (e) {
+    print(e);
+    return Pair(false,e);
+  }
+
+}
+
+Future<Pair> updateClassToDatabase(Class sClass) async {
+  var url = Uri.parse(serverUrl+"/class");
+  Map<String, dynamic>? jsonResponse;
+
+  print("Updating class");
+  dynamic body =  jsonEncode(<String, dynamic>{
+    'className': sClass.getName(),
+    'classId': sClass.getId(),
+    'user': User.instance.email
+  });
+  print(body);
+
+  try {
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'className': sClass.getName(),
+        'classId': sClass.getId(),
+        'userId': User.instance.email
+      }),
+    );
+
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;

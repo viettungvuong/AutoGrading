@@ -7,8 +7,9 @@ import '../structs/pair.dart';
 class Dropdown extends StatefulWidget {
   final BaseRepository repository;
   final void Function(String?) onChanged; //callback
+  final void Function(Pair) onAdded;
 
-  Dropdown({required this.repository, required this.onChanged});
+  Dropdown({required this.repository, required this.onChanged, required this.onAdded});
 
   @override
   _DropdownState createState() => _DropdownState();
@@ -31,7 +32,7 @@ class _DropdownState extends State<Dropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Container(
       child: Column(
         children: [
           DropdownSearch<String>(
@@ -41,8 +42,7 @@ class _DropdownState extends State<Dropdown> {
             items: _list,
             dropdownDecoratorProps: DropDownDecoratorProps(
               dropdownSearchDecoration: InputDecoration(
-                labelText: "Menu mode",
-                hintText: "country in menu mode",
+                labelText: "Class",
               ),
             ),
             onChanged: (value) {
@@ -85,8 +85,14 @@ class _DropdownState extends State<Dropdown> {
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            _list.add(_newClassController.text);
+                            _list.add("${_newClassController.text}-${_newClassController2.text}");
+                            Pair added = Pair(_newClassController.text,_newClassController2.text);
+                            _dropdownList.add(added); // them pair vao dropdownlis
+                            widget.onAdded(added);
+
                             _newClassController.text = "";
+                            _newClassController2.text="";
+
                             Navigator.of(context).pop();
                           });
                         },

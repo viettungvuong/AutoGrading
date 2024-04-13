@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/screens/grading.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
@@ -56,10 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState(); // Call super.initState() first
-    _loadSessions();
+    _loadInitialize();
   }
 
-  Future<void> _loadSessions() async {
+  Future<void> _loadInitialize() async {
+    await ClassRepository.instance.initialize();
     await ExamSessionRepository.instance.initialize();
     setState(() {
       _sessions = Future.value(ExamSessionRepository.instance.getAll());

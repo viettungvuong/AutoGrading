@@ -6,9 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../controllers/localPreferences.dart';
 import '../main.dart';
 import '../structs/pair.dart';
-const String prefKey="login";
-const String userNameKey="username";
-const String passwordKey="password";
+
 
 class LoginRegisterScreen extends StatefulWidget {
   @override

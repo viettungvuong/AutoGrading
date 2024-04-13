@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
+import 'package:auto_grading_mobile/controllers/localPreferences.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
 import '../models/User.dart';
@@ -8,6 +10,10 @@ import 'package:http/http.dart' as http;
 
 import '../structs/pair.dart';
 const String serverUrl="https://autogradingbackend.onrender.com/login";
+
+const String prefKey="login";
+const String userNameKey="username";
+const String passwordKey="password";
 
 Future<Pair> Signin(String username, String password) async {
   var url = Uri.parse(serverUrl+"/signin"); // Connect to the backend server
@@ -86,4 +92,7 @@ void Logout(){
   // xoa nhung thu lien quan toi repo
   ExamSessionRepository.instance.resetAll();
   StudentRepository.instance.resetAll();
+  ClassRepository.instance.resetAll();
+
+  Preferences.instance.saveBoolean(prefKey, false);
 }

@@ -17,8 +17,16 @@ class ClassRepository extends BaseRepository<Class>{
   static ClassRepository get instance => _instance;
 
   @override
-  add(Class item) {
+  add(Class item) async {
     super.items.add(item);
+
+    Pair res = await updateClassToDatabase(item);
+
+    if (res.a) {
+      return res.b;
+    } else {
+      return null;
+    }
   }
 
   @override

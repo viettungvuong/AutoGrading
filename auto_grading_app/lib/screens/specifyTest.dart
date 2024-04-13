@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../models/Class.dart';
 import '../widgets/dropDown.dart';
 
 class SpecifyTestScreen extends StatefulWidget {
@@ -51,6 +52,14 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
             Center(
               child: Dropdown(repository: ClassRepository.instance, onChanged: (selected){
                 _selectedClassId = selected; // callback
+                print(_selectedClassId);
+              }, onAdded: (addedPair){
+                // add class moi vao repository
+                print(addedPair.a);
+                print(addedPair.b);
+                String name = addedPair.a;
+                String id = addedPair.b;
+                ClassRepository.instance.add(Class(name,id));
               },),
             ),
             SizedBox(height: 30,),

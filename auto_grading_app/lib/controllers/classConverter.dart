@@ -7,7 +7,8 @@ import '../models/Student.dart';
 import 'package:http/http.dart' as http;
 
 Future<Class?> classFromJson(Map<String, dynamic> json) async{
-  String serverUrl="https://autogradingbackend.onrender.com/class/byId${json["classId"]}"; // tìm student của class ny
+  String classId = json["classId"];
+  String serverUrl="https://autogradingbackend.onrender.com/class/byId/$classId"; // tìm student của class ny
   List<Student> students = [];
 
   final response = await http.get(Uri.parse(serverUrl));

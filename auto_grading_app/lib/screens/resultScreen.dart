@@ -107,6 +107,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   score = correct/widget.session.getNumOfQuestions()*10;
                                   print(score);
                                   Student student=Student(_nameController.text,_idController.text);
+                                  student.classes.add(widget.session.getClass());
                                   String? id = await StudentRepository.instance.add(student); //them vao repository
 
                                   if (id==null){
@@ -138,6 +139,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   score = correct/widget.session.getNumOfQuestions()*10;
                                   print(score);
                                   Student student=Student(_nameController.text,_idController.text);
+                                  student.classes.add(widget.session.getClass());
                                   String? id = await StudentRepository.instance.add(student); //them vao repository
 
                                   if (id==null){
