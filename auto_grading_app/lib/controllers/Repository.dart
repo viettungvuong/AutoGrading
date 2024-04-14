@@ -2,6 +2,7 @@ import '../structs/pair.dart';
 
 abstract class BaseRepository<T> {
   late List<T> items;
+  bool initialized=false;
 
   BaseRepository() {
     items = [];

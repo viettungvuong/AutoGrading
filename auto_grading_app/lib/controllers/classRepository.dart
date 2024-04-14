@@ -38,7 +38,7 @@ class ClassRepository extends BaseRepository<Class>{
   Future<void> initialize() async {
     dynamic map = await GetClassesFromDatabase();
     items = await classesFromJson(map);
-
+    initialized=true;
   }
 
   @override

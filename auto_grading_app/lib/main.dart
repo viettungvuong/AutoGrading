@@ -1,5 +1,6 @@
 import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
+import 'package:auto_grading_mobile/screens/classManagement.dart';
 import 'package:auto_grading_mobile/screens/grading.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
 
@@ -178,6 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class MainScreen extends ConsumerWidget{ // man hinh tong
   List<Widget> _screens = [
     HomeScreen(),
+    ClassManagementScreen(),
     StudentManagementScreen(),
     UserScreen(user: User.instance,)
   ];

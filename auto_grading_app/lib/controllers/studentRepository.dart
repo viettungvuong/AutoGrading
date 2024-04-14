@@ -21,6 +21,7 @@ class StudentRepository extends BaseRepository<Student> {
     dynamic map = await GetStudentsFromDatabase();
     print(map);
     items = studentsFromJson(map);
+    initialized=true;
   }
 
   @override

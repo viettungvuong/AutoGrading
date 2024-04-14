@@ -24,7 +24,7 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
   Future<void> initialize() async {
     dynamic map = await GetExamSessionsFromDatabase();
     items = await sessionsFromJson(map);
-
+    initialized=true;
     print(items);
   }
 
