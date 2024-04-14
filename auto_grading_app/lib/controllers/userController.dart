@@ -86,6 +86,43 @@ Future<Pair> Signup(String username, String password) async {
   }
 }
 
+Future<Pair> ChangePassword(String username, String confirmPassword, String newPassword) async {
+  var url = Uri.parse(serverUrl+"/change"); // Connect to the backend server
+  Map<String, dynamic>? jsonResponse;
+
+  try {
+    final response = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'email': username,
+        'confirmPassword': confirmPassword,
+        'newPassword': newPassword
+      }),
+    );
+
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      // thanh cong
+
+      User.instance.email=username; // set user
+      return Pair(true,"");
+    }
+    else{
+      // xuat loi ra o day
+      jsonResponse = await jsonDecode(response.body) as Map<String, dynamic>;
+      return Pair(false,jsonResponse["error"]);
+    }
+  } catch (e) {
+    print('Error connecting to server: $e');
+    return Pair(false,e);
+  }
+}
+
 void Logout(){
   User.instance.email="";
 
