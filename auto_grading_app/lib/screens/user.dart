@@ -46,6 +46,7 @@ class UserScreen extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 Pair res = await ChangePassword(User.instance.email!, confirmPassword, newPassword);
+                print(res.a);
 
                 if (res.a){ // true
                   Navigator.of(context).pop(); // Close the dialog

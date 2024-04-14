@@ -60,7 +60,7 @@ class _ClassManagementScreenState extends State<ClassManagementScreen> {
                   } else if (snapshot.data == null ||
                       snapshot.data!.isEmpty) {
                     return Center(
-                      child: Text('No students available'),
+                      child: Text('No classes available'),
                     );
                   } else {
                     final classes = snapshot.data!;

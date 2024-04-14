@@ -108,8 +108,7 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
 
     if (response.statusCode == 200) {
       // thanh cong
-
-      User.instance.email=username; // set user
+      Preferences.instance.saveString(passwordKey,newPassword); // doi password nay luon
       return Pair(true,"");
     }
     else{
@@ -132,4 +131,6 @@ void Logout(){
   ClassRepository.instance.resetAll();
 
   Preferences.instance.saveBoolean(prefKey, false);
+  Preferences.instance.saveString(passwordKey, "");
+  Preferences.instance.saveString(userNameKey, "");
 }
