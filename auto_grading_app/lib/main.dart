@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Text('List Popup'),
+                                    title: Text('Exams'),
                                     content: Container(
                                       width: double.maxFinite,
                                       child: ListView.builder(
