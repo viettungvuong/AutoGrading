@@ -106,7 +106,7 @@ class _GradingScreenState extends State<GradingScreen> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResultScreen(correct: correctAnswers, session: widget.session,)),
+                      MaterialPageRoute(builder: (context) => ResultScreen(correct: correctAnswers, session: widget.session, imagePath: imagePath,)),
                     );
                   },
                   child: const Text('Grade now'),

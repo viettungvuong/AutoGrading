@@ -18,8 +18,9 @@ import 'cameraScreen.dart';
 
 class ResultScreen extends StatefulWidget {
   int correct=0; // so cau dung
+  String imagePath;
   ExamSession session;
-  ResultScreen({required this.correct, required this.session});
+  ResultScreen({required this.correct, required this.imagePath, required this.session});
   @override
   _ResultScreenState createState() => _ResultScreenState();
 }
@@ -77,7 +78,20 @@ class _ResultScreenState extends State<ResultScreen> {
                   style: TextStyle(color: Colors.black, fontSize: 25),
                 ),
 
-
+                Image.network(
+                  widget.imagePath,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null)
+                      return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                ),
 
                 TextField(
                   controller: _nameController,
