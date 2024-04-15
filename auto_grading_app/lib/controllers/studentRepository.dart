@@ -18,6 +18,9 @@ class StudentRepository extends BaseRepository<Student> {
 
   @override
   Future<void> initialize() async {
+    if (initialized){
+      return;
+    }
     dynamic map = await GetStudentsFromDatabase();
     print(map);
     items = studentsFromJson(map);

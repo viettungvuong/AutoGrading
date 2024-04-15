@@ -60,7 +60,7 @@ Future<Map<String, dynamic>?> GetClassesFromDatabase() async {
     return null;
   }
 
-  final response = await http.get(Uri.parse(serverUrl+"/class/"+User.instance.email!));
+  final response = await http.get(Uri.parse("$serverUrl/class/${User.instance.email!}"));
 
   if (response.statusCode == 200) {
     return jsonDecode(response.body) as Map<String, dynamic>;

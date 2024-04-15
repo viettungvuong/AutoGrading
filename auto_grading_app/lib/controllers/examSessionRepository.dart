@@ -22,6 +22,9 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
 
   @override
   Future<void> initialize() async {
+    if (initialized){
+      return;
+    }
     dynamic map = await GetExamSessionsFromDatabase();
     items = await sessionsFromJson(map);
     initialized=true;

@@ -7,16 +7,21 @@ import '../models/Student.dart';
 import 'package:http/http.dart' as http;
 
 Future<Class?> classFromJson(Map<String, dynamic> json) async{
-  String classId = json["classId"];
-  String serverUrl="https://autogradingbackend.onrender.com/class/byId/$classId"; // tìm student của class ny
-  List<Student> students = [];
+  print(json);
+  String classId = json["_id"];
+  print("Class id $classId");
+  String serverUrl="https://autogradingbackend.onrender.com/class/byId/$classId"; // tìm student của class nay
+  print(serverUrl);
 
   final response = await http.get(Uri.parse(serverUrl));
   if (response.statusCode == 200) {
     dynamic jsonStudents = jsonDecode(response.body) as Map<String, dynamic>;
-    dynamic studentsFetched = studentsFromJson(jsonStudents); // lấy danh sách student từ json
-    students.addAll(studentsFetched);
+    print("jsonstudents $jsonStudents");
+    List<Student> studentsFetched = studentsFromJson(jsonStudents); // lấy danh sách student từ json
+    print(studentsFetched);
+
     Class schoolClass = Class(json["name"],json["classId"]);
+    schoolClass.students.addAll(studentsFetched); // thêm các học sinh vào lớp học
     return schoolClass;
   } else {
     // Request failed
