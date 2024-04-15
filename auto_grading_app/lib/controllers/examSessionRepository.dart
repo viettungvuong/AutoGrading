@@ -104,4 +104,8 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> filter(String query){
     return items.where((element) => element.getName().toLowerCase().contains(query.toLowerCase())).toList();
   }
+
+  String getLastId(){
+    return _lastId;
+  }
 }

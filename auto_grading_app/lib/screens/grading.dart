@@ -87,7 +87,7 @@ class _GradingScreenState extends State<GradingScreen> {
                         return;
                     }
 
-                    if (json["correct_answers"] is String){
+                    if (json["correct_answers"] is String){ // lúc này là có exception
                       Fluttertoast.showToast(
                         msg: json["correct_anaswers"],
                         toastLength: Toast.LENGTH_LONG,
@@ -101,6 +101,7 @@ class _GradingScreenState extends State<GradingScreen> {
                     }
 
                     int correctAnswers = json["correct_answers"];
+                    String imagePath = json["graded_paper_path"];
                     // XFile resImage = json?["result_img"];
 
                     Navigator.push(

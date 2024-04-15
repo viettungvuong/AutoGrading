@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 import 'package:camera/camera.dart';
@@ -15,7 +17,6 @@ import '../widgets/dropDown.dart';
 import 'cameraScreen.dart';
 
 class ResultScreen extends StatefulWidget {
-
   int correct=0; // so cau dung
   ExamSession session;
   ResultScreen({required this.correct, required this.session});
@@ -36,9 +37,11 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   void initState() {
-    super.initState();
+
 
     this.correct=widget.correct;
+    score = correct/widget.session.getNumOfQuestions()*10;
+    print(score);
 
     try{
       cameraController = CameraController(cameras[0], ResolutionPreset.ultraHigh);
@@ -51,6 +54,8 @@ class _ResultScreenState extends State<ResultScreen> {
     } catch (e){
       print(e);
     }
+
+    super.initState();
   }
 
   @override
@@ -67,11 +72,12 @@ class _ResultScreenState extends State<ResultScreen> {
                   style: TextStyle(color: Colors.green, fontSize: 25),
                 ),
 
-
                 Text(
                   "Final score: $score",
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  style: TextStyle(color: Colors.black, fontSize: 25),
                 ),
+
+
 
                 TextField(
                   controller: _nameController,
@@ -104,8 +110,7 @@ class _ResultScreenState extends State<ResultScreen> {
                               ElevatedButton(
                                 onPressed: () async {
                                   //tinh diem
-                                  score = correct/widget.session.getNumOfQuestions()*10;
-                                  print(score);
+
                                   Student student=Student(_nameController.text,_idController.text);
                                   student.classes.add(widget.session.getClass());
                                   String? id = await StudentRepository.instance.add(student); //them vao repository
@@ -136,8 +141,7 @@ class _ResultScreenState extends State<ResultScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  score = correct/widget.session.getNumOfQuestions()*10;
-                                  print(score);
+
                                   Student student=Student(_nameController.text,_idController.text);
                                   student.classes.add(widget.session.getClass());
                                   String? id = await StudentRepository.instance.add(student); //them vao repository

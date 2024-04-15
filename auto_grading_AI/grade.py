@@ -5,11 +5,66 @@ import imutils
 from imutils import contours
 import argparse
 
+# from tensorflow.keras.applications import ResNet50
+# from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
+# from tensorflow.keras.preprocessing import image
+
+
+# def detect_paper(image_path):
+#     model = ResNet50(weights="imagenet")
+
+#     img = image.load_img(image_path, target_size=(224, 224))
+#     img_array = image.img_to_array(img)
+#     img_array = np.expand_dims(img_array, axis=0)
+#     img_array = preprocess_input(img_array)
+
+#     # du doan anh
+#     predictions = model.predict(img_array)
+#     decoded_predictions = decode_predictions(predictions, top=10)[0]
+
+#     # neu paper duoc gan nhan
+#     for _, label, _ in decoded_predictions:
+#         print(label)
+#         if "paper" in label:
+#             return True
+
+#     return False
+
+
+def straighten_image(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+    cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+
+    max_area_contour = max(cnts, key=cv2.contourArea)
+    rect = cv2.minAreaRect(max_area_contour)
+
+    # Ensure the angle is between -90 and 90 degrees
+    angle = rect[-1]
+    if angle < -45:
+        angle += 90
+
+    # Rotate the image in the opposite direction to straighten it
+    rows, cols = image.shape[:2]
+    M = cv2.getRotationMatrix2D((cols // 2, rows // 2), -angle, 1)
+    straightened_image = cv2.warpAffine(
+        image, M, (cols, rows), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE
+    )
+
+    return straightened_image
+
 
 def grade_paper(imagepath, available_choices, answers):
     try:
+        # if detect_paper(imagepath) == False:
+        #     raise Exception(f"Image does not have any paper")
         image = cv2.imread(imagepath)
         scanned = scan(image)  # scan hinh
+
+        # scanned = straighten_image(scanned)
+        # cv2.imshow("Straightened", scanned)
+        # cv2.waitKey(0)
 
         # lam hinh trang hon
         rgb_planes = cv2.split(scanned)
@@ -49,9 +104,9 @@ def grade_paper(imagepath, available_choices, answers):
         )
         cnts = imutils.grab_contours(cnts)
         scanned_cnts = scanned.copy()
-        cv2.drawContours(scanned_cnts, cnts, -1, (0, 255, 0), 2)
-        cv2.imshow("Scanned with Contours", scanned_cnts)
-        cv2.waitKey(0)
+        # cv2.drawContours(scanned_cnts, cnts, -1, (0, 255, 0), 2)
+        # cv2.imshow("Scanned with Contours", scanned_cnts)
+        # cv2.waitKey(0)
         questionCnts = []
         for c in cnts:
             (x, y, w, h) = cv2.boundingRect(c)
@@ -79,7 +134,7 @@ def grade_paper(imagepath, available_choices, answers):
             cnts = contours.sort_contours(questionCnts[i : i + available_choices])[
                 0
             ]  # cac contour cua hang hien tai
-            cv2.drawContours(scanned_each_quest, cnts, -1, (0, 255, 0), 2)
+            # cv2.drawContours(scanned_each_quest, cnts, -1, (0, 255, 0), 2)
             # cv2.imshow("Scanned with Each Question Contours", scanned_each_quest)
             # cv2.waitKey(0)
             bubbled = None  # cau duoc khoanh tron
@@ -98,7 +153,7 @@ def grade_paper(imagepath, available_choices, answers):
 
             if answers.get(q) is None:
                 raise Exception(
-                    f"Provided answer key is insufficient for grading. Got at least {q+1} questions but there are only {list(answers.keys())[-1]+1}"
+                    f"Provided answer key is insufficient for grading. Got at least {q+1} questions but there are only {len(list(answers.keys()))}"
                 )
             if answers[q] == bubbled[1]:
                 color = (0, 255, 0)  # mau xanh
@@ -108,16 +163,34 @@ def grade_paper(imagepath, available_choices, answers):
             cv2.drawContours(scanned, [cnts[answers[q]]], -1, color, 3)
         # cv2.imshow("Result", scanned)
         # cv2.waitKey(0)
-        # return (correct, scanned)
-        return correct
+        # scanned_file_path = "/Users/tung/Desktop/AutoGrading/auto_grading_AI/scanned_image.jpg"
+        # cv2.imwrite(scanned_file_path, scanned)
+        # return scanned_file_path
+        return (correct, scanned)
+        # return correct
     except Exception as e:
+        print(str(e))
         return str(e)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Select image.")
+    parser = argparse.ArgumentParser(description="Grade paper.")
     parser.add_argument("image_path", type=str, help="Path to the input image.")
+    parser.add_argument(
+        "--available_choices",
+        type=int,
+        help="Number of available choices for each question.",
+    )
+    parser.add_argument(
+        "--answer_key", nargs="+", type=int, help="Answer key as a dictionary."
+    )
     args = parser.parse_args()
 
     image_path = args.image_path
-    result_image = grade_paper(image_path)
+    available_choices = args.available_choices
+    answer_key = args.answer_key
+
+    answers = {i: ans for i, ans in enumerate(answer_key)}
+    print(answers)
+
+    correct, graded = grade_paper(image_path, available_choices, answers)
