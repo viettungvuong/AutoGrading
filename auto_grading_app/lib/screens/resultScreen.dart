@@ -104,8 +104,8 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
 
                 SizedBox(
-                  width: 200, // Set the width as per your requirement
-                  height: 200, // Set the height as per your requirement
+                  width: 200,
+                  height: 200,
                   child: Image.network(
                     widget.imagePath,
                     loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
