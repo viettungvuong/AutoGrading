@@ -39,6 +39,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   print(exams.length);
   ExamSession session = ExamSession.examsOnly(exams);
   session.setName(json["name"]);
+  session.id = json["_id"];
   return session;
 }
 Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{

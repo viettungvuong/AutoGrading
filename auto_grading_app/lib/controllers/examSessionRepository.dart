@@ -46,8 +46,10 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
       );
     } else {
       String id = res.a;
+      item.id = id;
       items.add(item);
       _lastId = id;
+
     }
   }
 
@@ -59,9 +61,6 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
 
   @override
   Future<Pair> updateToDatabase(ExamSession item) async {
-    items.remove(item);
-    items.add(item);
-
     Pair res = await updateExamSessionToDatabase(item, _lastId);
     if (res.a == null) {
       Fluttertoast.showToast(
@@ -74,15 +73,16 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
         fontSize: 16.0,
       );
     } else {
+      item.id = res.a;
       _lastId = res.a;
+      items.remove(item);
+      items.add(item);
     }
 
     return res;
   }
 
   void updateLatestSession(ExamSession session) async {
-    items.removeLast();
-    items.add(session);
 
     Pair res = await updateExamSessionToDatabase(session,_lastId); // update len database
     if (res.a==null){
@@ -97,7 +97,10 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
       );
     }
     else{
-      _lastId=res.a;
+      session.id = res.a;
+      _lastId = res.a;
+      items.removeLast();
+      items.add(session);
     }
   }
 
