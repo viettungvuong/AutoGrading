@@ -1,8 +1,9 @@
 import 'Student.dart';
 
 class Exam{
-  late Student _student;
+  late final Student _student;
   late double _score;
+  late String _gradedPaperLink;
 
   Exam(this._student,this._score);
 
@@ -18,5 +19,13 @@ class Exam{
 
   double getScore(){
     return _score;
+  }
+
+  void setGradedPaperLink(String gradedPaperLink){
+    _gradedPaperLink = gradedPaperLink;
+  }
+
+  String getGradedPaperLink(){
+    return _gradedPaperLink;
   }
 }

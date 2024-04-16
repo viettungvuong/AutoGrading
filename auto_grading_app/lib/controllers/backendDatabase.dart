@@ -159,10 +159,11 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
   for (int i=0; i<n; i++){
     String studentId = session.exams[i].getStudent().getStudentId(); // lay id tren database (k phai mongodb)
     String score = session.exams[i].getScore().toString();
+    String gradedPaperLink = session.exams[i].getGradedPaperLink();
     exams.add({
       'studentId': studentId,
       'score': score,
-
+      'graded_paper_link': gradedPaperLink
     });
   } // luu cac bai thi cua session vao trong json
 

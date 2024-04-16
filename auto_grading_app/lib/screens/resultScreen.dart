@@ -38,8 +38,6 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   void initState() {
-
-
     this.correct=widget.correct;
     score = correct/widget.session.getNumOfQuestions()*10;
     print(score);
@@ -57,6 +55,35 @@ class _ResultScreenState extends State<ResultScreen> {
     }
 
     super.initState();
+  }
+
+  void _addExamToSession() async {
+    Student student=Student(_nameController.text,_idController.text);
+    student.classes.add(widget.session.getClass());
+    String? id = await StudentRepository.instance.add(student); //them vao repository
+
+    if (id==null){
+      Fluttertoast.showToast(
+        msg: "Error when adding student",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black45,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
+    Exam exam=Exam(student,score);
+    exam.setGradedPaperLink(widget.imagePath);
+
+    widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
+    ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),
+    ); // chup cai khac
   }
 
   @override
@@ -123,65 +150,13 @@ class _ResultScreenState extends State<ResultScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () async {
-                                  //tinh diem
-
-                                  Student student=Student(_nameController.text,_idController.text);
-                                  student.classes.add(widget.session.getClass());
-                                  String? id = await StudentRepository.instance.add(student); //them vao repository
-
-                                  if (id==null){
-                                    Fluttertoast.showToast(
-                                      msg: "Error when adding student",
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.black45,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0,
-                                    );
-                                    return;
-                                  }
-                                  Exam exam=Exam(student,score);
-
-                                  widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
-                                  ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
-
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),
-                                  ); // chup cai khac
+                                  _addExamToSession();
                                 },
                                 child: const Text("Take more"),
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-
-                                  Student student=Student(_nameController.text,_idController.text);
-                                  student.classes.add(widget.session.getClass());
-                                  String? id = await StudentRepository.instance.add(student); //them vao repository
-
-                                  if (id==null){
-                                    Fluttertoast.showToast(
-                                      msg: "Error when adding student",
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.black45,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0,
-                                    );
-                                    return;
-                                  }
-                                  Exam exam=Exam(student,score);
-
-
-                                  widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
-                                  ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
-
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => MainScreen()),
-                                  ); // ve trang chu
+                                  _addExamToSession();
                                 },
                                 child: const Text("Finish"),
                               ),
