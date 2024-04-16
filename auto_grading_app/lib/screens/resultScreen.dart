@@ -80,15 +80,13 @@ class _ResultScreenState extends State<ResultScreen> {
     widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
     ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),
-    ); // chup cai khac
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
       body: SafeArea(
 
         child: Container(
@@ -105,20 +103,25 @@ class _ResultScreenState extends State<ResultScreen> {
                   style: TextStyle(color: Colors.black, fontSize: 25),
                 ),
 
-                Image.network(
-                  widget.imagePath,
-                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null)
-                      return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  },
+                SizedBox(
+                  width: 200, // Set the width as per your requirement
+                  height: 200, // Set the height as per your requirement
+                  child: Image.network(
+                    widget.imagePath,
+                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null)
+                        return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
+                  ),
                 ),
+
 
                 TextField(
                   controller: _nameController,
@@ -151,12 +154,22 @@ class _ResultScreenState extends State<ResultScreen> {
                               ElevatedButton(
                                 onPressed: () async {
                                   _addExamToSession();
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CameraScreen(examSession: widget.session,)),
+                                  ); // chup cai khac
                                 },
                                 child: const Text("Take more"),
                               ),
                               ElevatedButton(
                                 onPressed: () async {
                                   _addExamToSession();
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => MainScreen()),
+                                  ); // chup cai khac
                                 },
                                 child: const Text("Finish"),
                               ),
