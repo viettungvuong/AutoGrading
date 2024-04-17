@@ -15,7 +15,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   List<dynamic> examIds = json["exams"];
   List<Exam> exams = [];
 
-  // get exam by id
+  // lay tung exam
   examIds.forEach((examId) async {
     final response = await http.get(Uri.parse("$serverUrl/$examId"),     headers: AuthController.instance.getHeader(),);
 
@@ -29,6 +29,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
       print(student);
       if (student!=null){
         Exam exam = Exam(student,score);
+        exam.setGradedPaperLink(jsonFor["graded_paper_img"]);
         exams.add(exam);
       }
 

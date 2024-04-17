@@ -19,15 +19,12 @@ class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
             children: [
               Text("Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}"),
 
-              SizedBox(
-                width: 100,
-                height: 100,
-                child: CachedNetworkImage(
+              CachedNetworkImage(
                   imageUrl: t.getGradedPaperLink(), // URL of the image to load
                   placeholder: (context, url) => Center(child: CircularProgressIndicator()), // Placeholder widget while the image is loading
                   errorWidget: (context, url, error) => Icon(Icons.error), // Widget to display if there's an error loading the image
                 ),
-              ),
+
             ],
           ),
           actions: <Widget>[
