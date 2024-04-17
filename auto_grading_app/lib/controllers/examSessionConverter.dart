@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 import 'examSessionRepository.dart';
 Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
-  const String serverUrl="https://autogradingbackend.onrender.com/exam/byId";
+  const String serverUrl="https://autogradingbackend.onrender.com/exam/byId"; // lay exam theo id
   List<dynamic> examIds = json["exams"];
   List<Exam> exams = [];
 
@@ -43,7 +43,9 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   return session;
 }
 Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
+  print("Sessions");
   List<dynamic> jsonArray = json["sessions"];
+  print(jsonArray);
   List<ExamSession> sessions = [];
 
   for (var element in jsonArray) {
