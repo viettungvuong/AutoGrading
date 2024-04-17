@@ -35,13 +35,14 @@ Future<Pair> Signin(String username, String password) async {
     if (response.statusCode == 200) {
       // thanh cong
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      print(jsonResponse);
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
       return Pair(true,"");
     }
     else{
       // xuat loi ra o day
-      jsonResponse = await jsonDecode(response.body) as Map<String, dynamic>;
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {
@@ -76,11 +77,11 @@ Future<Pair> Signup(String username, String password) async {
     }
     else{
       // xuat loi ra o day
-      jsonResponse = await jsonDecode(response.body) as Map<String, dynamic>;
+      jsonResponse =jsonDecode(response.body) as Map<String, dynamic>;
       return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {
-    print('Error connecting to server: $e');
+    print('Error: $e');
     return Pair(false,e);
   }
 }
@@ -116,7 +117,7 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
       return Pair(false,jsonResponse["error"]);
     }
   } catch (e) {
-    print('Error connecting to server: $e');
+    print('Error: $e');
     return Pair(false,e);
   }
 }
