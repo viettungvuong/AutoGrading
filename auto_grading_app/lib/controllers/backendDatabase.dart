@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/controllers/authController.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 
@@ -29,7 +30,7 @@ Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
   if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
     return null;
   }
-  final response = await http.get(Uri.parse("$serverUrl/student/${User.instance.email!}"));
+  final response = await http.get(Uri.parse("$serverUrl/student/${User.instance.email!}"),     headers: AuthController.instance.getHeader(),);
   print("Fetching student $response");
   if (response.statusCode == 200) {
     print("Get student successfully");
@@ -45,7 +46,7 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
     return null;
   }
 
-  final response = await http.get(Uri.parse(serverUrl+"/session/"+User.instance.email!));
+  final response = await http.get(Uri.parse(serverUrl+"/session/"+User.instance.email!),     headers: AuthController.instance.getHeader(),);
 
   if (response.statusCode == 200) {
     return jsonDecode(response.body) as Map<String, dynamic>;
@@ -60,7 +61,7 @@ Future<Map<String, dynamic>?> GetClassesFromDatabase() async {
     return null;
   }
 
-  final response = await http.get(Uri.parse("$serverUrl/class/${User.instance.email!}"));
+  final response = await http.get(Uri.parse("$serverUrl/class/${User.instance.email!}"),      headers: AuthController.instance.getHeader(),);
 
   if (response.statusCode == 200) {
     return jsonDecode(response.body) as Map<String, dynamic>;
@@ -122,9 +123,7 @@ Future<Pair> createExamSessionToDatabase(ExamSession session) async {
   try {
     final response = await http.post(
       url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: AuthController.instance.getHeader(),
       body: jsonEncode(<String, dynamic>{
         'name': session.getName(),
         'userId': User.instance.email,
@@ -172,9 +171,7 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
   try {
     final response = await http.put(
       url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: AuthController.instance.getHeader(),
       body: jsonEncode(<String, dynamic>{
         'exams': exams,
         'userId': User.instance.email,
@@ -207,9 +204,7 @@ Future<Pair> updateStudentToDatabase(Student student) async {
   try {
     final response = await http.post(
       url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: AuthController.instance.getHeader(),
       body: jsonEncode(<String, dynamic>{
         'studentId': student.getStudentId(),
         'name': student.getName(),
@@ -251,9 +246,7 @@ Future<Pair> updateClassToDatabase(Class sClass) async {
   try {
     final response = await http.post(
       url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: AuthController.instance.getHeader(),
       body: jsonEncode(<String, dynamic>{
         'className': sClass.getName(),
         'classId': sClass.getId(),

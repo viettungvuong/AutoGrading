@@ -1,1 +1,0 @@
-// chuyen cac list cua repository thanh pair

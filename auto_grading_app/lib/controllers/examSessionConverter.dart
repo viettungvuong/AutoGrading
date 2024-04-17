@@ -8,6 +8,7 @@ import '../models/Student.dart';
 import '../models/examSession.dart';
 import 'package:http/http.dart' as http;
 
+import 'authController.dart';
 import 'examSessionRepository.dart';
 Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   const String serverUrl="https://autogradingbackend.onrender.com/exam/byId"; // lay exam theo id
@@ -16,7 +17,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
 
   // get exam by id
   examIds.forEach((examId) async {
-    final response = await http.get(Uri.parse("$serverUrl/$examId"));
+    final response = await http.get(Uri.parse("$serverUrl/$examId"),     headers: AuthController.instance.getHeader(),);
 
     if (response.statusCode == 200) {
       dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;

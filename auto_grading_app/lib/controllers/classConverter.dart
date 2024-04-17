@@ -6,6 +6,8 @@ import '../models/Class.dart';
 import '../models/Student.dart';
 import 'package:http/http.dart' as http;
 
+import 'authController.dart';
+
 Future<Class?> classFromJson(Map<String, dynamic> json) async{
   print(json);
   String classId = json["_id"];
@@ -13,7 +15,7 @@ Future<Class?> classFromJson(Map<String, dynamic> json) async{
   String serverUrl="https://autogradingbackend.onrender.com/class/byId/$classId"; // tìm student của class nay
   print(serverUrl);
 
-  final response = await http.get(Uri.parse(serverUrl));
+  final response = await http.get(Uri.parse(serverUrl),      headers: AuthController.instance.getHeader(),);
   if (response.statusCode == 200) {
     dynamic jsonStudents = jsonDecode(response.body) as Map<String, dynamic>;
     print("jsonstudents $jsonStudents");

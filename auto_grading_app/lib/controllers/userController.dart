@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/controllers/authController.dart';
 import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/localPreferences.dart';
@@ -31,11 +32,10 @@ Future<Pair> Signin(String username, String password) async {
       }),
     );
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       // thanh cong
-
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
       return Pair(true,"");
     }
@@ -67,11 +67,10 @@ Future<Pair> Signup(String username, String password) async {
     );
 
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       // thanh cong
-
+      jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
       return Pair(true,"");
     }
