@@ -10,6 +10,12 @@ import '../models/Student.dart';
 import '../models/User.dart';
 
 class ExamRepository extends BaseRepository<Exam>{
+  ExamRepository._() : super();
+
+  // singleton
+  static final ExamRepository _instance = ExamRepository._();
+
+  static ExamRepository get instance => _instance;
   @override
   add(Exam item) {
     items.add(item);

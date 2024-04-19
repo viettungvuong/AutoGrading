@@ -2,6 +2,8 @@ import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 import 'package:auto_grading_mobile/screens/classManagement.dart';
+import 'package:auto_grading_mobile/screens/examOverview.dart';
+import 'package:auto_grading_mobile/screens/examsStudent.dart';
 import 'package:auto_grading_mobile/screens/grading.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
 
@@ -176,15 +178,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+List<Widget> getScreens(){
+  List<Widget> screens = [];
+
+  if (User.instance.isStudent){
+    screens = [  HomeScreen(),
+      ClassManagementScreen(),
+      StudentManagementScreen(),
+      UserScreen(user: User.instance,)];
+  }
+  else{
+    screens = [
+      ExamStudentScreen(),
+      UserScreen(user: User.instance,)];
+  }
+
+  return screens;
+}
+
 
 
 class MainScreen extends ConsumerWidget{ // man hinh tong
-  List<Widget> _screens = [
-    HomeScreen(),
-    ClassManagementScreen(),
-    StudentManagementScreen(),
-    UserScreen(user: User.instance,)
-  ];
+  final List<Widget> _screens = getScreens();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
