@@ -17,6 +17,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false; // Track loading state
+  String _userType="Teacher";
 
   @override
   void initState() {
@@ -112,19 +113,63 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     }
   }
 
-  Future<void> register() async {
-    String username = _emailController.text;
-    String password = _passwordController.text;
-    Pair res = await Signup(username, password);
+  void register() async {
+    String? userType = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select User Type'),
+          content: DropdownButtonFormField<String>(
+            value: _userType,
+            items: [
+              DropdownMenuItem(child: Text('Teacher'), value: 'Teacher'),
+              DropdownMenuItem(child: Text('Student'), value: 'Student'),
+            ],
+            onChanged: (value) {
+              setState(() {
+                _userType = value!;
+              });
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                String username = _emailController.text;
+                String password = _passwordController.text;
+                Pair res = await Signup(username, password);
 
-    if (res.a) {
-      saveLoginInfo(username, password);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainScreen()),
+                if (res.a) {
+                  saveLoginInfo(username, password);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainScreen()),
+                  );
+                } else {
+                  showError(res.b);
+                }
+              },
+              child: Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (userType != null) {
+      Fluttertoast.showToast(
+        msg: "You have not selected user type",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
       );
-    } else {
-      showError(res.b);
     }
   }
 
