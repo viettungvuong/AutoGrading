@@ -59,7 +59,7 @@ Future<Pair> Signin(String username, String password) async {
   }
 }
 
-Future<Pair> Signup(String username, String password, bool isStudent) async {
+Future<Pair> Signup(String name, String username, String password, bool isStudent) async {
   var url = Uri.parse(serverUrl+"/signup"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
@@ -70,6 +70,7 @@ Future<Pair> Signup(String username, String password, bool isStudent) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
+        'name': name,
         'email': username,
         'password': password,
         'isStudent': isStudent,

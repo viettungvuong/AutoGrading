@@ -8,51 +8,126 @@ import '../main.dart';
 import '../structs/pair.dart';
 
 
-class LoginRegisterScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _LoginRegisterScreenState createState() => _LoginRegisterScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
+  TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false; // Track loading state
-  String _userType="Teacher";
-
-  @override
-  void initState() {
-    super.initState();
-    checkAndSignIn();
-  }
-
-  Future<void> checkAndSignIn() async {
-    setState(() {
-      _isLoading = true; // Set loading state to true before starting async operation
-    });
-    await Preferences.instance.initPreferences();
-    if (Preferences.instance.getBool(prefKey) == true) {
-      String? username = Preferences.instance.getString(userNameKey);
-      String? password = Preferences.instance.getString(passwordKey);
-      if (username != null && password != null) {
-        Pair res = await Signin(username, password);
-        if (res.a) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MainScreen()),
-          );
-        }
-      }
-    }
-    setState(() {
-      _isLoading = false; // Set loading state to false once async operation is completed
-    });
-  }
+  String _userType = "Teacher";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login/Register'),
+        title: Text('Register'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: 'Name',
+              ),
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                labelText: 'Email',
+              ),
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+              ),
+            ),
+            SizedBox(height: 16.0),
+            DropdownButtonFormField<String>(
+              value: _userType,
+              items: [
+                DropdownMenuItem(child: Text('Teacher'), value: 'Teacher'),
+                DropdownMenuItem(child: Text('Student'), value: 'Student'),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  _userType = value!;
+                });
+              },
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: register,
+              child: Text('Register'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void register() async {
+    String name = _nameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    bool isStudent = _userType == "Student";
+
+    Pair res = await Signup(name, email, password, isStudent);
+
+    if (res.a) {
+      // Handle successful registration
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+    } else {
+      showError(res.b);
+    }
+  }
+
+  void showError(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+    );
+  }
+}
+
+class LoginRegisterScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return LoginScreen();
+  }
+}
+
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false; // Track loading state
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -78,18 +153,19 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
               ),
             ),
             SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: _isLoading ? null : login, // Disable button when loading
-                  child: Text('Login'),
-                ),
-                ElevatedButton(
-                  onPressed: _isLoading ? null : register, // Disable button when loading
-                  child: Text('Register'),
-                ),
-              ],
+            ElevatedButton(
+              onPressed: _isLoading ? null : login,
+              child: Text('Login'),
+            ),
+            SizedBox(height: 16.0),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen()),
+                );
+              },
+              child: Text('Register'),
             ),
           ],
         ),
@@ -100,6 +176,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   Future<void> login() async {
     String username = _emailController.text;
     String password = _passwordController.text;
+
     Pair res = await Signin(username, password);
 
     if (res.a) {
@@ -110,67 +187,6 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
       );
     } else {
       showError(res.b);
-    }
-  }
-
-  void register() async {
-    String? userType = await showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Select User Type'),
-          content: DropdownButtonFormField<String>(
-            value: _userType,
-            items: [
-              DropdownMenuItem(child: Text('Teacher'), value: 'Teacher'),
-              DropdownMenuItem(child: Text('Student'), value: 'Student'),
-            ],
-            onChanged: (value) {
-              setState(() {
-                _userType = value!;
-              });
-            },
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () async {
-                String username = _emailController.text;
-                String password = _passwordController.text;
-                bool isStudent = _userType=="Student";
-                Pair res = await Signup(username, password, isStudent);
-
-                if (res.a) {
-                  saveLoginInfo(username, password);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
-                  );
-                } else {
-                  showError(res.b);
-                }
-              },
-              child: Text('Confirm'),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (userType != null) {
-      Fluttertoast.showToast(
-        msg: "You have not selected user type",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black,
-        textColor: Colors.white,
-      );
     }
   }
 

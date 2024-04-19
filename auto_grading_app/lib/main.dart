@@ -5,6 +5,7 @@ import 'package:auto_grading_mobile/screens/classManagement.dart';
 import 'package:auto_grading_mobile/screens/examOverview.dart';
 import 'package:auto_grading_mobile/screens/examsStudent.dart';
 import 'package:auto_grading_mobile/screens/grading.dart';
+import 'package:auto_grading_mobile/screens/joinClass.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
 
 import 'package:auto_grading_mobile/screens/specifyTest.dart';
@@ -184,12 +185,12 @@ List<Widget> getScreens(){
   if (User.instance.isStudent){
     screens = [  HomeScreen(),
       ClassManagementScreen(),
-      StudentManagementScreen(),
       UserScreen(user: User.instance,)];
   }
   else{
     screens = [
       ExamStudentScreen(),
+      JoinClassScreen(),
       UserScreen(user: User.instance,)];
   }
 
