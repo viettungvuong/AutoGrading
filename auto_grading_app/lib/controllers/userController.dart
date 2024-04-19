@@ -42,6 +42,7 @@ Future<Pair> Signin(String username, String password) async {
 
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
+      User.instance.isStudent=jsonResponse["isStudent"];
 
       // SocketController.instance.emitLogin(username);
 
@@ -58,7 +59,7 @@ Future<Pair> Signin(String username, String password) async {
   }
 }
 
-Future<Pair> Signup(String username, String password) async {
+Future<Pair> Signup(String username, String password, bool isStudent) async {
   var url = Uri.parse(serverUrl+"/signup"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
@@ -71,6 +72,7 @@ Future<Pair> Signup(String username, String password) async {
       body: jsonEncode(<String, dynamic>{
         'email': username,
         'password': password,
+        'isStudent': isStudent,
       }),
     );
 
@@ -80,6 +82,7 @@ Future<Pair> Signup(String username, String password) async {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
+      User.instance.isStudent=isStudent;
 
       // SocketController.instance.emitLogin(username);
 

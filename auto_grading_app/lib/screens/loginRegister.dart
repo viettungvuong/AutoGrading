@@ -142,7 +142,8 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
               onPressed: () async {
                 String username = _emailController.text;
                 String password = _passwordController.text;
-                Pair res = await Signup(username, password);
+                bool isStudent = _userType=="Student";
+                Pair res = await Signup(username, password, isStudent);
 
                 if (res.a) {
                   saveLoginInfo(username, password);
