@@ -35,8 +35,8 @@ class Exam{
     return _gradedPaperLink;
   }
 
-  void notifyStudent(){ // observer
-    // thông báo điểm số học sinh qua socket
-    SocketController.instance.emitNewExam(this);
-  }
+  // void notifyStudent(){ // observer
+  //   // thông báo điểm số học sinh qua socket
+  //   SocketController.instance.emitNewExam(this);
+  // }
 }

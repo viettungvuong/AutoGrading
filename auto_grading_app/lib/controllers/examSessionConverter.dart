@@ -21,7 +21,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
 
     if (response.statusCode == 200) {
       dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
-      print(jsonFor);
+
       double score = jsonFor["score"].toDouble();
       String studentId = jsonFor["student"]["studentId"];
       // find student by id (studentid)

@@ -9,7 +9,7 @@ import 'User.dart';
 class Student{
   late String _name;
   late String _studentId;
-  late String studentEmail; // email tài khoản của student
+  String? studentEmail; // email tài khoản của student
   List<Class> classes = [];
 
   Student(this._name, this._studentId);

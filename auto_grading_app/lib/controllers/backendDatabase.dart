@@ -26,6 +26,20 @@ const String serverUrl="https://autogradingbackend.onrender.com";
 // }
 //
 
+Future<Map<String, dynamic>?> GetExamsFromDatabase(String studentEmail) async {
+  if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
+    return null;
+  }
+  final response = await http.get(Uri.parse("$serverUrl/exam/${studentEmail}"),     headers: AuthController.instance.getHeader(),);
+  if (response.statusCode == 200) {
+    print("Get exams successfully");
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  } else {
+    // Request failed
+    print('Failed with status code: ${response.statusCode}');
+  }
+}
+
 Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
   if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
     return null;

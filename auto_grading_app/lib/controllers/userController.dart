@@ -7,6 +7,7 @@ import 'package:auto_grading_mobile/controllers/localPreferences.dart';
 import 'package:auto_grading_mobile/controllers/socket.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
+import '../models/Student.dart';
 import '../models/User.dart';
 import 'package:http/http.dart' as http;
 
@@ -42,7 +43,7 @@ Future<Pair> Signin(String username, String password) async {
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
 
-      SocketController.instance.emitLogin(username);
+      // SocketController.instance.emitLogin(username);
 
       return Pair(true,"");
     }
@@ -80,7 +81,7 @@ Future<Pair> Signup(String username, String password) async {
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
 
-      SocketController.instance.emitLogin(username);
+      // SocketController.instance.emitLogin(username);
 
       return Pair(true,"");
     }
