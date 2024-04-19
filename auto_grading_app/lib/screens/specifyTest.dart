@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/Class.dart';
-import '../widgets/dropDown.dart';
+import '../widgets/dropDownRepository.dart';
 
 class SpecifyTestScreen extends StatefulWidget {
   @override
@@ -50,7 +50,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
             ),
             SizedBox(height: 30,),
             Center(
-              child: Dropdown(repository: ClassRepository.instance, onChanged: (selected){
+              child: DropdownRepository(repository: ClassRepository.instance, onChanged: (selected){
                 _selectedClassId = selected; // callback
                 print(_selectedClassId);
                 if (_selectedClassId!=null){

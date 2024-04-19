@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+import 'package:auto_grading_mobile/widgets/dropDownList.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ import '../models/Exam.dart';
 import '../models/Student.dart';
 import '../models/examSession.dart';
 import '../structs/pair.dart';
-import '../widgets/dropDown.dart';
+import '../widgets/dropDownRepository.dart';
 import 'cameraScreen.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -31,8 +32,7 @@ class _ResultScreenState extends State<ResultScreen> {
   double score=0;
   late int correct;
 
-  TextEditingController _nameController=TextEditingController();
-  TextEditingController _idController=TextEditingController();
+  Student? _selectedStudent;
 
   String? selectedClassId;
 
@@ -58,29 +58,32 @@ class _ResultScreenState extends State<ResultScreen> {
   }
 
   void _addExamToSession() async {
-    Student student=Student(_nameController.text,_idController.text);
-    student.classes.add(widget.session.getClass());
-    String? id = await StudentRepository.instance.add(student); //them vao repository
+    // Student student=Student(_nameController.text,_idController.text);
+    // student.classes.add(widget.session.getClass());
+    // String? id = await StudentRepository.instance.add(student); //them vao repository student
+    //
+    // if (id==null){
+    //   Fluttertoast.showToast(
+    //     msg: "Error when adding student",
+    //     toastLength: Toast.LENGTH_LONG,
+    //     gravity: ToastGravity.BOTTOM,
+    //     timeInSecForIosWeb: 1,
+    //     backgroundColor: Colors.black45,
+    //     textColor: Colors.white,
+    //     fontSize: 16.0,
+    //   );
+    //   return;
+    // }
 
-    if (id==null){
-      Fluttertoast.showToast(
-        msg: "Error when adding student",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black45,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+    if (_selectedStudent==null){
       return;
     }
-    Exam exam=Exam(student,score);
+
+    Exam exam=Exam(_selectedStudent!,score);
     exam.setGradedPaperLink(widget.imagePath);
 
     widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
     ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
-
-
   }
 
   @override
@@ -123,21 +126,24 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
 
 
-                TextField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    hintText: "Enter the student name here",
-                  ),
-                ),
+                // TextField(
+                //   controller: _nameController,
+                //   decoration: InputDecoration(
+                //     hintText: "Enter the student name here",
+                //   ),
+                // ),
+                //
+                // TextField(
+                //   controller: _idController,
+                //   decoration: InputDecoration(
+                //     hintText: "Enter the student ID here",
+                //   ),
+                // ),
 
-                TextField(
-                  controller: _idController,
-                  decoration: InputDecoration(
-                    hintText: "Enter the student ID here",
-                  ),
-                ),
-
-
+                DropdownListStudent(list: widget.session.getClass().students, onChanged: (student){
+                  _selectedStudent=student;
+                }
+                ), // nhung student da join class
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
