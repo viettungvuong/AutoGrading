@@ -17,7 +17,7 @@ class SocketController{
   }
 
   void emitNewExam(Exam exam){
-    _socket.emit('score', { 'studentId': exam.getStudent().studentEmail, 'exam': examToJson(exam) });
+    _socket.emit('exam', { 'studentId': exam.getStudent().studentEmail, 'exam': examToJson(exam) });
   }
 }
 

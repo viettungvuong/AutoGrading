@@ -18,5 +18,6 @@ Map<String, dynamic> examToJson(Exam exam) {
     return {
       'studentId': exam.getStudent().getStudentId(),
       'score': exam.getScore(),
+      'graded_paper_link': exam.getGradedPaperLink()
     };
 }
