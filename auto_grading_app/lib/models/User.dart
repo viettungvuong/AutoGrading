@@ -1,5 +1,6 @@
 class User {
-  String? email=null;
+  String? email;
+  bool isStudent=false;
 
   // Private constructor
   User._privateConstructor();

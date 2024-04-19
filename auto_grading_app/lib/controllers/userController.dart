@@ -4,12 +4,15 @@ import 'package:auto_grading_mobile/controllers/authController.dart';
 import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/localPreferences.dart';
+import 'package:auto_grading_mobile/controllers/socket.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
 import '../models/User.dart';
 import 'package:http/http.dart' as http;
 
 import '../structs/pair.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 const String serverUrl="https://autogradingbackend.onrender.com/login";
 
 const String prefKey="login";
@@ -35,9 +38,12 @@ Future<Pair> Signin(String username, String password) async {
     if (response.statusCode == 200) {
       // thanh cong
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      print(jsonResponse);
+
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
+
+      SocketController.instance.emitLogin(username);
+
       return Pair(true,"");
     }
     else{
@@ -73,6 +79,9 @@ Future<Pair> Signup(String username, String password) async {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
+
+      SocketController.instance.emitLogin(username);
+
       return Pair(true,"");
     }
     else{
