@@ -26,7 +26,7 @@ const String serverUrl="https://autogradingbackend.onrender.com";
 // }
 //
 
-Future<Map<String, dynamic>?> GetExamsFromDatabase(String studentEmail) async {
+Future<Map<String, dynamic>?> GetExamsFromDatabase(String studentEmail) async { // lấy cac bai ktra cua mot hoc sinh
   if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
     return null;
   }

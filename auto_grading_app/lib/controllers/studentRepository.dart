@@ -2,6 +2,8 @@ import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
 import 'package:auto_grading_mobile/controllers/studentConverter.dart';
 import 'package:auto_grading_mobile/models/Student.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../structs/pair.dart';
 
@@ -21,10 +23,20 @@ class StudentRepository extends BaseRepository<Student> {
     if (initialized){
       return;
     }
+    try{
     dynamic map = await GetStudentsFromDatabase();
-    print(map);
     items = studentsFromJson(map);
-    initialized=true;
+    initialized=true;}catch(err){
+      Fluttertoast.showToast(
+        msg: err.toString(),
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black45,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
   }
 
   @override

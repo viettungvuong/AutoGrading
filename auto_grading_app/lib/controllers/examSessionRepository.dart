@@ -25,10 +25,21 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
     if (initialized){
       return;
     }
-    dynamic map = await GetExamSessionsFromDatabase();
-    items = await sessionsFromJson(map);
-    initialized=true;
-    print(items);
+    try {
+      dynamic map = await GetExamSessionsFromDatabase();
+      items = await sessionsFromJson(map);
+      initialized = true;
+    }catch (err){
+      Fluttertoast.showToast(
+        msg: err.toString(),
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black45,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
   }
 
   @override

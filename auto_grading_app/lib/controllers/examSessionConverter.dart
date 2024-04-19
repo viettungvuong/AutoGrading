@@ -26,6 +26,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
       String studentId = jsonFor["student"]["studentId"];
       // find student by id (studentid)
       Student? student = StudentRepository.instance.findById(studentId);
+
       print(student);
       if (student!=null){
         Exam exam = Exam(student,score);
