@@ -88,7 +88,7 @@ class UserScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => LoginRegisterScreen()),
+                      builder: (context) => LoginScreen()),
                 );
               },
               child: Text(

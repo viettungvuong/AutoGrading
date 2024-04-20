@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../controllers/Repository.dart';
 import '../structs/pair.dart';
@@ -100,6 +101,16 @@ class _DropdownRepositoryState extends State<DropdownRepository> {
           actions: <Widget>[
             ElevatedButton(
               onPressed: () {
+                if (_newClassController.text.isEmpty || _newClassController2.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "Please fill in all fields",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black,
+                    textColor: Colors.white,
+                  );
+                }
                 setState(() {
                   _list.add(
                       "${_newClassController.text}-${_newClassController2.text}");

@@ -8,6 +8,7 @@ class Preferences {
 
   static final Preferences _instance = Preferences._();
 
+
   static Preferences get instance => _instance;
 
   Future<void> initPreferences() async {

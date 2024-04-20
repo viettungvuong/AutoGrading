@@ -10,8 +10,8 @@ class BottomBar extends ConsumerWidget {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: (User.instance.isStudent?Icon(Icons.add):Icon(Icons.book_online)),
-          label: (User.instance.isStudent?'Grade':'Exams'),
+          icon: (User.instance.isStudent==false?Icon(Icons.add):Icon(Icons.book_online)),
+          label: (User.instance.isStudent==false?'Grade':'Exams'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.school),

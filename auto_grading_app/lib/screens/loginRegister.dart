@@ -122,12 +122,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
-class LoginRegisterScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return LoginScreen();
-  }
-}
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -138,6 +132,24 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    checkAutoSignIn();
+  }
+
+  void checkAutoSignIn() async {
+    await Preferences.instance.initPreferences();
+    final username = await Preferences.instance.getString(userNameKey);
+    final password = await Preferences.instance.getString(passwordKey);
+
+    if (username != null && password != null) {
+      // Automatically attempt to sign in
+      login(username, password);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _isLoading ? null : login,
+              onPressed: _isLoading ? null : () => login(_emailController.text, _passwordController.text),
               child: Text('Login'),
             ),
             SizedBox(height: 16.0),
@@ -189,13 +201,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> login() async {
+  Future<void> login(String username, String password) async {
     setState(() {
       _isLoading = true;
     });
-
-    String username = _emailController.text;
-    String password = _passwordController.text;
 
     Pair res = await Signin(username, password);
 
@@ -214,7 +223,12 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-
+  void saveLoginInfo(String username, String password) async {
+    await Preferences.instance.initPreferences();
+    Preferences.instance.saveBoolean(prefKey, true);
+    Preferences.instance.saveString(userNameKey, username);
+    Preferences.instance.saveString(passwordKey, password);
+  }
 
   void showError(String message) {
     Fluttertoast.showToast(

@@ -1,4 +1,5 @@
 import 'package:auto_grading_mobile/controllers/classRepository.dart';
+import 'package:auto_grading_mobile/controllers/examRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 import 'package:auto_grading_mobile/screens/classManagement.dart';
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginRegisterScreen(),
+      home: LoginScreen(),
     );
   }
 }
@@ -66,9 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadInitialize() async {
-    await StudentRepository.instance.initialize();
-    await ClassRepository.instance.initialize();
-    await ExamSessionRepository.instance.initialize();
+    if (User.instance.isStudent==false){
+      await StudentRepository.instance.initialize();
+      await ClassRepository.instance.initialize();
+      await ExamSessionRepository.instance.initialize();
+    }
+    else{
+      await ExamRepository.instance.initialize();
+    }
+
+
     setState(() {
       _sessions = Future.value(ExamSessionRepository.instance.getAll());
     });
