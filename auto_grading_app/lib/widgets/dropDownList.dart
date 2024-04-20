@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
@@ -57,7 +58,7 @@ class _DropdownRepositoryState extends State<DropdownListStudent> {
             items: _list,
             dropdownDecoratorProps: DropDownDecoratorProps(
               dropdownSearchDecoration: InputDecoration(
-                labelText: "Class",
+                labelText: "Students",
               ),
             ),
             onChanged: (value) {

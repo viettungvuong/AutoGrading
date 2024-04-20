@@ -46,6 +46,7 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
   dynamic add(ExamSession item) async {
     Pair res = await createExamSessionToDatabase(item);
     print(res.a);
+    print(res.b);
     if (res.a == null) {
       Fluttertoast.showToast(
         msg: res.b,
