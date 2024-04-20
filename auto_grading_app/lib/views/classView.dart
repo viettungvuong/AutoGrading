@@ -48,6 +48,11 @@ class ClassView extends ObjectView<Class> {
                 t.getName(),
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
+
+              Text(
+                t.getCode(),
+                style: TextStyle(fontSize: 16),
+              ),
             ],
           ),
         ),

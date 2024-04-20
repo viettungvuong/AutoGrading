@@ -249,12 +249,6 @@ Future<Pair> updateClassToDatabase(Class sClass) async {
   Map<String, dynamic>? jsonResponse;
 
   print("Updating class");
-  dynamic body =  jsonEncode(<String, dynamic>{
-    'className': sClass.getName(),
-    'classId': sClass.getId(),
-    'user': User.instance.email
-  });
-  print(body);
 
   try {
     final response = await http.post(
@@ -271,8 +265,8 @@ Future<Pair> updateClassToDatabase(Class sClass) async {
 
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      String id = jsonResponse["id"];
-      return Pair(true,id);
+      String invitationCode = jsonResponse["code"];
+      return Pair(true,invitationCode);
     }
     else{
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;

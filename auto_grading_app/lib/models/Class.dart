@@ -3,6 +3,7 @@ import 'Student.dart';
 class Class{
   late String _name;
   late String _classId;
+  late String _code;
 
   List<Student> students=[];
 
@@ -23,5 +24,13 @@ class Class{
 
   String getId(){
     return _classId;
+  }
+
+  void setCode(String code){
+    _code=code;
+  }
+
+  String getCode(){
+    return _code;
   }
 }

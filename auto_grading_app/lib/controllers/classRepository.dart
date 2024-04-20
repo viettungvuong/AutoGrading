@@ -2,6 +2,7 @@ import 'package:auto_grading_mobile/controllers/Repository.dart';
 import 'package:auto_grading_mobile/structs/pair.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/Class.dart';
 import 'backendDatabase.dart';
@@ -18,14 +19,22 @@ class ClassRepository extends BaseRepository<Class>{
 
   @override
   add(Class item) async {
-    super.items.add(item);
+    Pair res= await updateClassToDatabase(item);
 
-    Pair res = await updateClassToDatabase(item);
-
-    if (res.a) {
-      return res.b;
-    } else {
-      return null;
+    if (res.a==false) {
+      Fluttertoast.showToast(
+        msg: res.b,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black45,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+    else{
+      item.setCode(res.b); // dat invitation code
+      super.items.add(item);
     }
   }
 
