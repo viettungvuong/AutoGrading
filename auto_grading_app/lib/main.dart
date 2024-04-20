@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
 List<Widget> getScreens(){
   List<Widget> screens = [];
 
-  if (User.instance.isStudent){
+  if (User.instance.isStudent==false){
     screens = [  HomeScreen(),
       ClassManagementScreen(),
       UserScreen(user: User.instance,)];

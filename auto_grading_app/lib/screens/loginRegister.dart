@@ -1,12 +1,10 @@
-import 'package:auto_grading_mobile/controllers/userController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import '../controllers/localPreferences.dart';
 import '../main.dart';
 import '../structs/pair.dart';
-
+import '../controllers/userController.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -18,6 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String _userType = "Teacher";
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +65,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: register,
-              child: Text('Register'),
+              onPressed: _isLoading ? null : register,
+              child: _isLoading
+                  ? CircularProgressIndicator()
+                  : Text('Register'),
             ),
           ],
         ),
@@ -76,6 +77,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void register() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     String name = _nameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
@@ -83,8 +88,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     Pair res = await Signup(name, email, password, isStudent);
 
+    setState(() {
+      _isLoading = false;
+    });
+
     if (res.a) {
-      // Handle successful registration
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainScreen()),
@@ -121,7 +129,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false; // Track loading state
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: _isLoading // Show loading indicator if _isLoading is true
+        child: _isLoading
             ? Center(
           child: CircularProgressIndicator(),
         )
@@ -174,10 +182,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     String username = _emailController.text;
     String password = _passwordController.text;
 
     Pair res = await Signin(username, password);
+
+    setState(() {
+      _isLoading = false;
+    });
 
     if (res.a) {
       saveLoginInfo(username, password);

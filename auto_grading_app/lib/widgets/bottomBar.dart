@@ -2,28 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../main.dart';
+import '../models/User.dart';
 
 class BottomBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.add),
-          label: 'Grade',
+          icon: (User.instance.isStudent?Icon(Icons.add):Icon(Icons.book_online)),
+          label: (User.instance.isStudent?'Grade':'Exams'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.school),
           label: 'Classes',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.people),
-          label: 'Students',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.account_circle_rounded),
           label: 'Profile',
         ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.account_circle_rounded),
+        //   label: 'Profile',
+        // ),
       ],
       currentIndex: ref.watch(selectedIndexProvider),
       selectedItemColor: Colors.amber[800],
