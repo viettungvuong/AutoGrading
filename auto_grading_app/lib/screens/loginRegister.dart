@@ -6,6 +6,13 @@ import '../main.dart';
 import '../structs/pair.dart';
 import '../controllers/userController.dart';
 
+void saveLoginInfo(String username, String password) async {
+  await Preferences.instance.initPreferences();
+  Preferences.instance.saveBoolean(prefKey, true);
+  Preferences.instance.saveString(userNameKey, username);
+  Preferences.instance.saveString(passwordKey, password);
+}
+
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -93,6 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     if (res.a) {
+      saveLoginInfo(email, password);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainScreen()),
@@ -206,12 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void saveLoginInfo(String username, String password) async {
-    await Preferences.instance.initPreferences();
-    Preferences.instance.saveBoolean(prefKey, true);
-    Preferences.instance.saveString(userNameKey, username);
-    Preferences.instance.saveString(passwordKey, password);
-  }
+
 
   void showError(String message) {
     Fluttertoast.showToast(
