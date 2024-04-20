@@ -34,6 +34,7 @@ class ClassRepository extends BaseRepository<Class>{
     }
     else{
       item.setCode(res.b); // dat invitation code
+      print(item.getCode());
       super.items.add(item);
     }
   }

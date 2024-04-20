@@ -266,6 +266,7 @@ Future<Pair> updateClassToDatabase(Class sClass) async {
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       String invitationCode = jsonResponse["code"];
+
       return Pair(true,invitationCode);
     }
     else{
