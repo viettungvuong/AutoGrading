@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = await Preferences.instance.getString(userNameKey);
     final password = await Preferences.instance.getString(passwordKey);
 
-    if (username != null && password != null) {
+    if (username != null && password != null &&  username.isNotEmpty && password.isNotEmpty) {
       // Automatically attempt to sign in
       login(username, password);
     }
