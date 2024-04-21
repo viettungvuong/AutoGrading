@@ -145,7 +145,10 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = await Preferences.instance.getString(userNameKey);
     final password = await Preferences.instance.getString(passwordKey);
 
-    if (username != null && password != null &&  username.isNotEmpty && password.isNotEmpty) {
+    if (username != null &&
+        password != null &&
+        username.isNotEmpty &&
+        password.isNotEmpty) {
       // Automatically attempt to sign in
       login(username, password);
     }
@@ -153,49 +156,53 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: _isLoading
-            ? Center(
-          child: CircularProgressIndicator(),
-        )
-            : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
+    return WillPopScope(
+      onWillPop: () async => false, // Prevent back button press
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _isLoading
+              ? Center(
+            child: CircularProgressIndicator(),
+          )
+              : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
+              SizedBox(height: 16.0),
+              TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _isLoading ? null : () => login(_emailController.text, _passwordController.text),
-              child: Text('Login'),
-            ),
-            SizedBox(height: 16.0),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()),
-                );
-              },
-              child: Text('Register'),
-            ),
-          ],
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _isLoading
+                    ? null
+                    : () => login(
+                    _emailController.text, _passwordController.text),
+                child: Text('Login'),
+              ),
+              SizedBox(height: 16.0),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RegisterScreen()),
+                  );
+                },
+                child: Text('Register'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -241,3 +248,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
