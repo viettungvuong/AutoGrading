@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
+import '../controllers/authController.dart';
 import '../models/User.dart';
 
 class JoinClassScreen extends StatefulWidget {
@@ -19,9 +20,6 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Join Class'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: _isLoading
@@ -59,11 +57,13 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
     try {
       final response = await http.post(
         Uri.parse("$serverUrl/class/join"),
-        body: {
+        headers: AuthController.instance.getHeader(),
+        body: jsonEncode(<String, dynamic>{
           'code': classCode,
           'userId': User.instance.email
-        },
+        })
       );
+
 
       if (response.statusCode == 200) {
         Fluttertoast.showToast(
