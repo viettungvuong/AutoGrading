@@ -1,6 +1,8 @@
 import 'package:auto_grading_mobile/views/studentView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/Class.dart';
 import '../models/Student.dart';
@@ -8,6 +10,18 @@ import 'View.dart';
 
 class ClassView extends ObjectView<Class> {
   ClassView({required super.t});
+
+  void _copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text)).then((_) {
+      Fluttertoast.showToast(
+        msg: 'Code copied to clipboard',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +34,23 @@ class ClassView extends ObjectView<Class> {
           ),
           builder: (BuildContext context) {
             return Container(
-              height: 200, // Adjust the height as needed
-              child: ListView.builder(
+              height: 500,
+              child: t.students.isNotEmpty
+                  ? ListView.builder(
                 itemCount: t.students.length,
                 itemBuilder: (context, index) {
                   return StudentView(t: t.students[index]);
                 },
+              )
+                  : Container(
+                width: double.infinity, // Spread text to full width
+                child: Center(
+                  child: Text("No students"),
+                ),
               ),
             );
+
+
           },
         );
       },
@@ -41,7 +64,7 @@ class ClassView extends ObjectView<Class> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
@@ -49,9 +72,24 @@ class ClassView extends ObjectView<Class> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
 
-              Text(
-                t.getCode(),
-                style: TextStyle(fontSize: 16),
+              SizedBox(height: 10,),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: SelectableText(
+                      t.getCode(),
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      _copyToClipboard(t.getCode());
+                    },
+                    icon: Icon(Icons.copy),
+                    label: Text("Copy"),
+                  ),
+                ],
               ),
             ],
           ),
