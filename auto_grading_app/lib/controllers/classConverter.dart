@@ -11,6 +11,7 @@ import 'authController.dart';
 Future<Class?> classFromJson(Map<String, dynamic> json) async{
   print(json);
   String classId = json["_id"];
+  String code = json["code"];
   print("Class id $classId");
   String serverUrl="https://autogradingbackend.onrender.com/class/byId/$classId"; // tìm student của class nay
   print(serverUrl);
@@ -23,6 +24,7 @@ Future<Class?> classFromJson(Map<String, dynamic> json) async{
     print(studentsFetched);
 
     Class schoolClass = Class(json["name"],json["classId"]);
+    schoolClass.setCode(code);
     schoolClass.students.addAll(studentsFetched); // thêm các học sinh vào lớp học
     return schoolClass;
   } else {
