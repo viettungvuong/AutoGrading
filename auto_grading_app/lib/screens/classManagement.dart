@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/Class.dart';
+import '../models/User.dart';
 import '../views/classView.dart';
 import '../widgets/searchBar.dart';
 
@@ -15,6 +16,7 @@ final classesProvider = FutureProvider<List<Class>>((ref) async {
 class ClassManagementScreen extends ConsumerWidget {
   final TextEditingController _newClassController = TextEditingController();
   final TextEditingController _newClassController2 = TextEditingController();
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,12 +30,12 @@ class ClassManagementScreen extends ConsumerWidget {
                 // Implement search functionality
               },
             ),
-            IconButton(
+            User.instance.isStudent==false?IconButton(
               onPressed: () {
                 _showAddDialog(context,ref);
               },
               icon: Icon(Icons.add),
-            ),
+            ):SizedBox(),
             Expanded(
               child: classesAsyncValue.when(
                 data: (classes) {

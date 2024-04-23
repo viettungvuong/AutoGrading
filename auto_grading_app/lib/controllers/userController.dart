@@ -36,6 +36,8 @@ Future<Pair> Signin(String username, String password) async {
       }),
     );
 
+    print(response.statusCode);
+
     if (response.statusCode == 200) {
       // thanh cong
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
