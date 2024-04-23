@@ -18,21 +18,25 @@ class ExamStudentState extends State<ExamStudentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-
-            ListView.builder(
-              itemCount: ExamRepository.instance.getAll().length, // danh sách các bài kiểm tra
+      body: SafeArea(
+        child: Center(
+          child:
+          ExamRepository.instance.getAll().isEmpty
+              ? Text("No exams graded")
+              : Expanded(
+            child: ListView.builder(
+              itemCount: ExamRepository.instance.getAll().length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                  title: ExamView(t: _session.exams[index],),
+                  title: ExamView(t: _session.exams[index]),
                 );
               },
             ),
-          ],
+          ),
+          ),
         ),
-      ),
+
+
     );
   }
 }
