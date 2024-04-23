@@ -1,41 +1,66 @@
-import 'package:auto_grading_mobile/controllers/studentRepository.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../controllers/classRepository.dart';
 import '../models/Class.dart';
-import '../models/Student.dart';
 import '../views/classView.dart';
-import '../views/studentView.dart';
 import '../widgets/searchBar.dart';
 
-class ClassManagementScreen extends StatefulWidget {
-  @override
-  _ClassManagementScreenState createState() =>
-      _ClassManagementScreenState();
-}
+final classesProvider = FutureProvider<List<Class>>((ref) async {
+  await ClassRepository.instance.initialize();
+  return ClassRepository.instance.getAll();
+});
 
-class _ClassManagementScreenState extends State<ClassManagementScreen> {
-  Future<List<Class>>? _classes;
-  TextEditingController _newClassController = TextEditingController(); // for entering ID
-  TextEditingController _newClassController2 = TextEditingController(); // for entering name
-
-  Future<void> _loadClasses() async {
-    await ClassRepository.instance.initialize();
-    setState(() {
-      _classes = Future.value(ClassRepository.instance.getAll());
-    });
-  }
+class ClassManagementScreen extends ConsumerWidget {
+  final TextEditingController _newClassController = TextEditingController();
+  final TextEditingController _newClassController2 = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    _loadClasses();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final classesAsyncValue = ref.watch(classesProvider);
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Search(
+              onSearch: (query) {
+                // Implement search functionality
+              },
+            ),
+            IconButton(
+              onPressed: () {
+                _showAddDialog(context,ref);
+              },
+              icon: Icon(Icons.add),
+            ),
+            Expanded(
+              child: classesAsyncValue.when(
+                data: (classes) {
+                  if (classes.isEmpty) {
+                    return Center(
+                      child: Text('No classes available'),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: classes.length,
+                      itemBuilder: (context, index) {
+                        return ClassView(t: classes[index]);
+                      },
+                    );
+                  }
+                },
+                loading: () => Center(child: CircularProgressIndicator()),
+                error: (error, stackTrace) => Center(child: Text('Error: $error')),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-
-  void _showAddDialog() {
+  void _showAddDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -61,7 +86,7 @@ class _ClassManagementScreenState extends State<ClassManagementScreen> {
           ),
           actions: <Widget>[
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_newClassController.text.isEmpty || _newClassController2.text.isEmpty) {
                   Fluttertoast.showToast(
                     msg: "Please fill in all fields",
@@ -72,15 +97,15 @@ class _ClassManagementScreenState extends State<ClassManagementScreen> {
                     textColor: Colors.white,
                   );
                 }
-                setState(() {
-                  String name = _newClassController.text;
-                  String id = _newClassController2.text;
-                  ClassRepository.instance.add(Class(name,id));
-                  _newClassController.text = "";
-                  _newClassController2.text = "";
+                String name = _newClassController.text;
+                String id = _newClassController2.text;
+                await ClassRepository.instance.add(Class(name,id));
+                ref.refresh(classesProvider); // refresh noi dung class
+                _newClassController.text = "";
+                _newClassController2.text = "";
 
-                  Navigator.of(context).pop();
-                });
+                Navigator.of(context).pop();
+
               },
               child: Text('Add'),
             ),
@@ -95,63 +120,6 @@ class _ClassManagementScreenState extends State<ClassManagementScreen> {
       },
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Search(
-              onSearch: (query) {
-                setState(() {
-                  _classes = Future.value(
-                      ClassRepository.instance.filter(query));
-                });
-              },
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _showAddDialog();
-                });
-
-              },
-              icon: Icon(Icons.add),
-            ),
-
-            Expanded(
-              child: FutureBuilder<List<Class>>(
-                future: _classes,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
-                  } else if (snapshot.data == null ||
-                      snapshot.data!.isEmpty) {
-                    return Center(
-                      child: Text('No classes available'),
-                    );
-                  } else {
-                    final classes = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: classes.length,
-                      itemBuilder: (context, index) {
-                        return ClassView(t: classes[index],);
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
+
+
