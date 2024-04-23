@@ -67,6 +67,7 @@ class ClassView extends ObjectView<Class> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+
               Text(
                 t.getName(),
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -97,4 +98,5 @@ class ClassView extends ObjectView<Class> {
       ),
     );
   }
+
 }
