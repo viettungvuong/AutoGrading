@@ -72,11 +72,12 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
 
 Future<Map<String, dynamic>?> GetClassesFromDatabase() async {
   if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
+    print("Not sign in");
     return null;
   }
 
   final response = await http.get(Uri.parse("$serverUrl/class/${User.instance.email!}"),      headers: AuthController.instance.getHeader(),);
-
+  print("fetching classes");
   if (response.statusCode == 200) {
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else {

@@ -9,7 +9,6 @@ import '../views/classView.dart';
 import '../widgets/searchBar.dart';
 
 final classesProvider = FutureProvider<List<Class>>((ref) async {
-  await ClassRepository.instance.initialize();
   return ClassRepository.instance.getAll();
 });
 
@@ -20,6 +19,7 @@ class ClassManagementScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.refresh(classesProvider);
     final classesAsyncValue = ref.watch(classesProvider);
         return Scaffold(
       resizeToAvoidBottomInset: false,

@@ -14,14 +14,28 @@ import 'package:http/http.dart' as http;
 import '../structs/pair.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import 'examRepository.dart';
+
 const String serverUrl="https://autogradingbackend.onrender.com/login";
 
 const String prefKey="login";
 const String userNameKey="username";
 const String passwordKey="password";
 
+Future<void> _entry() async{ // buoc vao app
+  await ClassRepository.instance.initialize();
+  print("Classes ${ClassRepository.instance.items.length}");
+  if (User.instance.isStudent==false){
+    await StudentRepository.instance.initialize();
+    await ExamSessionRepository.instance.initialize();
+  }
+  else{
+    await ExamRepository.instance.initialize();
+  }
+}
+
 Future<Pair> Signin(String username, String password) async {
-  var url = Uri.parse(serverUrl+"/signin"); // Connect to the backend server
+  var url = Uri.parse("$serverUrl/signin"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
   try {
@@ -47,6 +61,7 @@ Future<Pair> Signin(String username, String password) async {
       User.instance.isStudent=jsonResponse["isStudent"];
 
       // SocketController.instance.emitLogin(username);
+      await _entry();
 
       return Pair(true,"");
     }
@@ -88,6 +103,7 @@ Future<Pair> Signup(String name, String username, String password, bool isStuden
       User.instance.isStudent=isStudent;
 
       // SocketController.instance.emitLogin(username);
+      await _entry();
 
       return Pair(true,"");
     }
@@ -149,4 +165,5 @@ void Logout(){
   Preferences.instance.saveBoolean(prefKey, false);
   Preferences.instance.saveString(passwordKey, "");
   Preferences.instance.saveString(userNameKey, "");
+
 }

@@ -21,6 +21,7 @@ abstract class BaseRepository<T> {
   }
 
   void resetAll(){
+    initialized=false;
     items.clear();
   }
 

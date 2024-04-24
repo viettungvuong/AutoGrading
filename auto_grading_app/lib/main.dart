@@ -62,24 +62,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    super.initState(); // Call super.initState() first
-    _loadInitialize();
-  }
-
-  Future<void> _loadInitialize() async {
-    if (User.instance.isStudent==false){
-      await StudentRepository.instance.initialize();
-      await ClassRepository.instance.initialize();
-      await ExamSessionRepository.instance.initialize();
-    }
-    else{
-      await ExamRepository.instance.initialize();
-    }
-
-
+    // _loadInitialize();
+    super.initState();
     setState(() {
       _sessions = Future.value(ExamSessionRepository.instance.getAll());
     });
+  }
+
+  Future<void> _loadInitialize() async {
+    // if (User.instance.isStudent==false){
+    //   await StudentRepository.instance.initialize();
+    //   await ClassRepository.instance.initialize();
+    //   await ExamSessionRepository.instance.initialize();
+    // }
+    // else{
+    //   await ExamRepository.instance.initialize();
+    // }
+
+
   }
 
   @override

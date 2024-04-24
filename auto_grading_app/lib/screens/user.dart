@@ -1,8 +1,12 @@
 import 'package:auto_grading_mobile/controllers/userController.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restart_app/restart_app.dart';
 
+import '../main.dart';
 import '../models/User.dart';
 import '../structs/pair.dart';
 
@@ -81,15 +85,18 @@ class UserScreen extends StatelessWidget {
           ),
           SizedBox(height: 20),
           ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (User.instance.isSignedIn()) {
                   Logout(); // thoat dang nhap
+
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (route) => false,
+                  );
                 }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => LoginScreen()),
-                );
+
+                // chay lai app
+
               },
               child: Text(
                 User.instance.isSignedIn() ? "Sign out" : "Sign in",
