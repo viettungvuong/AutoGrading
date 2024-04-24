@@ -1,63 +1,69 @@
 import 'dart:convert';
 
 import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+import 'package:auto_grading_mobile/controllers/classConverter.dart';
 import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/screens/classManagement.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 import '../controllers/authController.dart';
+import '../models/Class.dart';
 import '../models/User.dart';
 
-class JoinClassScreen extends StatefulWidget {
+
+
+class JoinClassScreen extends ConsumerStatefulWidget {
   @override
   _JoinClassScreenState createState() => _JoinClassScreenState();
 }
 
-class _JoinClassScreenState extends State<JoinClassScreen> {
+
+class _JoinClassScreenState extends ConsumerState<JoinClassScreen> {
   TextEditingController _codeController = TextEditingController();
   bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: _isLoading
-                    ? Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextField(
-                      controller: _codeController,
-                      decoration: InputDecoration(
-                        labelText: 'Enter Class Code',
-                      ),
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: _isLoading
+                  ? Center(
+                child: CircularProgressIndicator(),
+              )
+                  : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextField(
+                    controller: _codeController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter Class Code',
                     ),
-                    SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: _joinClass,
-                      child: Text('Join Class'),
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: _joinClass,
+                    child: Text('Join Class'),
+                  ),
+                ],
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: ClassManagementScreen(),
-            ),
-          ],
-        ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ClassManagementScreen(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -88,7 +94,13 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
         );
 
         // them class vao day
-
+        final jsonResponse = jsonDecode(response.body);
+        final classJson = jsonResponse["class"];
+        Class? newClass = await classFromJson(classJson);
+        if (newClass != null) {
+          await ClassRepository.instance.add(newClass); // them vao repository
+          ref.refresh(classesProvider);
+        }
       } else {
         final jsonResponse = jsonDecode(response.body);
         final errorMessage = jsonResponse['error'];
@@ -118,4 +130,6 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
       _isLoading = false;
     });
   }
+
+
 }
