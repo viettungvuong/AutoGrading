@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/Class.dart';
 import '../models/Student.dart';
+import '../models/User.dart';
 import 'View.dart';
 
 class ClassView extends ObjectView<Class> {
@@ -27,32 +28,32 @@ class ClassView extends ObjectView<Class> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showModalBottomSheet(
-          context: context,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
-          ),
-          builder: (BuildContext context) {
-            return Container(
-              height: 500,
-              child: t.students.isNotEmpty
-                  ? ListView.builder(
-                itemCount: t.students.length,
-                itemBuilder: (context, index) {
-                  return StudentView(t: t.students[index]);
-                },
-              )
-                  : Container(
-                width: double.infinity, // Spread text to full width
-                child: Center(
-                  child: Text("No students"),
+        if (!User.instance.isStudent) {
+          showModalBottomSheet(
+            context: context,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
+            ),
+            builder: (BuildContext context) {
+              return Container(
+                height: 500,
+                child: t.students.isNotEmpty
+                    ? ListView.builder(
+                  itemCount: t.students.length,
+                  itemBuilder: (context, index) {
+                    return StudentView(t: t.students[index]);
+                  },
+                )
+                    : Container(
+                  width: double.infinity, // Spread text to full width
+                  child: Center(
+                    child: Text("No students"),
+                  ),
                 ),
-              ),
-            );
-
-
-          },
-        );
+              );
+            },
+          );
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -75,7 +76,7 @@ class ClassView extends ObjectView<Class> {
 
               SizedBox(height: 10,),
 
-              Row(
+              User.instance.isStudent==false?Row(
                 children: [
                   Expanded(
                     child: SelectableText(
@@ -91,7 +92,7 @@ class ClassView extends ObjectView<Class> {
                     label: Text("Copy"),
                   ),
                 ],
-              ),
+              ):SizedBox(),
             ],
           ),
         ),

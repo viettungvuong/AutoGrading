@@ -99,6 +99,7 @@ class _JoinClassScreenState extends ConsumerState<JoinClassScreen> {
         Class? newClass = await classFromJson(classJson);
         if (newClass != null) {
           await ClassRepository.instance.add(newClass); // them vao repository
+          print(ClassRepository.instance.items.length);
           ref.refresh(classesProvider);
         }
       } else {
