@@ -23,8 +23,8 @@ const String userNameKey="username";
 const String passwordKey="password";
 
 Future<void> _entry() async{ // buoc vao app
-  await ClassRepository.instance.initialize();
-  print("Classes ${ClassRepository.instance.items.length}");
+  // await ClassRepository.instance.initialize();
+  // print("Classes ${ClassRepository.instance.items.length}");
   if (User.instance.isStudent==false){
     await StudentRepository.instance.initialize();
     await ExamSessionRepository.instance.initialize();
@@ -54,11 +54,15 @@ Future<Pair> Signin(String username, String password) async {
 
     if (response.statusCode == 200) {
       // thanh cong
+      print("Sign in successfully");
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
 
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
+      print(username);
       User.instance.isStudent=jsonResponse["isStudent"];
+
+      print(jsonResponse["isStudent"]);
 
       // SocketController.instance.emitLogin(username);
       await _entry();
@@ -76,7 +80,7 @@ Future<Pair> Signin(String username, String password) async {
   }
 }
 
-Future<Pair> Signup(String name, String username, String password, bool isStudent) async {
+Future<Pair> Signup(String name, String username, String password, bool isStudent, String? studentId) async {
   var url = Uri.parse(serverUrl+"/signup"); // Connect to the backend server
   Map<String, dynamic>? jsonResponse;
 
@@ -91,6 +95,7 @@ Future<Pair> Signup(String name, String username, String password, bool isStuden
         'email': username,
         'password': password,
         'isStudent': isStudent,
+        'studentId': studentId
       }),
     );
 

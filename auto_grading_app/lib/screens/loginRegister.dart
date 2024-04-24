@@ -22,6 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _studentIdController = TextEditingController();
   String _userType = "Teacher";
   bool _isLoading = false;
 
@@ -72,6 +73,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               },
             ),
             SizedBox(height: 16.0),
+            _userType=="Student"?TextField( // chi nhap studentId khi chon student
+              controller: _studentIdController,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Student ID',
+              ),
+            ):SizedBox(),
+            SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _isLoading ? null : register,
               child: _isLoading
@@ -93,8 +102,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String email = _emailController.text;
     String password = _passwordController.text;
     bool isStudent = _userType == "Student";
+    String? studentId = _studentIdController.text;
 
-    Pair res = await Signup(name, email, password, isStudent);
+    Pair res = await Signup(name, email, password, isStudent, studentId);
 
     setState(() {
       _isLoading = false;
@@ -220,6 +230,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false;
     });
 
+    print(res.b);
     if (res.a) {
       saveLoginInfo(username, password);
       Navigator.pushReplacement(
