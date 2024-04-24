@@ -32,7 +32,7 @@ Future<Map<String, dynamic>?> GetExamsFromDatabase(String studentEmail) async { 
   }
   final response = await http.get(Uri.parse("$serverUrl/exam/${studentEmail}"),     headers: AuthController.instance.getHeader(),);
   if (response.statusCode == 200) {
-    print("Get exams successfully");
+    print(response.body);
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else {
     // Request failed

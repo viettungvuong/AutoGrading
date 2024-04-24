@@ -75,7 +75,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: 16.0),
             _userType=="Student"?TextField( // chi nhap studentId khi chon student
               controller: _studentIdController,
-              obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Student ID',
               ),

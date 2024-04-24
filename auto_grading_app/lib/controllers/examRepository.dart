@@ -41,6 +41,7 @@ class ExamRepository extends BaseRepository<Exam>{
     }
 
     dynamic exams = await GetExamsFromDatabase(User.instance.email!);
+    exams = exams["exams"];
 
     try{
       exams.forEach((exam) async {
