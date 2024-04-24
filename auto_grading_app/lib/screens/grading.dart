@@ -39,7 +39,8 @@ class _GradingScreenState extends State<GradingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
           margin: EdgeInsets.all(50),
           child: Column(

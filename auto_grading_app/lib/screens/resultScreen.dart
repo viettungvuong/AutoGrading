@@ -88,8 +88,8 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
+        return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
 
         child: Container(

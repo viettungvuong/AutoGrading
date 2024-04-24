@@ -24,7 +24,8 @@ class ExamOverviewState extends State<ExamOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Column(
           children: [

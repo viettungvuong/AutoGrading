@@ -36,7 +36,8 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(resizeToAvoidBottomInset: false,
+        return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         margin: EdgeInsets.all(30),
         child: Column(

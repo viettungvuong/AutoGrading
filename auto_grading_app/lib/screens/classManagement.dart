@@ -21,7 +21,9 @@ class ClassManagementScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final classesAsyncValue = ref.watch(classesProvider);
-    return Scaffold(
+        return Scaffold(
+      resizeToAvoidBottomInset: false,
+
       body: SafeArea(
         child: Column(
           children: [

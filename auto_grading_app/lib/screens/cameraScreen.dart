@@ -85,7 +85,8 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: (cameras.length == 0 ||
           _controller == null ||
           !_controller!.value.isInitialized)

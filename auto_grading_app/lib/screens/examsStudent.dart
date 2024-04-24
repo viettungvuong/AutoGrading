@@ -17,7 +17,8 @@ class ExamStudentState extends State<ExamStudentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child:
