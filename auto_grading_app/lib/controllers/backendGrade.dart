@@ -24,7 +24,7 @@ Future<Map<String, dynamic>?> ConnectToGrade(XFile image, ExamSession session) a
   final request = http.MultipartRequest("POST", url);
   request.fields['available_choices'] = availableChoices.toString();
   request.fields['right_answers'] = convertedAnswers.toString();
-  request.fields['session_id']=ExamSessionRepository.instance.getLastId();
+  request.fields['session_id']=session.id!;
   print(convertedAnswers);
   request.files.add(await http.MultipartFile.fromPath(
     'file',
