@@ -83,7 +83,7 @@ class _ResultScreenState extends State<ResultScreen> {
     exam.setGradedPaperLink(widget.imagePath);
 
     widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
-    ExamSessionRepository.instance.updateLatestSession(widget.session); // cap nhat trong repo
+    ExamSessionRepository.instance.updateToDatabase(widget.session);
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 import 'package:auto_grading_mobile/screens/classManagement.dart';
 import 'package:auto_grading_mobile/screens/examOverview.dart';
+import 'package:auto_grading_mobile/screens/examSessionScreen.dart';
 import 'package:auto_grading_mobile/screens/examsStudent.dart';
 import 'package:auto_grading_mobile/screens/grading.dart';
 import 'package:auto_grading_mobile/screens/joinClass.dart';
@@ -52,147 +53,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatefulWidget { // Convert HomeScreen to StatefulWidget
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  Future<List<ExamSession>>? _sessions;
-
-  @override
-  void initState() {
-    // _loadInitialize();
-    super.initState();
-    setState(() {
-      _sessions = Future.value(ExamSessionRepository.instance.getAll());
-    });
-  }
-
-  Future<void> _loadInitialize() async {
-    // if (User.instance.isStudent==false){
-    //   await StudentRepository.instance.initialize();
-    //   await ClassRepository.instance.initialize();
-    //   await ExamSessionRepository.instance.initialize();
-    // }
-    // else{
-    //   await ExamRepository.instance.initialize();
-    // }
-
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // Return false to prevent going back
-        return false;
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text('Home'),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SpecifyTestScreen()),
-                  );
-                },
-                child: Text('Start grading'),
-              ),
-            ),
-            SizedBox(height: 20), // Add some space between the buttons
-            Search(onSearch: (query) {
-              setState(() {
-                _sessions = Future.value(ExamSessionRepository.instance.filter(query));
-              });
-            }),
-            Expanded(
-              child: FutureBuilder<List<ExamSession>>(
-                future: _sessions,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(), // Show a loading indicator while waiting for data
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'), // Show error message if fetching data fails
-                    );
-                  } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-                    // Handle the case where snapshot.data is null or empty
-                    return Center(
-                      child: Text('No sessions available'), // Show a message indicating no sessions available
-                    );
-                  } else {
-                    final sessions = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: sessions.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Exams'),
-                                    content: Container(
-                                      width: double.maxFinite,
-                                      child: ListView.builder(
-                                        itemCount: sessions[index].exams.length,
-                                        itemBuilder: (context, indexExam) {
-                                          return ExamView(t: sessions[index].exams[indexExam]);
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: Card(
-                              elevation: 4.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(
-                                  sessions[index].getName(),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 List<Widget> getScreens(){
   List<Widget> screens = [];
 
   if (User.instance.isStudent==false){
-    screens = [  HomeScreen(),
+    screens = [  ExamSessionScreen(),
       ClassManagementScreen(),
       UserScreen(user: User.instance,)];
   }

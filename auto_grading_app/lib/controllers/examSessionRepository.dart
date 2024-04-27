@@ -73,11 +73,35 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
 
 
   @override
-  Future<Pair> updateToDatabase(ExamSession item) async {
-    Pair res = await updateExamSessionToDatabase(item, _lastId);
-    if (res.a == null) {
+  Future<Pair?> updateToDatabase(ExamSession item) async {
+    try{
+      if (item.id==null){
+        throw Exception("Not initialized on database yet");
+      }
+      Pair res = await updateExamSessionToDatabase(item, item.id!);
+      if (res.a == null) {
+        Fluttertoast.showToast(
+          msg: res.b,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black45,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else {
+        item.id = res.a;
+        _lastId = res.a;
+        items.remove(item);
+        items.add(item);
+      }
+
+
+      return res;
+    }
+    catch (e){
       Fluttertoast.showToast(
-        msg: res.b,
+        msg: e as String,
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -85,37 +109,33 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
         textColor: Colors.white,
         fontSize: 16.0,
       );
-    } else {
-      item.id = res.a;
-      _lastId = res.a;
-      items.remove(item);
-      items.add(item);
+
+      return null;
     }
 
-    return res;
+
   }
 
-  void updateLatestSession(ExamSession session) async {
-
-    Pair res = await updateExamSessionToDatabase(session,_lastId); // update len database
-    if (res.a==null){
-      Fluttertoast.showToast(
-        msg: res.b,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black45,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-    }
-    else{
-      session.id = res.a;
-      _lastId = res.a;
-      items.removeLast();
-      items.add(session);
-    }
-  }
+  // void updateLatestSession(ExamSession session) async {
+  //   Pair res = await updateExamSessionToDatabase(session,_lastId); // update len database
+  //   if (res.a==null){
+  //     Fluttertoast.showToast(
+  //       msg: res.b,
+  //       toastLength: Toast.LENGTH_LONG,
+  //       gravity: ToastGravity.BOTTOM,
+  //       timeInSecForIosWeb: 1,
+  //       backgroundColor: Colors.black45,
+  //       textColor: Colors.white,
+  //       fontSize: 16.0,
+  //     );
+  //   }
+  //   else{
+  //     session.id = res.a;
+  //     _lastId = res.a;
+  //     items.removeLast();
+  //     items.add(session);
+  //   }
+  // }
 
   List<ExamSession> filter(String query){
     return items.where((element) => element.getName().toLowerCase().contains(query.toLowerCase())).toList();
