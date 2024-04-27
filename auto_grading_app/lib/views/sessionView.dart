@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/examSession.dart';
+import '../screens/cameraScreen.dart';
 import 'View.dart';
 import 'examView.dart';
 
@@ -19,15 +20,24 @@ class ExamSessionView extends ObjectView<ExamSession> { // hien bai ktra cua hoc
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text('Exams'),
-                content: Container(
-                  width: double.maxFinite,
-                  child: ListView.builder(
-                    itemCount: t.exams.length,
-                    itemBuilder: (context, indexExam) {
-                      return ExamView(t: t.exams[indexExam]);
-                    },
-                  ),
-                ),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: ListView.builder(
+                        itemCount: t.exams.length,
+                        itemBuilder: (context, indexExam) {
+                          return ExamView(t: t.exams[indexExam]);
+                        },
+                      ),
+                    ),
+                    IconButton(onPressed: () {
+                      MaterialPageRoute(builder: (context) => CameraScreen(examSession: t));
+
+                    }, icon: Icon(Icons.play_arrow))
+                  ],
+                )
               );
             },
           );
