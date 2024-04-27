@@ -26,7 +26,8 @@ class _DropdownRepositoryState extends State<DropdownListStudent> {
 
   List<Pair> _convertForDropdown(){
     List<Pair> res=[];
-    widget.list.forEach((element) {
+    Set<Student> studentUnique = widget.list.toSet();
+    studentUnique.forEach((element) {
       String name = element.getName();
       String id = element.getStudentId();
       res.add(Pair(name,id));
