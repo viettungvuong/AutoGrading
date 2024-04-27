@@ -64,8 +64,8 @@ List<Widget> getScreens(){
   }
   else{
     screens = [
-      ExamStudentScreen(),
       JoinClassScreen(),
+      ExamStudentScreen(),
       UserScreen(user: User.instance,)];
   }
 
