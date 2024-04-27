@@ -9,6 +9,7 @@ import '../models/examSession.dart';
 import 'package:http/http.dart' as http;
 
 import 'authController.dart';
+import 'classRepository.dart';
 import 'examSessionRepository.dart';
 Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   const String serverUrl="https://autogradingbackend.onrender.com/exam/byId"; // lay exam theo id
@@ -45,6 +46,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   session.id = json["_id"];
   session.setAvailableChoices(json["available_choices"]);
   session.setNumOfQuestions(json["questions"]);
+  session.setClass(ClassRepository.instance.findByDbId(json['schoolClass'])!);
   Map<int, int> intKeyAnswers = {
     for (var entry in json["answers"].entries) int.tryParse(entry.key)??0: entry.value,
   }; // doi qua format cua model Session

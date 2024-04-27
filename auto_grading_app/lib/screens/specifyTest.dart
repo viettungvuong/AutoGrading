@@ -56,12 +56,10 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
                 print(_selectedClassId);
                 if (_selectedClassId!=null){
                   _ExamSession.setClass(ClassRepository.instance.findById(_selectedClassId!)!);
-                  print(_ExamSession.getClass().getName());
                 }
               }, onAdded: (addedPair){
                 // add class moi vao repository
-                print(addedPair.a);
-                print(addedPair.b);
+
                 String name = addedPair.a;
                 String id = addedPair.b;
                 ClassRepository.instance.add(Class(name,id));

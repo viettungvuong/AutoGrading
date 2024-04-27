@@ -15,9 +15,8 @@ Future<Class?> classFromJson(Map<String, dynamic> json) async{
   String classId = json["classId"];
 
   if (User.instance.isStudent==false){
-    String id = json["_id"];
+    String id = json["_id"]; // id de tim thong tin
     String serverUrl="https://autogradingbackend.onrender.com/class/byId/$id"; // tìm student của class nay
-    print(serverUrl);
 
     final response = await http.get(Uri.parse(serverUrl),      headers: AuthController.instance.getHeader(),);
     if (response.statusCode == 200) {
@@ -27,6 +26,7 @@ Future<Class?> classFromJson(Map<String, dynamic> json) async{
       Class schoolClass = Class(name,classId); // tao class moi
       schoolClass.setCode(code);
       schoolClass.students.addAll(studentsFetched); // thêm các học sinh vào lớp học
+      schoolClass.dbId=id;
       return schoolClass;
     } else {
       // Request failed

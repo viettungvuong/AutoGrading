@@ -2,8 +2,9 @@ import 'Student.dart';
 
 class Class{
   late String _name;
-  late String _classId;
-  late String _code;
+  late String _classId; // ma lop (khong phai ma tren db)
+  late String _code; // ma de join
+  late String? dbId;
 
   List<Student> students=[];
 

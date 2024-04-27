@@ -33,8 +33,9 @@ class ClassRepository extends BaseRepository<Class>{
       );
     }
     else{
-      item.setCode(res.b); // dat invitation code
-      print(item.getCode());
+      item.setCode(res.b.a); // dat invitation code
+      item.dbId=res.b.b;
+
       super.items.add(item);
     }
   }
@@ -70,7 +71,10 @@ class ClassRepository extends BaseRepository<Class>{
 
   Class? findById(String classId) {
     return items.firstWhereOrNull((element) => element.getId() == classId);
+  }
 
+  Class? findByDbId(String dbId) {
+    return items.firstWhereOrNull((element) => element.dbId == dbId);
   }
 
 }

@@ -60,6 +60,8 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
     return null;
   }
 
+  print("fetching exam session");
+
   final response = await http.get(Uri.parse(serverUrl+"/session/"+User.instance.email!),     headers: AuthController.instance.getHeader(),);
 
   if (response.statusCode == 200) {
@@ -268,13 +270,13 @@ Future<Pair> updateClassToDatabase(Class sClass) async {
       }),
     );
 
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       String invitationCode = jsonResponse["code"];
+      String classDbId = jsonResponse["id"];
 
-      return Pair(true,invitationCode);
+      return Pair(true,Pair(invitationCode,classDbId));
     }
     else{
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
