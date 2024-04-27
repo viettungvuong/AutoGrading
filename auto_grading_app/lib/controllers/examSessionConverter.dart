@@ -44,7 +44,12 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   session.setName(json["name"]);
   session.id = json["_id"];
   session.setAvailableChoices(json["available_choices"]);
-  session.setAnswers(json["answers"]);
+  Map<int, int> intKeyAnswers = {
+    for (var entry in json["answers"].entries) int.tryParse(entry.key)??0: entry.value,
+  }; // doi qua format cua model Session
+  print("Answers: $intKeyAnswers");
+  session.setAnswers(intKeyAnswers);
+  print(session.getAnswers());
   return session;
 }
 
