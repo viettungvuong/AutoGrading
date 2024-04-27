@@ -23,8 +23,6 @@ const String userNameKey="username";
 const String passwordKey="password";
 
 Future<void> _entry() async{ // buoc vao app
-  await ClassRepository.instance.initialize();
-  // print("Classes ${ClassRepository.instance.items.length}");
   if (User.instance.isStudent==false){
     await StudentRepository.instance.initialize();
     await ExamSessionRepository.instance.initialize();
@@ -32,6 +30,9 @@ Future<void> _entry() async{ // buoc vao app
   else{
     await ExamRepository.instance.initialize();
   }
+  await ClassRepository.instance.initialize();
+  // print("Classes ${ClassRepository.instance.items.length}");
+
 }
 
 Future<Pair> Signin(String username, String password) async {
