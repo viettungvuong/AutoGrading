@@ -134,6 +134,9 @@ Future<Pair> createExamSessionToDatabase(ExamSession session) async {
   Map<String, dynamic>? jsonResponse;
   print("Creating exam session");
 
+  Map<String, int> stringKeyAnswers = {
+    for (var entry in session.getAnswers().entries) entry.key.toString(): entry.value,
+  };
 
   try {
     final response = await http.post(
@@ -143,7 +146,7 @@ Future<Pair> createExamSessionToDatabase(ExamSession session) async {
         'name': session.getName(),
         'userId': User.instance.email,
         'classId': session.getClass().getId(),
-        'answers': session.getAnswers(),
+        'answers': stringKeyAnswers,
         'available_choices': session.getAvailableChoices()
       }),
     );
