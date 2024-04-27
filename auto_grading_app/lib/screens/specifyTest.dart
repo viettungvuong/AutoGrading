@@ -148,7 +148,7 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
 
 
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_numChoices==0||_numQuestions==0||_controller.text.isEmpty){
                   Fluttertoast.showToast(
                     msg: "You have not input sufficient information ",
@@ -169,12 +169,16 @@ class _SpecifyTestScreenState extends State<SpecifyTestScreen> {
 
 
                 // luu vao repository
-                ExamSessionRepository.instance.add(_ExamSession);
+                bool add = await ExamSessionRepository.instance.add(_ExamSession);
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CameraScreen(examSession: _ExamSession,)),
-                );
+                if (add){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CameraScreen(examSession: _ExamSession,)),
+                  );
+                }
+
+
               },
               child: Text('Taking picture'),
             ),

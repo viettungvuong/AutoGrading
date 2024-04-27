@@ -132,7 +132,7 @@ Future<Student?> getStudentFromId(String id) async{
 Future<Pair> createExamSessionToDatabase(ExamSession session) async {
   var url = Uri.parse(serverUrl+"/session");
   Map<String, dynamic>? jsonResponse;
-  print("Updating exam session");
+  print("Creating exam session");
 
 
   try {
