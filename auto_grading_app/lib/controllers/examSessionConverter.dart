@@ -43,8 +43,11 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   ExamSession session = ExamSession.examsOnly(exams);
   session.setName(json["name"]);
   session.id = json["_id"];
+  session.setAvailableChoices(json["available_choices"]);
+  session.setAnswers(json["answers"]);
   return session;
 }
+
 Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
   print("Sessions");
   List<dynamic> jsonArray = json["sessions"];

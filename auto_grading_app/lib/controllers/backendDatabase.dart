@@ -143,6 +143,8 @@ Future<Pair> createExamSessionToDatabase(ExamSession session) async {
         'name': session.getName(),
         'userId': User.instance.email,
         'classId': session.getClass().getId(),
+        'answers': session.getAnswers(),
+        'available_choices': session.getAvailableChoices()
       }),
     );
 
