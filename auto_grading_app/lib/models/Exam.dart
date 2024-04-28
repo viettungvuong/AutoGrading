@@ -5,11 +5,13 @@ import 'Student.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'User.dart';
+import 'examSession.dart';
 
 class Exam{
   late final Student _student;
   late double _score;
   late String _gradedPaperLink;
+  late final ExamSession _session;
 
   Exam(this._student,this._score);
 
@@ -39,4 +41,11 @@ class Exam{
   //   // thông báo điểm số học sinh qua socket
   //   SocketController.instance.emitNewExam(this);
   // }
+  void setSession(ExamSession session){
+    _session = session;
+  }
+
+  ExamSession getSession(){
+    return _session;
+  }
 }

@@ -16,7 +16,18 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   List<dynamic> examIds = json["exams"];
   List<Exam> exams = [];
 
-  // lay tung exam
+  ExamSession session = ExamSession();
+  session.setName(json["name"]);
+  session.id = json["_id"];
+  session.setAvailableChoices(json["available_choices"]);
+  session.setNumOfQuestions(json["questions"]);
+  session.setClass(ClassRepository.instance.findByDbId(json['schoolClass'])!);
+  Map<int, int> intKeyAnswers = {
+    for (var entry in json["answers"].entries) int.tryParse(entry.key)??0: entry.value,
+  }; // doi qua format cua model Session
+  session.setAnswers(intKeyAnswers);
+
+  // lay tung exam cua session
   examIds.forEach((examId) async {
     final response = await http.get(Uri.parse("$serverUrl/$examId"),     headers: AuthController.instance.getHeader(),);
 
@@ -32,6 +43,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
       if (student!=null){
         Exam exam = Exam(student,score);
         exam.setGradedPaperLink(jsonFor["graded_paper_img"]);
+        exam.setSession(session);
         exams.add(exam);
       }
 
@@ -40,17 +52,9 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
       print('Failed with status code: ${response.statusCode}');
     }
   });
-  print(exams.length);
-  ExamSession session = ExamSession.examsOnly(exams);
-  session.setName(json["name"]);
-  session.id = json["_id"];
-  session.setAvailableChoices(json["available_choices"]);
-  session.setNumOfQuestions(json["questions"]);
-  session.setClass(ClassRepository.instance.findByDbId(json['schoolClass'])!);
-  Map<int, int> intKeyAnswers = {
-    for (var entry in json["answers"].entries) int.tryParse(entry.key)??0: entry.value,
-  }; // doi qua format cua model Session
-  session.setAnswers(intKeyAnswers);
+
+  session.exams.addAll(exams.toSet());
+
   return session;
 }
 
