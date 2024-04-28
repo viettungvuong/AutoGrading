@@ -32,7 +32,7 @@ class _DropdownRepositoryState extends State<DropdownRepository> {
   @override
   void initState() {
     _dropdownList = widget.repository.convertForDropdown();
-    _dropdownList.forEach((element) {
+    _dropdownList.toSet().forEach((element) {
       _list.add(element.a + "-" + element.b);
     });
     _chosenModel = null;
