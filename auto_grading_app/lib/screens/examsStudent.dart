@@ -72,7 +72,7 @@ class ExamStudentState extends State<ExamStudentScreen> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                child: ExamView(t: exams[index],
+                                child: ExamView(t: exams[index], isStudent: true,
                               ),
                             ),
                           ),

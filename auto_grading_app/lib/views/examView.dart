@@ -7,7 +7,8 @@ import '../models/Exam.dart';
 import 'View.dart';
 
 class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
-  ExamView({required super.t});
+  bool isStudent=false;
+  ExamView({required super.t, required this.isStudent});
 
   void _showPopup(BuildContext context) {
     showDialog(
@@ -17,7 +18,7 @@ class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
           title: Text("Exam Details"),
           content: Column(
             children: [
-              Text("Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}"),
+              isStudent==false? Text("Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}") : Text("Student: ${t.getSession().getName()}\nScore: ${t.getScore()}"),
 
               CachedNetworkImage(
                   imageUrl: t.getGradedPaperLink(), // URL of the image to load

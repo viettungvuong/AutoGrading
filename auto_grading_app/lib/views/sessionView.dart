@@ -29,7 +29,7 @@ class ExamSessionView extends ObjectView<ExamSession> { // hien bai ktra cua hoc
                         shrinkWrap: true,
                         itemCount: t.exams.length,
                         itemBuilder: (context, indexExam) {
-                          return ExamView(t: t.exams[indexExam]);
+                          return ExamView(t: t.exams[indexExam], isStudent: false,);
                         },
                       ),
                     )
