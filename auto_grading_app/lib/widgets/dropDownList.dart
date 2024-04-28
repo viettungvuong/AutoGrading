@@ -1,81 +1,74 @@
-import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-
-import '../controllers/Repository.dart';
 import '../models/Student.dart';
 import '../structs/pair.dart';
 
-class DropdownListStudent extends StatefulWidget {
+class DropdownList extends StatefulWidget{
   final List<Student> list;
-  final void Function(Student) onChanged; // callback
+  final void Function(Student) onChanged;
 
-  DropdownListStudent({
+  DropdownList({
     required this.list,
     required this.onChanged,
   });
 
   @override
-  _DropdownRepositoryState createState() => _DropdownRepositoryState();
+  State<StatefulWidget> createState() {
+    throw UnimplementedError();
+  }
 }
 
-class _DropdownRepositoryState extends State<DropdownListStudent> {
-  List<String> _list = [];
-  String? _chosenModel;
-  late List<Pair> _dropdownList;
+class DropdownListStudent extends DropdownList {
+  DropdownListStudent({required super.list, required super.onChanged});
 
-  List<Pair> _convertForDropdown(){
-    List<Pair> res=[];
-    Set<Student> studentUnique = widget.list.toSet();
-    studentUnique.forEach((element) {
-      String name = element.getName();
-      String id = element.getStudentId();
-      res.add(Pair(name,id));
-    });
 
-    return res;
+  @override
+  _DropdownListStudentState createState() => _DropdownListStudentState();
+}
 
-  }
+class _DropdownListStudentState extends State<DropdownListStudent> {
+  List<String> _dropdownOptions = [];
+  String? _selectedItem;
+  late List<Pair> _convertedList;
 
   @override
   void initState() {
-    _dropdownList = _convertForDropdown();
-    _dropdownList.forEach((element) {
-      _list.add(element.a + "-" + element.b); // them vao _list sau khi doi qua list danh cho dropdown
-    });
-    _chosenModel = null;
     super.initState();
+    _convertedList = _convertForDropdown();
+    _dropdownOptions = _convertedList.map((pair) => "${pair.a}-${pair.b}").toList();
+  }
+
+  List<Pair> _convertForDropdown() {
+    final Set<Student> uniqueStudents = widget.list.toSet();
+    return uniqueStudents.map((student) {
+      final name = student.getName();
+      final id = student.getStudentId();
+      return Pair(name, id);
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          DropdownSearch<String>(
-            popupProps: PopupProps.menu(
-              showSelectedItems: true,
-            ),
-            items: _list,
-            dropdownDecoratorProps: DropDownDecoratorProps(
-              dropdownSearchDecoration: InputDecoration(
-                labelText: "Students",
-              ),
-            ),
-            onChanged: (value) {
-              setState(() {
-                _chosenModel = value;
-
-                int selectedIndex = _list.indexOf(value!); // tim index trong list theo value
-                widget.onChanged(widget.list[selectedIndex]); // lay student moi chon
-              });
-            },
-            selectedItem: _chosenModel,
+    return Column(
+      children: [
+        DropdownSearch<String>(
+          popupProps: PopupProps.menu(
+            showSelectedItems: true,
           ),
-
-        ],
-      ),
+          items: _dropdownOptions,
+          dropdownDecoratorProps: DropDownDecoratorProps(
+            dropdownSearchDecoration: InputDecoration(
+              labelText: "Students",
+            ),
+          ),
+          onChanged: (value) {
+            final selectedIndex = _dropdownOptions.indexOf(value!);
+            widget.onChanged(widget.list[selectedIndex]);
+            setState(() => _selectedItem = value);
+          },
+          selectedItem: _selectedItem,
+        ),
+      ],
     );
   }
-
 }

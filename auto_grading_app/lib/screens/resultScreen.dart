@@ -57,6 +57,22 @@ class _ResultScreenState extends State<ResultScreen> {
     super.initState();
   }
 
+  List<Student> _eligibleStudentsForGrading(){ // bo nhung hoc sinh ma da cham bai roi
+    Map<Student,bool> studentsInSession={};
+    for (var exam in widget.session.exams) {
+      studentsInSession[exam.getStudent()]=true; // danh dau student nay da co trong session roi
+    }
+
+    List<Student> res = [];
+    widget.session.getClass().students.forEach((student) {
+      if (studentsInSession[student]==false){
+        res.add(student);
+      }
+    });
+
+    return res;
+  }
+
   void _addExamToSession() async {
     // Student student=Student(_nameController.text,_idController.text);
     // student.classes.add(widget.session.getClass());
@@ -126,24 +142,10 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
 
 
-                // TextField(
-                //   controller: _nameController,
-                //   decoration: InputDecoration(
-                //     hintText: "Enter the student name here",
-                //   ),
-                // ),
-                //
-                // TextField(
-                //   controller: _idController,
-                //   decoration: InputDecoration(
-                //     hintText: "Enter the student ID here",
-                //   ),
-                // ),
-
-                DropdownListStudent(list: widget.session.getClass().students, onChanged: (student){
+                DropdownListStudent(list: _eligibleStudentsForGrading(), onChanged: (student){
                   _selectedStudent=student;
                 }
-                ), // nhung student da join class
+                ), // nhung student da join class nay va chua cham bai trong session
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import 'classView.dart';
+
 abstract class ObjectView<T> extends StatelessWidget {
   final T t;
 
