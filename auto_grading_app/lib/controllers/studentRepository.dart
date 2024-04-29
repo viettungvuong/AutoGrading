@@ -13,6 +13,14 @@ class StudentRepository extends BaseRepository<Student> {
   // private constructor
   StudentRepository._() : super();
 
+  StudentRepository.copy(StudentRepository other): super.copy(other);
+
+  @override
+  StudentRepository clone() {
+    return StudentRepository.copy(this);
+  }
+
+
   // singleton
   static final StudentRepository _instance = StudentRepository._();
 

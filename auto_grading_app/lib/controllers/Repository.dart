@@ -8,6 +8,12 @@ abstract class BaseRepository<T> {
     items = [];
   }
 
+  BaseRepository.copy(BaseRepository<T> other){
+    this.items.addAll(other.items);
+
+    this.initialized=other.initialized;
+  }
+
   Future<void> initialize();
 
   dynamic add(T item);
@@ -28,4 +34,6 @@ abstract class BaseRepository<T> {
   List<T> filter(String query);
 
   List<Pair> convertForDropdown();
+
+  BaseRepository clone();
 }
