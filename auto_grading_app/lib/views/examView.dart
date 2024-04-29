@@ -18,7 +18,7 @@ class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
           title: Text("Exam Details"),
           content: Column(
             children: [
-              User.instance.isStudent==false ? Text("Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}") : Text("Student: ${t.getSession().getName()}\nScore: ${t.getScore()}"),
+              User.instance.isStudent==false ? Text("Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}") : Text("Session: ${t.getSession()}\nScore: ${t.getScore()}"),
 
               CachedNetworkImage(
                   imageUrl: t.getGradedPaperLink(), // URL of the image to load
@@ -53,7 +53,7 @@ class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              User.instance.isStudent==false ? "Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}" : "Student: ${t.getSession().getName()}\nScore: ${t.getScore()}",
+              User.instance.isStudent==false ? "Student: ${t.getStudent().getName()}" : "Session: ${t.getSession()}",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Text(

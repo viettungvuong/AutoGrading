@@ -43,7 +43,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
       if (student!=null){
         Exam exam = Exam(student,score);
         exam.setGradedPaperLink(jsonFor["graded_paper_img"]);
-        exam.setSession(session);
+        exam.setSession(session.getName());
         exams.add(exam);
       }
 

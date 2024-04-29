@@ -11,7 +11,7 @@ class Exam{
   late final Student _student;
   late double _score;
   late String _gradedPaperLink;
-  late final ExamSession _session;
+  late final String _sessionName;
 
   Exam(this._student,this._score);
 
@@ -41,16 +41,16 @@ class Exam{
   //   // thông báo điểm số học sinh qua socket
   //   SocketController.instance.emitNewExam(this);
   // }
-  void setSession(ExamSession session){
-    _session = session;
+  void setSession(String sessionName){
+    _sessionName=sessionName;
   }
 
-  ExamSession getSession(){
-    return _session;
+  String getSession(){
+    return _sessionName;
   }
 
   bool operator==(Object other) =>
-      other is Exam && _student == other._student && _session == other._session && _score == other._score;
+      other is Exam && _student == other._student && _sessionName == other._sessionName && _score == other._score;
 
-  int get hashCode => Object.hash(_student,_session,_student);
+  int get hashCode => Object.hash(_student,_sessionName,_score);
 }

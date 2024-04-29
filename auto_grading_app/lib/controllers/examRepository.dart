@@ -51,6 +51,7 @@ class ExamRepository extends BaseRepository<Exam>{
         if (student!=null){
           Exam  current = Exam(student,score);
           current.setGradedPaperLink(exam["graded_paper_img"]);
+          current.setSession(exam["session_name"]);
           items.add(current);
         }
 
