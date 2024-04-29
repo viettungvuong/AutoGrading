@@ -11,11 +11,11 @@ class BottomBar extends ConsumerWidget {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: (User.instance.isStudent==false?Icon(Icons.add):Icon(Icons.book_online)),
-          label: (User.instance.isStudent==false?'Grade':'Exams'),
+          label: (User.instance.isStudent==false?'Grade':'Classes'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.school),
-          label: 'Classes',
+          label: (User.instance.isStudent==false?'Classes':'Exams'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.account_circle_rounded),

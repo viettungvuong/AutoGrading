@@ -101,4 +101,9 @@ class ExamSession{
       print('No file selected');
     }
   }
+
+  bool operator==(Object other) =>
+      other is ExamSession && _name == other._name && exams == other.exams;
+
+  int get hashCode => Object.hash(_name,exams);
 }

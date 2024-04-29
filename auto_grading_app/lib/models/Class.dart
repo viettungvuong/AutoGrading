@@ -34,4 +34,5 @@ class Class{
   String getCode(){
     return _code;
   }
+
 }

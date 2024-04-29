@@ -48,4 +48,9 @@ class Exam{
   ExamSession getSession(){
     return _session;
   }
+
+  bool operator==(Object other) =>
+      other is Exam && _student == other._student && _session == other._session && _score == other._score;
+
+  int get hashCode => Object.hash(_student,_session,_student);
 }

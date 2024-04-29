@@ -65,7 +65,8 @@ class _ResultScreenState extends State<ResultScreen> {
 
     List<Student> res = [];
     widget.session.getClass().students.forEach((student) {
-      if (studentsInSession[student]==false){
+      if (studentsInSession[student]==null
+      ||studentsInSession[student]==false){
         res.add(student);
       }
     });

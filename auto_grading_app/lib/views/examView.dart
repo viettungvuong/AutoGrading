@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/Exam.dart';
+import '../models/User.dart';
 import 'View.dart';
 
 class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
-  bool isStudent=false;
-  ExamView({required super.t, required this.isStudent});
+  ExamView({required super.t});
 
   void _showPopup(BuildContext context) {
     showDialog(
@@ -18,7 +18,7 @@ class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
           title: Text("Exam Details"),
           content: Column(
             children: [
-              isStudent==false? Text("Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}") : Text("Student: ${t.getSession().getName()}\nScore: ${t.getScore()}"),
+              User.instance.isStudent==false ? Text("Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}") : Text("Student: ${t.getSession().getName()}\nScore: ${t.getScore()}"),
 
               CachedNetworkImage(
                   imageUrl: t.getGradedPaperLink(), // URL of the image to load
@@ -53,7 +53,7 @@ class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              t.getStudent().getName(), // Use exam object to access student name
+              User.instance.isStudent==false ? "Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}" : "Student: ${t.getSession().getName()}\nScore: ${t.getScore()}",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Text(
