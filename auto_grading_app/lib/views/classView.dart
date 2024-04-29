@@ -37,11 +37,12 @@ class ClassView extends ObjectView<Class> {
             builder: (BuildContext context) {
               return Container(
                 height: 500,
-                child: t.students.isNotEmpty
+                child: t.students.toSet().isNotEmpty
                     ? ListView.builder(
-                  itemCount: t.students.length,
+                  itemCount: t.students.toSet().length,
                   itemBuilder: (context, index) {
-                    return StudentView(t: t.students[index]);
+                    print(t.students.toSet());
+                    return StudentView(t: t.students.toSet().toList()[index]);
                   },
                 )
                     : Container(

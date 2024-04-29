@@ -29,7 +29,10 @@ class Student{
 
   void updateScore(Exam exam){ // observer here
     // thông báo điểm số ra
-
   }
 
+  bool operator==(Object other) =>
+      other is Student && _name == other._name && _studentId == other._studentId;
+
+  int get hashCode => Object.hash(_name,_studentId);
 }
