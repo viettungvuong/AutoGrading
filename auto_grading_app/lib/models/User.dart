@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 class User {
   String? email;
   bool isStudent=false;
+  Student? _student;
 
   // Private constructor
   User._privateConstructor();
@@ -23,12 +24,17 @@ class User {
   }
 
   Future<Student?> toStudent() async{
+    if (_student!=null){
+      return _student;
+    }
+
     final response = await http.get(Uri.parse("$serverUrl/student/byEmail/${User.instance.email!}"),     headers: AuthController.instance.getHeader(),);
 
     if (response.statusCode == 200) {
       dynamic map = jsonDecode(response.body) as Map<String, dynamic>;
 
-      return studentFromJson(map);
+      _student = studentFromJson(map);
+      return _student;
     } else {
       return null;
     }

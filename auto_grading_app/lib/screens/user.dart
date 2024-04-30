@@ -7,8 +7,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restart_app/restart_app.dart';
 
 import '../main.dart';
+import '../models/Student.dart';
 import '../models/User.dart';
 import '../structs/pair.dart';
+
+class StudentInfo extends StatelessWidget{
+  final Student student;
+
+  StudentInfo({required this.student});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      margin: EdgeInsets.all(50),
+      color: Colors.white70,
+      child: Column(
+        children: [
+          Text(student.getName(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+
+          Text("Student ID: ${student.getStudentId()}", style: TextStyle(fontSize: 15),)
+        ],
+      ),
+    );
+  }
+
+
+}
 
 class UserScreen extends StatelessWidget {
   final User user;
@@ -75,6 +100,27 @@ class UserScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          FutureBuilder<Student?>(
+            future: User.instance.toStudent(),
+            builder: (BuildContext context, AsyncSnapshot<Student?> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                if (snapshot.data == null) {
+                  return Text('Student information is not available'); // neu null
+                }
+
+                if (User.instance.isStudent) {
+                  // If the instance is a student, use the data
+                  return StudentInfo(student: snapshot.data!);
+                } else {
+                  return SizedBox();
+                }
+              }
+            },
+          ),
           SizedBox(height: 20),
           Text(
             User.instance.email ?? "",
