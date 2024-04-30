@@ -10,14 +10,15 @@ import 'examSessionConverter.dart';
 
 
 class ExamSessionRepository extends BaseRepository<ExamSession> {
-  late String _lastId;
+  // late String _lastId;
 
   // private constructor
   ExamSessionRepository._() : super();
 
-  ExamSessionRepository.copy(ExamSessionRepository other): super.copy(other){
-    this._lastId=other._lastId;
-  }
+  ExamSessionRepository.copy(ExamSessionRepository other): super.copy(other);
+  // {
+  //   this._lastId=other._lastId;
+  // }
 
   @override
   ExamSessionRepository clone() {
@@ -71,7 +72,7 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
       String id = res.a;
       item.id = id;
       items.add(item);
-      _lastId = id;
+      // _lastId = id;
       return true;
     }
   }
@@ -101,7 +102,7 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
         );
       } else {
         item.id = res.a;
-        _lastId = res.a;
+        // _lastId = res.a;
         items.remove(item);
         items.add(item);
       }
@@ -150,8 +151,8 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
   List<ExamSession> filter(String query){
     return items.where((element) => element.getName().toLowerCase().contains(query.toLowerCase())).toList();
   }
-
-  String getLastId(){
-    return _lastId;
-  }
+  //
+  // String getLastId(){
+  //   return _lastId;
+  // }
 }
