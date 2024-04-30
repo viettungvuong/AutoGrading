@@ -11,8 +11,7 @@ import 'package:http/http.dart' as http;
 import 'authController.dart';
 import 'classRepository.dart';
 import 'examSessionRepository.dart';
-Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
-  const String serverUrl="https://autogradingbackend.onrender.com/exam/byId"; // lay exam theo id
+Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async {
   List<dynamic> examIds = json["exams"];
   List<Exam> exams = [];
 
@@ -22,36 +21,47 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
   session.setAvailableChoices(json["available_choices"]);
   session.setNumOfQuestions(json["questions"]);
   session.setClass(ClassRepository.instance.findByDbId(json['schoolClass'])!);
+
   Map<int, int> intKeyAnswers = {
-    for (var entry in json["answers"].entries) int.tryParse(entry.key)??0: entry.value,
-  }; // doi qua format cua model Session
+    for (var entry in json["answers"].entries) int.tryParse(entry.key) ?? 0: entry.value,
+  };
   session.setAnswers(intKeyAnswers);
 
-  // lay tung exam cua session
-  examIds.forEach((examId) async {
-    final response = await http.get(Uri.parse("$serverUrl/$examId"),     headers: AuthController.instance.getHeader(),);
+  const String serverUrl = "https://autogradingbackend.onrender.com/exam/byId";
 
-    if (response.statusCode == 200) {
-      dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
+  // tao list future (nhung ham bat dong bo)
+  List<Future<void>> futures = [];
 
-      double score = jsonFor["score"].toDouble();
-      String studentId = jsonFor["student"]["studentId"];
-      // find student by id (studentid)
-      Student? student = StudentRepository.instance.findById(studentId);
+  examIds.forEach((examId) {
+    futures.add(() async {
+      final response = await http.get(
+        Uri.parse("$serverUrl/$examId"),
+        headers: AuthController.instance.getHeader(),
+      );
 
-      print(student);
-      if (student!=null){
-        Exam exam = Exam(student,score);
-        exam.setGradedPaperLink(jsonFor["graded_paper_img"]);
-        exam.setSession(session.getName());
-        exams.add(exam);
+      if (response.statusCode == 200) {
+        dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
+
+        double score = jsonFor["score"].toDouble();
+        String studentId = jsonFor["student"]["studentId"];
+        Student? student = StudentRepository.instance.findById(studentId);
+
+        if (student != null) {
+          Exam exam = Exam(student, score);
+          exam.setGradedPaperLink(jsonFor["graded_paper_img"]);
+          exam.setSession(session.getName());
+          exams.add(exam);
+        } else {
+          print("Student is null");
+        }
+      } else {
+        print('Failed with status code: ${response.statusCode}');
       }
-
-    } else {
-      // Request failed
-      print('Failed with status code: ${response.statusCode}');
-    }
+    }());
   });
+
+  // doi xong moi future
+  await Future.wait(futures);
 
   session.exams.addAll(exams.toSet());
 
@@ -59,9 +69,9 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async{
 }
 
 Future<List<ExamSession>> sessionsFromJson(Map<String, dynamic> json) async{
-  print("Sessions");
+  // print("Sessions");
   List<dynamic> jsonArray = json["sessions"];
-  print(jsonArray);
+  // print(jsonArray);
   List<ExamSession> sessions = [];
 
   for (var element in jsonArray) {
