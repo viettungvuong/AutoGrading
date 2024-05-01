@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/api_url.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:camera/camera.dart';
@@ -7,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
-const String serverUrl="https://viettungvuong.pythonanywhere.com/grade";
+const String serverUrl=gradingUrl;
 
 Future<Map<String, dynamic>?> ConnectToGrade(XFile image, ExamSession session) async {
   var url = Uri.parse(serverUrl); // Connect to the backend server

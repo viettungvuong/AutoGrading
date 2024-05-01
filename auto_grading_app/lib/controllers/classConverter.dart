@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/api_url.dart';
 import 'package:auto_grading_mobile/controllers/studentConverter.dart';
 
 import '../models/Class.dart';
@@ -16,7 +17,7 @@ Future<Class?> classFromJson(Map<String, dynamic> json) async{
 
   if (User.instance.isStudent==false){
     String id = json["_id"]; // id de tim thong tin
-    String serverUrl="https://autogradingbackend.onrender.com/class/byId/$id"; // tìm student của class nay
+    String serverUrl="$databaseUrl/class/byId/$id"; // tìm student của class nay
 
     final response = await http.get(Uri.parse(serverUrl),      headers: AuthController.instance.getHeader(),);
     if (response.statusCode == 200) {

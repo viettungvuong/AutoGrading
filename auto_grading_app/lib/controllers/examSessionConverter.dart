@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/api_url.dart';
 import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
@@ -27,7 +28,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async {
   };
   session.setAnswers(intKeyAnswers);
 
-  const String serverUrl = "https://autogradingbackend.onrender.com/exam/byId";
+  const String serverUrl = "$databaseUrl/exam/byId";
 
   // tao list future (nhung ham bat dong bo)
   List<Future<void>> futures = [];

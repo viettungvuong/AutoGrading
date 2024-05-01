@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_grading_mobile/api_url.dart';
 import 'package:auto_grading_mobile/controllers/authController.dart';
 import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
@@ -16,7 +17,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'examRepository.dart';
 
-const String serverUrl="https://autogradingbackend.onrender.com/login";
+const String serverUrl="$databaseUrl/login";
 
 const String prefKey="login";
 const String userNameKey="username";
