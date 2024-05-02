@@ -26,3 +26,4 @@ doc/api/
 .flutter-plugins
 .flutter-plugins-dependencies
 api_url.*
+auto_grading_app/lib/api_url.dart
