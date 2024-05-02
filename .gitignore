@@ -25,4 +25,4 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
-api-url.*
+api_url.*
