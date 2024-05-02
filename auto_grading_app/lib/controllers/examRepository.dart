@@ -12,6 +12,9 @@ import '../models/User.dart';
 class ExamRepository extends BaseRepository<Exam>{
   ExamRepository._() : super();
 
+  int _cachedTime = 30;
+  late DateTime _lastUpdated;
+
   // singleton
   static final ExamRepository _instance = ExamRepository._();
 
@@ -39,9 +42,18 @@ class ExamRepository extends BaseRepository<Exam>{
     throw UnimplementedError();
   }
 
+  bool needToRefresh(){
+    if (initialized==false){ // chua initialize lan nao
+      return true;
+    }
+
+    return (DateTime.now().difference(_lastUpdated).inMinutes>=_cachedTime); // quá thời gian
+
+  }
+
   @override
   Future<void> initialize() async {
-    if (initialized){
+    if (needToRefresh()==false){
       return;
     }
     if (User.instance.isStudent==false||User.instance.isSignedIn()==false){
@@ -67,6 +79,7 @@ class ExamRepository extends BaseRepository<Exam>{
       );
 
       initialized=true;
+      _lastUpdated=DateTime.now();
     }
     catch (err){
       Fluttertoast.showToast(
