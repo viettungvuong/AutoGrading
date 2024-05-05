@@ -106,4 +106,16 @@ class ExamSession{
       other is ExamSession && _name == other._name && exams == other.exams;
 
   int get hashCode => Object.hash(_name,exams);
+
+  double calculateAvg(){
+    double total = 0.0;
+    int size = 0;
+
+    exams.forEach((exam) {
+      total+=exam.getScore();
+      size+=1;
+    });
+
+    return total/size.toDouble();
+  }
 }

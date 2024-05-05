@@ -20,20 +20,35 @@ class ExamSessionView extends ObjectView<ExamSession> { // hien bai ktra cua hoc
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text('Exams'),
-                content:
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Average score: ${t.calculateAvg()}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 8), // Adjust the height according to your preference
                     Container(
                       width: double.maxFinite,
-                      child: t.exams.isEmpty ? Center(
+                      child: t.exams.isEmpty
+                          ? Center(
                         child: Text("No exams"),
-                      ):ListView.builder(
+                      )
+                          : ListView.builder(
                         shrinkWrap: true,
                         itemCount: t.exams.length,
                         itemBuilder: (context, indexExam) {
                           return ExamView(t: t.exams[indexExam]);
                         },
                       ),
-                    )
-                );
+                    ),
+                  ],
+                ),
+              );
             },
           );
         },
@@ -57,7 +72,7 @@ class ExamSessionView extends ObjectView<ExamSession> { // hien bai ktra cua hoc
                           context,
                           MaterialPageRoute(builder: (context) => CameraScreen(examSession: t,))
                       );
-                      print("Clicked");
+
                     },
                     icon: Icon(Icons.play_arrow), label: Text("Continue"),
                 )
