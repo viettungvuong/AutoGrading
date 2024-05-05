@@ -19,35 +19,32 @@ class ExamSessionView extends ObjectView<ExamSession> { // hien bai ktra cua hoc
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Exams'),
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Average score: ${t.calculateAvg()}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
+                  title: Text('Exams'),
+                  content:
+                  Container(
+                    width: double.maxFinite,
+                    child: t.exams.isEmpty ? Center(
+                      child: Text("No exams"),
+                    ):ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: t.exams.length+1, // lam the nay de co the hien diem trung binh ma kh bi loi has size
+                      itemBuilder: (context, indexExam) {
+                        if (indexExam==0){
+                          return Container(
+                            height: 50,
+                            width: 50,
+                            child: Center(
+                              child: Text("Average score ${t.calculateAvg()}", style: TextStyle(fontSize: 15),),
+                            ),
+                          );
+                        }
+                        else{
+                          return ExamView(t: t.exams[indexExam-1]);
+                        }
+
+                      },
                     ),
-                    SizedBox(height: 8), // Adjust the height according to your preference
-                    Container(
-                      width: double.maxFinite,
-                      child: t.exams.isEmpty
-                          ? Center(
-                        child: Text("No exams"),
-                      )
-                          : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: t.exams.length,
-                        itemBuilder: (context, indexExam) {
-                          return ExamView(t: t.exams[indexExam]);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  )
               );
             },
           );
