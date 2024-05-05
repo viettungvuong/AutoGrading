@@ -26,10 +26,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _userType = "Teacher";
   bool _isLoading = false;
 
+  final TextStyle style = TextStyle(fontSize: 15);
+
   @override
   Widget build(BuildContext context) {
         return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Register'),
       ),
@@ -39,6 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              style: style,
               controller: _nameController,
               decoration: InputDecoration(
                 labelText: 'Name',
@@ -46,6 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             SizedBox(height: 16.0),
             TextField(
+              style: style,
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
@@ -55,6 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             TextField(
               controller: _passwordController,
               obscureText: true,
+              style: style,
               decoration: InputDecoration(
                 labelText: 'Password',
               ),
@@ -75,6 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: 16.0),
             _userType=="Student"?TextField( // chi nhap studentId khi chon student
               controller: _studentIdController,
+              style: style,
               decoration: InputDecoration(
                 labelText: 'Student ID',
               ),

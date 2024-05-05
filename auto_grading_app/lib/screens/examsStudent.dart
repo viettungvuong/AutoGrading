@@ -36,7 +36,6 @@ class ExamStudentState extends State<ExamStudentScreen> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('Home'),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

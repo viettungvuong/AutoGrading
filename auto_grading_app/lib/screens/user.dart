@@ -100,7 +100,7 @@ class UserScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          FutureBuilder<Student?>(
+          User.instance.isStudent?FutureBuilder<Student?>(
             future: User.instance.toStudent(),
             builder: (BuildContext context, AsyncSnapshot<Student?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -120,7 +120,7 @@ class UserScreen extends StatelessWidget {
                 }
               }
             },
-          ),
+          ):SizedBox(),
           SizedBox(height: 20),
           Text(
             User.instance.email ?? "",
