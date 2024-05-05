@@ -8,9 +8,13 @@ import '../controllers/userController.dart';
 
 void saveLoginInfo(String username, String password) async {
   await Preferences.instance.initPreferences();
-  Preferences.instance.saveBoolean(prefKey, true);
-  Preferences.instance.saveString(userNameKey, username);
-  Preferences.instance.saveString(passwordKey, password);
+  Preferences.instance[prefKey]=true;
+  Preferences.instance[userNameKey]=username;
+  Preferences.instance[passwordKey]=password;
+
+  // Preferences.instance.saveBoolean(prefKey, true);
+  // Preferences.instance.saveString(userNameKey, username);
+  // Preferences.instance.saveString(passwordKey, password);
 }
 
 class RegisterScreen extends StatefulWidget {
@@ -158,8 +162,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void checkAutoSignIn() async {
     await Preferences.instance.initPreferences();
-    final username = await Preferences.instance.getString(userNameKey);
-    final password = await Preferences.instance.getString(passwordKey);
+    final username = Preferences.instance[userNameKey];
+    final password = Preferences.instance[passwordKey];
 
     if (username != null &&
         password != null &&
@@ -249,9 +253,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void saveLoginInfo(String username, String password) async {
     await Preferences.instance.initPreferences();
-    Preferences.instance.saveBoolean(prefKey, true);
-    Preferences.instance.saveString(userNameKey, username);
-    Preferences.instance.saveString(passwordKey, password);
+    Preferences.instance[prefKey]=true;
+    Preferences.instance[userNameKey]=username;
+    Preferences.instance[passwordKey]=password;
+    // Preferences.instance.saveBoolean(prefKey, true);
+    // Preferences.instance.saveString(userNameKey, username);
+    // Preferences.instance.saveString(passwordKey, password);
   }
 
   void showError(String message) {

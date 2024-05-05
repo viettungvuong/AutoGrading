@@ -148,7 +148,8 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
 
     if (response.statusCode == 200) {
       // thanh cong
-      Preferences.instance.saveString(passwordKey,newPassword); // doi password nay luon
+      // Preferences.instance.saveString(passwordKey,newPassword); // doi password nay luon
+      Preferences.instance[passwordKey]=newPassword;
       return Pair(true,"");
     }
     else{
@@ -170,8 +171,12 @@ void Logout(){
   StudentRepository.instance.resetAll();
   ClassRepository.instance.resetAll();
 
-  Preferences.instance.saveBoolean(prefKey, false);
-  Preferences.instance.saveString(passwordKey, "");
-  Preferences.instance.saveString(userNameKey, "");
+  Preferences.instance[prefKey]=false;
+  Preferences.instance[userNameKey]="";
+  Preferences.instance[passwordKey]="";
+
+  // Preferences.instance.saveBoolean(prefKey, false);
+  // Preferences.instance.saveString(passwordKey, "");
+  // Preferences.instance.saveString(userNameKey, "");
 
 }
