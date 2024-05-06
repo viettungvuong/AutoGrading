@@ -51,7 +51,7 @@ class ExamRepository extends BaseRepository<Exam> {
 
   Future<bool> needToRefresh() async {
     if (initialized == false) {
-      return true; // Not initialized yet, need to refresh
+      return true;
     }
     await Preferences.instance.initPreferences();
     if (Preferences.instance[lastUpdateKey]==null){
@@ -72,10 +72,10 @@ class ExamRepository extends BaseRepository<Exam> {
         await db.execute('''
           CREATE TABLE $tableName (
             id INTEGER PRIMARY KEY,
-            student_id INTEGER,
+            student TEXT,
             score REAL,
             graded_paper_img TEXT,
-            session_name TEXT
+            session TEXT
           )
         ''');
       },
@@ -86,6 +86,7 @@ class ExamRepository extends BaseRepository<Exam> {
   @override
   Future<void> initialize() async {
     bool refresh = await needToRefresh();
+    print(refresh);
     if (refresh) {
       if (User.instance.isStudent == false || User.instance.isSignedIn() == false) {
         return;
@@ -109,6 +110,8 @@ class ExamRepository extends BaseRepository<Exam> {
               current.setGradedPaperLink(exam["graded_paper_img"]);
               current.setSession(exam["session_name"]);
               await txn.insert(tableName, current.toMap()); // cache lai
+
+              items.add(current);
             }
           }
         });
@@ -127,7 +130,7 @@ class ExamRepository extends BaseRepository<Exam> {
         );
       }
     } else {
-      // Load exams from local database
+      //  load tu cache
       await _openDatabase();
       List<Map<String, dynamic>> maps = await _database.query(tableName);
       items.addAll(List.generate(maps.length, (i) {
