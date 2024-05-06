@@ -9,7 +9,6 @@ import '../models/Exam.dart';
 import '../views/examView.dart';
 
 class ExamStudentScreen extends StatefulWidget {
-
   @override
   ExamStudentState createState() => ExamStudentState();
 }
@@ -19,9 +18,7 @@ class ExamStudentState extends State<ExamStudentScreen> {
 
   @override
   void initState() {
-    // _loadInitialize();
-    initializeSocket(); // initialize socket de thong bao exam moi
-
+    initializeSocket();
     super.initState();
     setState(() {
       _exams = Future.value(ExamRepository.instance.getAll());
@@ -36,9 +33,16 @@ class ExamStudentState extends State<ExamStudentScreen> {
         return false;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {
+                Navigator.pushNamed(context, '/notifications');
+              },
+            ),
+          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -49,16 +53,15 @@ class ExamStudentState extends State<ExamStudentScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: CircularProgressIndicator(), // Show a loading indicator while waiting for data
+                      child: CircularProgressIndicator(),
                     );
                   } else if (snapshot.hasError) {
                     return Center(
-                      child: Text('Error: ${snapshot.error}'), // Show error message if fetching data fails
+                      child: Text('Error: ${snapshot.error}'),
                     );
                   } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-                    // Handle the case where snapshot.data is null or empty
                     return Center(
-                      child: Text('No exams graded'), // Show a message indicating no sessions available
+                      child: Text('No exams graded'),
                     );
                   } else {
                     final exams = snapshot.data!;
@@ -67,15 +70,14 @@ class ExamStudentState extends State<ExamStudentScreen> {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                            child: Card(
-                              elevation: 4.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: ExamView(t: exams[index]
-                              ),
+                          child: Card(
+                            elevation: 4.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: ExamView(t: exams[index]),
                             ),
                           ),
                         );
