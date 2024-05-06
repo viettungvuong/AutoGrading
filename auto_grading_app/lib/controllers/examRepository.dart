@@ -96,6 +96,9 @@ class ExamRepository extends BaseRepository<Exam> {
     );
   }
 
+  void triggerReinitialize(){ // bat buoc refresh lai
+    initialized=false;
+  }
 
   @override
   Future<void> initialize() async {

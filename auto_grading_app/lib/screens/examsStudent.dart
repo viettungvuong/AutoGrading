@@ -1,3 +1,4 @@
+import 'package:auto_grading_mobile/controllers/Notification.dart';
 import 'package:auto_grading_mobile/controllers/examRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,8 @@ class ExamStudentState extends State<ExamStudentScreen> {
   @override
   void initState() {
     // _loadInitialize();
+    initializeSocket(); // initialize socket de thong bao exam moi
+
     super.initState();
     setState(() {
       _exams = Future.value(ExamRepository.instance.getAll());
