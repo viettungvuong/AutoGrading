@@ -37,4 +37,24 @@ class Student{
       other is Student && _name == other._name && _studentId == other._studentId;
 
   int get hashCode => Object.hash(_name,_studentId);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': _name,
+      'studentId': _studentId,
+      'user': {'email': studentEmail},
+    };
+  }
+
+  factory Student.fromMap(Map<String, dynamic> map) {
+    String name = map["name"];
+    String studentId = map["studentId"];
+    String studentEmail = map["user"]["email"];
+
+    Student student = Student(name,studentId);
+    student.studentEmail=studentEmail;
+
+    return student;
+
+  }
 }

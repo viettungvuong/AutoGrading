@@ -7,45 +7,46 @@ import '../models/Exam.dart';
 import '../models/User.dart';
 import 'View.dart';
 
+void showPopup(BuildContext context, Exam t) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog( // You can use any type of Dialog widget here
+        title: Text("Exam Details"),
+        content: Column(
+          children: [
+            User.instance.isStudent==false ? Text("Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}") : Text("Session: ${t.getSession()}\nScore: ${t.getScore()}"),
+
+            CachedNetworkImage(
+              imageUrl: t.getGradedPaperLink(), // URL of the image to load
+              placeholder: (context, url) => Center(child: CircularProgressIndicator()), // Placeholder widget while the image is loading
+              errorWidget: (context, url, error) => Icon(Icons.error), // Widget to display if there's an error loading the image
+            ),
+
+          ],
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            child: Text("Close"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the popup
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
   ExamView({required super.t});
 
-  void _showPopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog( // You can use any type of Dialog widget here
-          title: Text("Exam Details"),
-          content: Column(
-            children: [
-              User.instance.isStudent==false ? Text("Student: ${t.getStudent().getName()}\nScore: ${t.getScore()}") : Text("Session: ${t.getSession()}\nScore: ${t.getScore()}"),
-
-              CachedNetworkImage(
-                  imageUrl: t.getGradedPaperLink(), // URL of the image to load
-                  placeholder: (context, url) => Center(child: CircularProgressIndicator()), // Placeholder widget while the image is loading
-                  errorWidget: (context, url, error) => Icon(Icons.error), // Widget to display if there's an error loading the image
-                ),
-
-            ],
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the popup
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector( // Wrap the widget with GestureDetector
       onTap: () {
-        _showPopup(context); // Function to show the popup
+        showPopup(context,t); // Function to show the popup
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -58,7 +58,7 @@ class Exam{
 
   Map<String, dynamic> toMap() {
     return {
-      'student': _student.studentEmail,
+      'student': _student.toMap(),
       'score': _score,
       'graded_paper_img': _gradedPaperLink,
       'session': _sessionName
@@ -69,8 +69,8 @@ class Exam{
     String gradedPaperImg = map["graded_paper_image"];
     String sessionName = map["session_name"];
     double score = map["score"];
-    Student findStudent = Student.blank();
-    findStudent.studentEmail=map["student"]; // set email tam
+
+    Student findStudent = Student.fromMap(map["student"]);
 
     Exam current = Exam(findStudent, score);
     current.setGradedPaperLink(gradedPaperImg);

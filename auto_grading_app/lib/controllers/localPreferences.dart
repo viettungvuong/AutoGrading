@@ -26,6 +26,10 @@ class Preferences {
     _prefs.setString(key, value);
   }
 
+  void saveListString(String key, List<String> values){
+    _prefs.setStringList(key, values);
+  }
+
   void saveBoolean(String key, bool value){
     _prefs.setBool(key, value);
   }
