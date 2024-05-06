@@ -17,6 +17,8 @@ class Exam{
 
   Exam.studentOnly(this._student);
 
+  Exam.scoreOnly(this._score);
+
   Student getStudent(){
     return _student;
   }
@@ -53,4 +55,28 @@ class Exam{
       other is Exam && _student == other._student && _sessionName == other._sessionName && _score == other._score;
 
   int get hashCode => Object.hash(_student,_sessionName,_score);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'student': _student.studentEmail,
+      'score': _score,
+      'graded_paper_img': _gradedPaperLink,
+      'session': _sessionName
+    };
+  }
+
+  factory Exam.fromMap(Map<String, dynamic> map) {
+    String gradedPaperImg = map["graded_paper_image"];
+    String sessionName = map["session_name"];
+    double score = map["score"];
+    Student findStudent = Student.blank();
+    findStudent.studentEmail=map["student"]; // set email tam
+
+    Exam current = Exam(findStudent, score);
+    current.setGradedPaperLink(gradedPaperImg);
+    current.setSession(sessionName);
+
+    return current;
+
+  }
 }

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
   late SharedPreferences _prefs;
+  bool _initialized = false;
 
   // Private constructor
   Preferences._();
@@ -14,7 +15,11 @@ class Preferences {
   static Preferences get instance => _instance;
 
   Future<void> initPreferences() async {
+    if (_initialized){
+      return;
+    }
     _prefs = await SharedPreferences.getInstance();
+    _initialized=true;
   }
 
   void saveString(String key, String value) {
@@ -34,7 +39,18 @@ class Preferences {
   }
 
   dynamic operator [](String key) {
-    return _prefs.get(key);
+    dynamic res = _prefs.get(key);
+    if (res is String) {
+      try {
+        // thu xem co phai dateTime khong
+        return DateTime.parse(res);
+      } catch (e) {
+        return res;
+      }
+    }
+    else{
+      return res;
+    }
   }
 
   void operator []=(String key, dynamic value) {
@@ -45,6 +61,9 @@ class Preferences {
       else if (value is String){
         saveString(key, value);
       }
+      else if (value is DateTime){
+        saveString(key, value.toIso8601String());
+      }
       else{
         throw Exception("Not supported this type of variable in preferences");
       }
@@ -53,12 +72,12 @@ class Preferences {
     catch (e){
       Fluttertoast.showToast(
         msg: e.toString(),
-        toastLength: Toast.LENGTH_SHORT, // Duration for which the toast should be visible (either Toast.LENGTH_SHORT or Toast.LENGTH_LONG)
-        gravity: ToastGravity.BOTTOM, // The position where the toast should appear on the screen
-        timeInSecForIosWeb: 1, // Time for which the toast should be visible on iOS and web
-        backgroundColor: Colors.red, // Background color of the toast message
-        textColor: Colors.white, // Text color of the toast message
-        fontSize: 16.0, // Font size of the toast message
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
       );
     }
 

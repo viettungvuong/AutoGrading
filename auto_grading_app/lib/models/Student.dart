@@ -14,6 +14,8 @@ class Student{
 
   Student(this._name, this._studentId);
 
+  Student.blank();
+
   Student.copy(Student other){
     this._name=other._name;
     this._studentId=other._studentId;
