@@ -163,7 +163,7 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
   }
 }
 
-void Logout(){
+void Logout() async{
   User.instance.email="";
 
   // xoa nhung thu lien quan toi repo
@@ -175,8 +175,10 @@ void Logout(){
   Preferences.instance[userNameKey]="";
   Preferences.instance[passwordKey]="";
 
-  // Preferences.instance.saveBoolean(prefKey, false);
-  // Preferences.instance.saveString(passwordKey, "");
-  // Preferences.instance.saveString(userNameKey, "");
+  if (User.instance.isStudent){
+    await ExamRepository.instance.clearCache();
+  }
+
+  // xoa cache
 
 }

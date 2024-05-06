@@ -39,6 +39,9 @@ class Preferences {
   }
 
   dynamic operator [](String key) {
+    if (_prefs.containsKey(key)){
+      return null;
+    }
     dynamic res = _prefs.get(key);
     if (res is String) {
       try {
@@ -63,6 +66,9 @@ class Preferences {
       }
       else if (value is DateTime){
         saveString(key, value.toIso8601String());
+      }
+      else if (value == null){
+        _prefs.remove(key);
       }
       else{
         throw Exception("Not supported this type of variable in preferences");

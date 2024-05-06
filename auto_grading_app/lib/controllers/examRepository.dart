@@ -49,15 +49,29 @@ class ExamRepository extends BaseRepository<Exam> {
     throw UnimplementedError();
   }
 
-  Future<bool> needToRefresh() async {
-    if (initialized == false) {
-      return true;
+  Future<void> clearCache() async{
+    await _database.transaction((txn) async {
+      await txn.delete(tableName); // xoa cache cu
+    });
+
+    await Preferences.instance.initPreferences();
+    if (Preferences.instance[lastUpdateKey]!=null){
+      Preferences.instance[lastUpdateKey]=null;
     }
+  }
+
+  Future<bool> needToRefresh() async {
+    // if (initialized==false){
+    //   return true;
+    // }
     await Preferences.instance.initPreferences();
     if (Preferences.instance[lastUpdateKey]==null){
       return true;
     }
-    return DateTime.now().difference(Preferences.instance[lastUpdateKey]).inMinutes >= _cachedTime;
+    else{
+      return DateTime.now().difference(Preferences.instance[lastUpdateKey]).inMinutes >= _cachedTime;
+    }
+
   }
 
   Future<void> _openDatabase() async {
@@ -86,11 +100,16 @@ class ExamRepository extends BaseRepository<Exam> {
   @override
   Future<void> initialize() async {
     bool refresh = await needToRefresh();
-    print(refresh);
-    if (refresh) {
+    // se luon phai load khi moi mo app lai
+    // refresh la de khi dang dung app co gi no se refresh
+
+    items.clear();
+
+    if (initialized==false||refresh) {
       if (User.instance.isStudent == false || User.instance.isSignedIn() == false) {
         return;
       }
+
 
       await _openDatabase();
 
@@ -99,7 +118,7 @@ class ExamRepository extends BaseRepository<Exam> {
         exams = exams["exams"];
 
         await _database.transaction((txn) async {
-          await txn.delete(tableName); // xoa cache cu
+          clearCache();
 
           for (var exam in exams) {
             double score = exam["score"].toDouble();
