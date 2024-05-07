@@ -1,6 +1,7 @@
 import 'package:auto_grading_mobile/controllers/Notification.dart';
 import 'package:auto_grading_mobile/controllers/examRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
+import 'package:auto_grading_mobile/screens/notificationScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,7 +40,12 @@ class ExamStudentState extends State<ExamStudentScreen> {
             IconButton(
               icon: Icon(Icons.notifications),
               onPressed: () {
-                Navigator.pushNamed(context, '/notifications');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ExamNotificationsScreen(notifications: notifications)
+                  ),
+                );
               },
             ),
           ],

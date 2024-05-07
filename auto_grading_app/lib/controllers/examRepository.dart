@@ -98,6 +98,7 @@ class ExamRepository extends BaseRepository<Exam> {
 
   void triggerReinitialize(){ // bat buoc refresh lai
     initialized=false;
+    initialize();
   }
 
   @override
@@ -137,7 +138,7 @@ class ExamRepository extends BaseRepository<Exam> {
             }
           }
         });
-
+        items=items.toSet().toList(); // dam bao unique
         initialized = true;
         Preferences.instance[lastUpdateKey]=DateTime.now();
       } catch (err) {

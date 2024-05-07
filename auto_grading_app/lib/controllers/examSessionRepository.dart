@@ -39,6 +39,7 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
     try {
       dynamic map = await GetExamSessionsFromDatabase();
       items = await sessionsFromJson(map);
+      items = items.toSet().toList();
       initialized = true;
     }catch (err){
       Fluttertoast.showToast(
