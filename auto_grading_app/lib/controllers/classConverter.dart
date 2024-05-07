@@ -17,7 +17,7 @@ Future<Class?> classFromJson(Map<String, dynamic> json) async{
 
   if (User.instance.isStudent==false){
     String id = json["_id"]; // id de tim thong tin
-    String serverUrl="$databaseUrl/class/byId/$id"; // tìm student của class nay
+    String serverUrl="$backendUrl/class/byId/$id"; // tìm student của class nay
 
     final response = await http.get(Uri.parse(serverUrl),      headers: AuthController.instance.getHeader(),);
     if (response.statusCode == 200) {

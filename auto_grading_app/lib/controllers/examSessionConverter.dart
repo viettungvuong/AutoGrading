@@ -28,7 +28,7 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async {
   };
   session.setAnswers(intKeyAnswers);
 
-  const String serverUrl = "$databaseUrl/exam/byId";
+  const String serverUrl = "$backendUrl/exam/byId";
 
   // tao list future (nhung ham bat dong bo)
   List<Future<void>> futures = [];

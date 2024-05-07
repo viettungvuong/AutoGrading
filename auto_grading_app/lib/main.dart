@@ -86,20 +86,28 @@ class MainScreen extends ConsumerWidget{ // man hinh tong
         return false;
       },
       child: Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              child: _screens[selectedIndex],
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: BottomBar(),
-            )
-          ],
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: BottomBar(),
+              ),
+              Positioned(
+                top: 0,
+                bottom: 50,
+                left: 0,
+                right: 0,
+                child: _screens[selectedIndex],
+              ),
+
+            ],
+          ),
         ),
       ),
     );
   }
+
 }

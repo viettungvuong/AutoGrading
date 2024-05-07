@@ -5,7 +5,7 @@ import 'package:auto_grading_mobile/controllers/authController.dart';
 import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/localPreferences.dart';
-import 'package:auto_grading_mobile/controllers/socket.dart';
+
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
 import '../models/Student.dart';
@@ -17,7 +17,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'examRepository.dart';
 
-const String serverUrl="$databaseUrl/login";
+const String serverUrl="$backendUrl/login";
 
 const String prefKey="login";
 const String userNameKey="username";

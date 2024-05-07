@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 import '../models/User.dart';
 import '../structs/pair.dart';
 
-const String serverUrl=databaseUrl;
+const String serverUrl=backendUrl;
 
 // Future<Map<String, dynamic>?> GetExamsFromDatabase() async {
 //     final response = await http.get(Uri.parse(serverUrl));

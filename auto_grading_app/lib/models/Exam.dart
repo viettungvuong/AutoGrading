@@ -1,8 +1,6 @@
 import 'package:auto_grading_mobile/controllers/examConverter.dart';
-import 'package:auto_grading_mobile/controllers/socket.dart';
 
 import 'Student.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'User.dart';
 import 'examSession.dart';

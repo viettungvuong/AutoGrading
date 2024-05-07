@@ -46,7 +46,7 @@ class _ExamSessionScreenState extends State<ExamSessionScreen> {
         return false;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text('Home'),
