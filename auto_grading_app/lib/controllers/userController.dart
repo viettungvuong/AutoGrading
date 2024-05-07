@@ -144,8 +144,6 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
     );
 
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       // thanh cong
       // Preferences.instance.saveString(passwordKey,newPassword); // doi password nay luon

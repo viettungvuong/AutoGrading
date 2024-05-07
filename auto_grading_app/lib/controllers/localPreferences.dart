@@ -43,10 +43,11 @@ class Preferences {
   }
 
   dynamic operator [](String key) {
-    if (_prefs.containsKey(key)){
+    if (_prefs.containsKey(key)==false){
       return null;
     }
     dynamic res = _prefs.get(key);
+
     if (res is String) {
       try {
         // thu xem co phai dateTime khong

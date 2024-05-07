@@ -6,7 +6,7 @@ import '../main.dart';
 import '../structs/pair.dart';
 import '../controllers/userController.dart';
 
-void saveLoginInfo(String username, String password) async {
+Future<void> saveLoginInfo(String username, String password) async {
   await Preferences.instance.initPreferences();
   Preferences.instance[prefKey]=true;
   Preferences.instance[userNameKey]=username;
@@ -120,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     if (res.a) {
-      saveLoginInfo(email, password);
+      await saveLoginInfo(email, password);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainScreen()),
@@ -156,20 +156,21 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-
     checkAutoSignIn();
   }
 
-  void checkAutoSignIn() async {
+  Future<void> checkAutoSignIn() async {
     await Preferences.instance.initPreferences();
     final username = Preferences.instance[userNameKey];
     final password = Preferences.instance[passwordKey];
+
+    print(username);
+    print(password);
 
     if (username != null &&
         password != null &&
         username.isNotEmpty &&
         password.isNotEmpty) {
-      // Automatically attempt to sign in
       login(username, password);
     }
   }
@@ -239,9 +240,8 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false;
     });
 
-    print(res.b);
     if (res.a) {
-      saveLoginInfo(username, password);
+      await saveLoginInfo(username, password);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainScreen()),
@@ -251,15 +251,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void saveLoginInfo(String username, String password) async {
-    await Preferences.instance.initPreferences();
-    Preferences.instance[prefKey]=true;
-    Preferences.instance[userNameKey]=username;
-    Preferences.instance[passwordKey]=password;
-    // Preferences.instance.saveBoolean(prefKey, true);
-    // Preferences.instance.saveString(userNameKey, username);
-    // Preferences.instance.saveString(passwordKey, password);
-  }
 
   void showError(String message) {
     Fluttertoast.showToast(

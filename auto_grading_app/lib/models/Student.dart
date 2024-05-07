@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 
 import 'Class.dart';
@@ -38,18 +40,29 @@ class Student{
 
   int get hashCode => Object.hash(_name,_studentId);
 
+
+
   Map<String, dynamic> toMap() {
+    print(jsonEncode({'email': studentEmail}));
     return {
       'name': _name,
       'studentId': _studentId,
-      'user': {'email': studentEmail},
+      'user': jsonEncode({'email': studentEmail}),
     };
   }
 
   factory Student.fromMap(Map<String, dynamic> map) {
     String name = map["name"];
     String studentId = map["studentId"];
-    String studentEmail = map["user"]["email"];
+    late String studentEmail;
+    if (map["user"]["email"]!=null){
+      studentEmail = map["user"]["email"];
+    }
+    else{
+      Map<String, dynamic> userMap = jsonDecode(map["user"]);
+      studentEmail = userMap["email"];
+    }
+
 
     Student student = Student(name,studentId);
     student.studentEmail=studentEmail;
