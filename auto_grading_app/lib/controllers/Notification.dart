@@ -34,7 +34,7 @@ void initializeSocket(){
         final exam = data['exam'];
         print('New exam received from server: $exam');
 
-        if (exam['user']['email'] != User.instance.email) {
+        if (exam["student"]['user'] != User.instance.email) {
           return; // Skip if the exam doesn't belong to this user
         }
         ExamRepository.instance.triggerReinitialize(); // Reload exams

@@ -15,6 +15,7 @@ import 'package:http/http.dart' as http;
 import '../structs/pair.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import 'Notification.dart';
 import 'examRepository.dart';
 
 const String serverUrl="$backendUrl/login";
@@ -33,7 +34,6 @@ Future<void> _entry() async{ // buoc vao app
     await ExamRepository.instance.initialize();
   }
 
-  // print("Classes ${ClassRepository.instance.items.length}");
 
 }
 
@@ -57,12 +57,10 @@ Future<Pair> Signin(String username, String password) async {
 
     if (response.statusCode == 200) {
       // thanh cong
-      print("Sign in successfully");
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
 
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
       User.instance.email=username; // set user
-      print(username);
       User.instance.isStudent=jsonResponse["isStudent"];
 
       print(jsonResponse["isStudent"]);

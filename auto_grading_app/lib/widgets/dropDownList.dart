@@ -30,17 +30,18 @@ class _DropdownListStudentState extends State<DropdownListStudent> {
   List<String> _dropdownOptions = [];
   String? _selectedItem;
   late List<Pair> _convertedList;
+  late List<Student> _list;
 
   @override
   void initState() {
     super.initState();
-    _convertedList = _convertForDropdown();
+    _list = widget.list.toSet().toList();
+    _convertedList = _convertForDropdown(); // chuyen ve dang dropdown
     _dropdownOptions = _convertedList.map((pair) => "${pair.a}-${pair.b}").toList();
   }
 
   List<Pair> _convertForDropdown() {
-    final Set<Student> uniqueStudents = widget.list.toSet();
-    return uniqueStudents.map((student) {
+    return _list.map((student) {
       final name = student.getName();
       final id = student.getStudentId();
       return Pair(name, id);
@@ -62,8 +63,10 @@ class _DropdownListStudentState extends State<DropdownListStudent> {
             ),
           ),
           onChanged: (value) {
+            print("Choosing student");
             final selectedIndex = _dropdownOptions.indexOf(value!);
-            widget.onChanged(widget.list[selectedIndex]);
+            print(_list[selectedIndex].getStudentId());
+            widget.onChanged(_list[selectedIndex]);
             setState(() => _selectedItem = value);
           },
           selectedItem: _selectedItem,

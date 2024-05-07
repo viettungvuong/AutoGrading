@@ -189,6 +189,7 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
     });
   } // luu cac bai thi cua session vao trong json
 
+  print("Exams");
   print(exams);
 
   try {
@@ -202,7 +203,6 @@ Future<Pair> updateExamSessionToDatabase(ExamSession session, String id) async {
       }),
     );
 
-    print("Status code: "+response.statusCode.toString());
 
     if (response.statusCode == 200) {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;

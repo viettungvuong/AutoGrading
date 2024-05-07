@@ -74,23 +74,8 @@ class _ResultScreenState extends State<ResultScreen> {
     return res;
   }
 
-  void _addExamToSession() async {
-    // Student student=Student(_nameController.text,_idController.text);
-    // student.classes.add(widget.session.getClass());
-    // String? id = await StudentRepository.instance.add(student); //them vao repository student
-    //
-    // if (id==null){
-    //   Fluttertoast.showToast(
-    //     msg: "Error when adding student",
-    //     toastLength: Toast.LENGTH_LONG,
-    //     gravity: ToastGravity.BOTTOM,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Colors.black45,
-    //     textColor: Colors.white,
-    //     fontSize: 16.0,
-    //   );
-    //   return;
-    // }
+  Future<void> _addExamToSession() async {
+
 
     if (_selectedStudent==null){
       return;
@@ -98,6 +83,8 @@ class _ResultScreenState extends State<ResultScreen> {
 
     Exam exam=Exam(_selectedStudent!,score);
     exam.setGradedPaperLink(widget.imagePath);
+
+    print(exam.getStudent().getStudentId());
 
     widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
     ExamSessionRepository.instance.updateToDatabase(widget.session);
@@ -144,6 +131,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
 
                 DropdownListStudent(list: _eligibleStudentsForGrading(), onChanged: (student){
+                  print(student.getStudentId());
                   _selectedStudent=student;
                 }
                 ), // nhung student da join class nay va chua cham bai trong session
@@ -162,7 +150,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () async {
-                                  _addExamToSession();
+                                  await _addExamToSession();
 
                                   Navigator.push(
                                     context,
@@ -173,7 +161,7 @@ class _ResultScreenState extends State<ResultScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  _addExamToSession();
+                                  await _addExamToSession();
 
                                   Navigator.push(
                                     context,
