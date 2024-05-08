@@ -138,7 +138,6 @@ class ExamRepository extends BaseRepository<Exam> {
             }
           }
         });
-        items=items.toSet().toList(); // dam bao unique
         initialized = true;
         Preferences.instance[lastUpdateKey]=DateTime.now();
       } catch (err) {

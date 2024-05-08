@@ -1,11 +1,11 @@
 import '../structs/pair.dart';
 
 abstract class BaseRepository<T> {
-  late List<T> items;
+  late Set<T> items;
   bool initialized=false;
 
   BaseRepository() {
-    items = [];
+    items = Set();
   }
 
   BaseRepository.copy(BaseRepository<T> other){
@@ -23,7 +23,7 @@ abstract class BaseRepository<T> {
   }
 
   List<T> getAll(){
-    return items;
+    return items.toList();
   }
 
   void resetAll(){

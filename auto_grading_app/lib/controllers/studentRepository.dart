@@ -33,7 +33,7 @@ class StudentRepository extends BaseRepository<Student> {
     }
     try{
     dynamic map = await GetStudentsFromDatabase();
-    items = studentsFromJson(map);
+    items = studentsFromJson(map).toSet();
     initialized=true;}catch(err){
       Fluttertoast.showToast(
         msg: err.toString(),

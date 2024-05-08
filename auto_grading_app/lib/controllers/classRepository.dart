@@ -59,8 +59,8 @@ class ClassRepository extends BaseRepository<Class>{
       return;
     }
     dynamic map = await GetClassesFromDatabase();
-    items = await classesFromJson(map);
-    items = items.toSet().toList();
+    dynamic classes = await classesFromJson(map);
+    items = classes.toSet();
     initialized=true;
   }
 
