@@ -37,17 +37,17 @@ class ExamStudentState extends State<ExamStudentScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           actions: [
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ExamNotificationsScreen(notifications: notifications)
-                  ),
-                );
-              },
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.notifications),
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => ExamNotificationsScreen(notifications: notifications)
+            //       ),
+            //     );
+            //   },
+            // ),
           ],
         ),
         body: Column(
