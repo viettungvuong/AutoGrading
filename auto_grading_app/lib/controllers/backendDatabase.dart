@@ -33,7 +33,6 @@ Future<Map<String, dynamic>?> GetExamsFromDatabase(String studentEmail) async { 
   }
   final response = await http.get(Uri.parse("$serverUrl/exam/${studentEmail}"),     headers: AuthController.instance.getHeader(),);
   if (response.statusCode == 200) {
-    print(response.body);
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else {
     // Request failed
@@ -46,9 +45,8 @@ Future<Map<String, dynamic>?> GetStudentsFromDatabase() async {
     return null;
   }
   final response = await http.get(Uri.parse("$serverUrl/student/${User.instance.email!}"),     headers: AuthController.instance.getHeader(),);
-  print("Fetching student $response");
+
   if (response.statusCode == 200) {
-    print("Get student successfully");
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else {
     // Request failed
@@ -60,8 +58,6 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
   if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
     return null;
   }
-
-  print("fetching exam session");
 
   final response = await http.get(Uri.parse(serverUrl+"/session/"+User.instance.email!),     headers: AuthController.instance.getHeader(),);
 
@@ -75,12 +71,10 @@ Future<Map<String, dynamic>?> GetExamSessionsFromDatabase() async {
 
 Future<Map<String, dynamic>?> GetClassesFromDatabase() async {
   if (!User.instance.isSignedIn()){ //chua signin thi khong lay duoc
-    print("Not sign in");
     return null;
   }
 
   final response = await http.get(Uri.parse("$serverUrl/class/${User.instance.email!}"),      headers: AuthController.instance.getHeader(),);
-  print("fetching classes");
   if (response.statusCode == 200) {
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else {

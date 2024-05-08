@@ -1,5 +1,6 @@
 import 'package:auto_grading_mobile/controllers/Repository.dart';
 import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+import 'package:auto_grading_mobile/controllers/examConverter.dart';
 import 'package:auto_grading_mobile/structs/pair.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,6 +13,7 @@ import '../models/User.dart';
 import 'localPreferences.dart';
 
 const String lastUpdateKey = "last_updated_exam";
+const String tableName = 'exams';
 
 class ExamRepository extends BaseRepository<Exam> {
   ExamRepository._() : super();
@@ -20,7 +22,7 @@ class ExamRepository extends BaseRepository<Exam> {
   // late DateTime _lastUpdated;
 
   late Database _database; // cache trong sqlite
-  static const String tableName = 'exams';
+
 
   // Singleton
   static final ExamRepository _instance = ExamRepository._();
@@ -118,25 +120,12 @@ class ExamRepository extends BaseRepository<Exam> {
       await _openDatabase();
 
       try {
-        dynamic exams = await GetExamsFromDatabase(User.instance.email!);
-        exams = exams["exams"];
+        dynamic json = await GetExamsFromDatabase(User.instance.email!);
 
         await _database.transaction((txn) async {
           clearCache();
 
-          for (var exam in exams) {
-            double score = exam["score"].toDouble();
-            Student? student = await User.instance.toStudent();
-            if (student != null) {
-              // khoi tao exam
-              Exam current = Exam(student, score);
-              current.setGradedPaperLink(exam["graded_paper_img"]);
-              current.setSession(exam["session_name"]);
-              await txn.insert(tableName, current.toMap()); // cache lai
-
-              items.add(current);
-            }
-          }
+          items.addAll(await examsFromJson(json, txn));
         });
         initialized = true;
         Preferences.instance[lastUpdateKey]=DateTime.now();
