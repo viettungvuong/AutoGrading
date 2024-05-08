@@ -5,6 +5,7 @@ import 'package:auto_grading_mobile/controllers/authController.dart';
 import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/localPreferences.dart';
+import 'package:auto_grading_mobile/controllers/newExamNotification.dart';
 
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
@@ -29,8 +30,9 @@ Future<void> _entry() async{ // buoc vao app
     await StudentRepository.instance.initialize();
     await ExamSessionRepository.instance.initialize();
   }
-  else{
+  else{ // neu la student thi phai lay them notification
     await ExamRepository.instance.initialize();
+    await NotificationController.getNotifications();
   }
 
 
