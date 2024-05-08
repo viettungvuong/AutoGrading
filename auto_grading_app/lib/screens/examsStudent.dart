@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/controllers/Notification.dart';
+
 import 'package:auto_grading_mobile/controllers/examRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:auto_grading_mobile/screens/notificationScreen.dart';
@@ -19,7 +19,6 @@ class ExamStudentState extends State<ExamStudentScreen> {
 
   @override
   void initState() {
-    initializeSocket();
     super.initState();
     setState(() {
       _exams = Future.value(ExamRepository.instance.getAll());
@@ -36,19 +35,6 @@ class ExamStudentState extends State<ExamStudentScreen> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ExamNotificationsScreen(notifications: notifications)
-                  ),
-                );
-              },
-            ),
-          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
