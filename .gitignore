@@ -61,3 +61,5 @@ auto_grading_AI/uploads/test/2.png
 auto_grading_AI/utils.py
 auto_grading_AI/weight.h5
 auto_grading_backend
+backend/
+auto_grading_backend
