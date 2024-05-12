@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_grading_mobile/api_url.dart';
 import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+import 'package:auto_grading_mobile/controllers/examConverter.dart';
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 
 import '../models/Exam.dart';
@@ -42,18 +43,10 @@ Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async {
 
       if (response.statusCode == 200) {
         dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
-
-        double score = jsonFor["score"].toDouble();
-        String studentId = jsonFor["student"]["studentId"];
-        Student? student = StudentRepository.instance.findById(studentId);
-
-        if (student != null) {
-          Exam exam = Exam(student, score);
-          exam.setGradedPaperLink(jsonFor["graded_paper_img"]);
+        Exam? exam = await examFromJsonTeacherMode(jsonFor);
+        if (exam!=null){
           exam.setSession(session.getName());
           exams.add(exam);
-        } else {
-          print("Student is null");
         }
       } else {
         print('Failed with status code: ${response.statusCode}');

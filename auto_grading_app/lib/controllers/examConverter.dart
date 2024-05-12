@@ -1,3 +1,5 @@
+import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+
 import '../models/Exam.dart';
 import '../models/Student.dart';
 import '../models/User.dart';
@@ -5,7 +7,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'examRepository.dart';
 
-Future<Exam?> examFromJson(Map<String,dynamic> exam, Transaction? txn) async {
+Future<Exam?> examFromJsonStudentMode(Map<String,dynamic> exam, Transaction? txn) async {
   double score = exam["score"].toDouble();
   Student? student = await User.instance.toStudent();
   if (student != null) {
@@ -23,11 +25,26 @@ Future<Exam?> examFromJson(Map<String,dynamic> exam, Transaction? txn) async {
   return null;
 }
 
+Future<Exam?> examFromJsonTeacherMode(Map<String,dynamic> exam) async {
+  double score = exam["score"].toDouble();
+  String studentId = exam["student"]["studentId"];
+  Student? student = StudentRepository.instance.findById(studentId);
+
+  if (student != null) {
+    Exam current = Exam(student, score);
+    current.setGradedPaperLink(exam["graded_paper_img"]);
+    return current;
+  }
+  else{
+    return null;
+  }
+}
+
 Future<List<Exam>> examsFromJson(Map<String,dynamic> json, Transaction? txn) async {
   dynamic exams = json["exams"];
   List<Exam> res = [];
   for (var exam in exams) {
-      Exam? current = await examFromJson(exam, txn);
+      Exam? current = await examFromJsonStudentMode(exam, txn);
 
       if (current == null) {
         continue;
