@@ -11,6 +11,8 @@ import '../models/User.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import 'authController.dart';
+
 const notifyUrl = "$backendUrl/exam/notify";
 
 
@@ -30,7 +32,9 @@ class NotificationController{
     final url = "$notifyUrl/${User.instance.email}";
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url), headers: AuthController.instance.getHeader());
+
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body) as Map<String, dynamic>;
