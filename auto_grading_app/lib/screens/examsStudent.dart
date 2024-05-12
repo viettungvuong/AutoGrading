@@ -28,29 +28,36 @@ class ExamStudentState extends State<ExamStudentScreen> {
     });
   }
 
-  // void _showNotificationsDialog(BuildContext context) {
-  //   // hien notification
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Notifications'),
-  //         content: Builder(
-  //           builder: (context) {
-  //             return Expanded(
-  //               child: _notificationCount>0?ListView.builder(
-  //                 itemCount: _notificationCount,
-  //                 itemBuilder: (context, index) {
-  //                   return NotificationView(t: ExamNotification.getNotifications()[index],);
-  //                 },
-  //               ):Center(child: Text("No notifications"),),
-  //             );
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+  void _showNotificationsDialog(BuildContext context) {
+    // hien notification
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          height: 500,
+          child:ExamNotification.getNotificationsCount()>0?ListView.builder(
+            itemCount: ExamNotification.getNotificationsCount(),
+            itemBuilder: (context, index) {
+              final notification = ExamNotification.getNotifications()[index];
+              return GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      notification.setRead(); // danh dau la da doc
+
+                    });
+                    showPopup(context, notification.exam); // hien thong tin bai ktra
+                  },
+                  child: NotificationView(t: notification,)
+              );
+            },
+          ):Center(child: Text("No notifications")),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +96,11 @@ class ExamStudentState extends State<ExamStudentScreen> {
                 ],
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ExamNotificationsScreen()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => ExamNotificationsScreen()),
+                // );
+                _showNotificationsDialog(context);
               },
             ),
           ],
