@@ -8,6 +8,8 @@ import 'package:auto_grading_mobile/controllers/localPreferences.dart';
 import 'package:auto_grading_mobile/controllers/newExamNotification.dart';
 
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+import 'package:auto_grading_mobile/models/Notification.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../models/Student.dart';
 import '../models/User.dart';
@@ -55,9 +57,11 @@ Future<Pair> Signin(String username, String password) async {
     );
 
     print(response.statusCode);
+    print(jsonDecode(response.body));
 
     if (response.statusCode == 200) {
       // thanh cong
+
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
 
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
@@ -174,6 +178,7 @@ void Logout() async{
 
   if (User.instance.isStudent){
     await ExamRepository.instance.clearCache();
+    ExamNotification.clear();
     User.instance.resetStudent(); // xoá student liên kết vs user
   }
 

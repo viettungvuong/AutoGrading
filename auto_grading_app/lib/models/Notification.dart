@@ -22,4 +22,8 @@ class ExamNotification implements NotificationModel{
   static int getNotificationsCount(){
     return _notifications.length;
   }
+
+  static void clear(){
+    _notifications.clear();
+  }
 }
