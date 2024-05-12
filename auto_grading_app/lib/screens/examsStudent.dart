@@ -28,39 +28,29 @@ class ExamStudentState extends State<ExamStudentScreen> {
     });
   }
 
-  void _showNotificationsDialog(BuildContext context) {
-    // hien notification
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Notifications'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Close'),
-            ),
-          ],
-          content: Builder(
-            builder: (context) {
-              return Container(
-
-                constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.6),
-                child: _notificationCount>0?ListView.builder(
-                  itemCount: _notificationCount,
-                  itemBuilder: (context, index) {
-                    return NotificationView(t: ExamNotification.getNotifications()[index],);
-                  },
-                ):Center(child: Text("No notifications"),),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
+  // void _showNotificationsDialog(BuildContext context) {
+  //   // hien notification
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('Notifications'),
+  //         content: Builder(
+  //           builder: (context) {
+  //             return Expanded(
+  //               child: _notificationCount>0?ListView.builder(
+  //                 itemCount: _notificationCount,
+  //                 itemBuilder: (context, index) {
+  //                   return NotificationView(t: ExamNotification.getNotifications()[index],);
+  //                 },
+  //               ):Center(child: Text("No notifications"),),
+  //             );
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +89,10 @@ class ExamStudentState extends State<ExamStudentScreen> {
                 ],
               ),
               onPressed: () {
-                _showNotificationsDialog(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ExamNotificationsScreen()),
+                );
               },
             ),
           ],
