@@ -174,6 +174,7 @@ void Logout() async{
 
   if (User.instance.isStudent){
     await ExamRepository.instance.clearCache();
+    User.instance.resetStudent(); // xoá student liên kết vs user
   }
 
   // xoa cache

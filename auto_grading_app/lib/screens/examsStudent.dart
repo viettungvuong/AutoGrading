@@ -18,7 +18,7 @@ class ExamStudentScreen extends StatefulWidget {
 
 class ExamStudentState extends State<ExamStudentScreen> {
   Future<List<Exam>>? _exams;
-  int _notificationCount = 3; // For example, replace this with the actual number of notifications
+  int _notificationCount = ExamNotification.getNotificationsCount(); // For example, replace this with the actual number of notifications
 
   @override
   void initState() {
@@ -35,12 +35,6 @@ class ExamStudentState extends State<ExamStudentScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Notifications'),
-          content: ListView.builder(
-            itemCount: ExamNotification.getNotifications().length,
-            itemBuilder: (context, index) {
-              return NotificationView(t: ExamNotification.getNotifications()[index],);
-            },
-          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -49,6 +43,20 @@ class ExamStudentState extends State<ExamStudentScreen> {
               child: Text('Close'),
             ),
           ],
+          content: Builder(
+            builder: (context) {
+              return Container(
+
+                constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.6),
+                child: _notificationCount>0?ListView.builder(
+                  itemCount: _notificationCount,
+                  itemBuilder: (context, index) {
+                    return NotificationView(t: ExamNotification.getNotifications()[index],);
+                  },
+                ):Center(child: Text("No notifications"),),
+              );
+            },
+          ),
         );
       },
     );

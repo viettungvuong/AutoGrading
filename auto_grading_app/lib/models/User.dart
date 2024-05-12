@@ -40,4 +40,8 @@ class User {
       return null;
     }
   }
+
+  void resetStudent(){
+    _student=null;
+  }
 }

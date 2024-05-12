@@ -18,4 +18,8 @@ class ExamNotification implements NotificationModel{
   static List<ExamNotification> getNotifications(){
     return _notifications;
   }
+
+  static int getNotificationsCount(){
+    return _notifications.length;
+  }
 }
