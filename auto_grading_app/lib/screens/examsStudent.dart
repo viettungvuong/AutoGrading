@@ -46,7 +46,8 @@ class ExamStudentState extends State<ExamStudentScreen> {
                   onTap: (){
                     setState(() {
                       notification.setRead(); // danh dau la da doc
-
+                      _notificationCount--;
+                      // print(_notificationCount);
                     });
                     showPopup(context, notification.exam); // hien thong tin bai ktra
                   },

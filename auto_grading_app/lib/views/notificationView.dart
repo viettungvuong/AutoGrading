@@ -1,6 +1,7 @@
 import 'package:auto_grading_mobile/models/Notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../models/Student.dart';
 import 'View.dart';
@@ -35,8 +36,8 @@ class NotificationView extends ObjectView<ExamNotification> {
             ),
 
             Text(
-              t.dateTime.toString(),
-              style: TextStyle(fontSize: 16),
+                DateFormat('dd/MM/yy HH:mm').format(t.dateTime),
+                style: TextStyle(fontSize: 16),
             ),
           ],
         ),
