@@ -1,5 +1,5 @@
 import 'package:auto_grading_mobile/controllers/examRepository.dart';
-import 'package:auto_grading_mobile/controllers/newExamNotification.dart';
+import 'package:auto_grading_mobile/controllers/notificationController.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:auto_grading_mobile/screens/notificationScreen.dart';
 import 'package:flutter/cupertino.dart';

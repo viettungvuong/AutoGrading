@@ -29,7 +29,9 @@ Future<List<ExamNotification>> notificationsFromJson(Map<String,dynamic> json) a
       }
       DateTime dateTime = DateTime.parse(notification["dateTime"]);
 
-      ExamNotification noti = ExamNotification(exam: exam, dateTime: dateTime);
+      String dbId = notification["_id"];
+
+      ExamNotification noti = ExamNotification(dbId: dbId, exam: exam, dateTime: dateTime);
 
       res.add(noti);
     } else {

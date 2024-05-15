@@ -5,7 +5,7 @@ import 'package:auto_grading_mobile/controllers/authController.dart';
 import 'package:auto_grading_mobile/controllers/classRepository.dart';
 import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
 import 'package:auto_grading_mobile/controllers/localPreferences.dart';
-import 'package:auto_grading_mobile/controllers/newExamNotification.dart';
+import 'package:auto_grading_mobile/controllers/notificationController.dart';
 
 import 'package:auto_grading_mobile/controllers/studentRepository.dart';
 import 'package:auto_grading_mobile/models/Notification.dart';

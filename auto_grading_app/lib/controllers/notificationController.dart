@@ -53,4 +53,31 @@ class NotificationController{
       );
     }
   }
+
+  static Future<bool> setRead(ExamNotification notification) async {
+    final url = "$notifyUrl/${notification.dbId}";
+
+    try {
+      final response = await http.put(Uri.parse(url), headers: AuthController.instance.getHeader());
+
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('Failed to load notifications');
+      }
+    } catch (error) {
+      print('Error setting read of a notification: $error');
+      Fluttertoast.showToast(
+        msg: '$error. Please try again later.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return false;
+    }
+  }
 }

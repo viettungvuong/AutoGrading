@@ -1,9 +1,13 @@
+import 'package:auto_grading_mobile/controllers/notificationController.dart';
+
 import 'Exam.dart';
 
 abstract class NotificationModel {
 }
 
 class ExamNotification implements NotificationModel{
+  final String dbId;
+
   final Exam exam;
   final DateTime dateTime;
 
@@ -11,7 +15,7 @@ class ExamNotification implements NotificationModel{
 
   static int _count = 0; // tong so luong noti
 
-  ExamNotification({required this.exam, required this.dateTime});
+  ExamNotification({required this.dbId, required this.exam, required this.dateTime});
 
   static List<ExamNotification> _notifications=[];
 
@@ -36,6 +40,8 @@ class ExamNotification implements NotificationModel{
   void setRead(){
     _read = true;
     _count--; // giam so luong noti chua doc
+
+    NotificationController.setRead(this);
   }
 
   bool getRead(){
