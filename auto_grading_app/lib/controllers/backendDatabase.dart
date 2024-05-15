@@ -82,32 +82,6 @@ Future<Map<String, dynamic>?> GetClassesFromDatabase() async {
     print('Failed with status code: ${response.statusCode}');
   }
 }
-//
-// Future<Map<String, dynamic>?> updateExamToDatabase(Exam exam) async {
-//   var url = Uri.parse(serverUrl);
-//   Map<String, dynamic>? jsonResponse;
-//
-//   try {
-//     final response = await http.post(
-//       url,
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(<String, dynamic>{
-//         'studentId': exam.getStudent().getStudentId(), // de map student id tim student trong backend
-//         'score': exam.getScore().toString(),
-//       }),
-//     );
-//
-//     if (response.statusCode == 200) {
-//       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-//     }
-//   } catch (e) {
-//     print('Error connecting to server: $e');
-//   }
-//
-//   return jsonResponse;
-// }
 
 Future<Student?> getStudentFromId(String id) async{
   var url = Uri.parse("$serverUrl/student/byId/$id");
