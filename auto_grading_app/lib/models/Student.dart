@@ -70,4 +70,20 @@ class Student{
     return student;
 
   }
+
+  static Map<Student,List<Exam>> _studentExamMap = {};
+  static void linkExamToStudent(Student student, Exam exam){
+    if (_studentExamMap.containsKey(student)==false){
+      _studentExamMap[student] = [];
+    }
+    _studentExamMap[student]!.add(exam);
+  }
+  static List<Exam> getExamsOfStudent(Student student){
+    if (_studentExamMap.containsKey(student)==true){
+      return _studentExamMap[student]!;
+    }
+    else{
+      return [];
+    }
+  }
 }

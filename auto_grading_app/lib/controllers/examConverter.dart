@@ -33,6 +33,10 @@ Future<Exam?> examFromJsonTeacherMode(Map<String,dynamic> exam) async {
   if (student != null) {
     Exam current = Exam(student, score);
     current.setGradedPaperLink(exam["graded_paper_img"]);
+
+    // lien ket voi student trong map
+    Student.linkExamToStudent(student, current);
+
     return current;
   }
   else{

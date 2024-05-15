@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../models/Exam.dart';
 import '../structs/pair.dart';
 
 import 'Repository.dart';
@@ -91,7 +92,8 @@ class StudentRepository extends BaseRepository<Student> {
 
   Student? findById(String studentId) {
     return items.firstWhereOrNull((element) => element.getStudentId() == studentId);
-
   }
+
+
 
 }
