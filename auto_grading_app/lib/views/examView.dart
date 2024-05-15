@@ -7,6 +7,27 @@ import '../models/Exam.dart';
 import '../models/User.dart';
 import 'View.dart';
 
+Widget examsList(List<Exam> exams, bool sessionShown){
+  return ListView.builder(
+    itemCount: exams.length,
+    itemBuilder: (context, index) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Card(
+          elevation: 4.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ExamView(t: exams[index], sessionShown: sessionShown),
+          ),
+        ),
+      );
+    },
+  );
+}
+
 void showPopup(BuildContext context, Exam t) {
   showDialog(
     context: context,
@@ -39,7 +60,9 @@ void showPopup(BuildContext context, Exam t) {
 }
 
 class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
-  ExamView({required super.t});
+  bool sessionShown;
+
+  ExamView({required super.t, required this.sessionShown});
 
 
   @override
@@ -54,7 +77,7 @@ class ExamView extends ObjectView<Exam> { // hien bai ktra cua hoc sinh
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              User.instance.isStudent==false ? "Student: ${t.getStudent().getName()}" : "Session: ${t.getSession()}",
+              sessionShown==false ? "Student: ${t.getStudent().getName()}" : "Session: ${t.getSession()}",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Text(

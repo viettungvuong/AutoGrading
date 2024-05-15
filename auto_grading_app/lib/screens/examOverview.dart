@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/User.dart';
 import '../views/examView.dart';
 
 class ExamOverviewScreen extends StatefulWidget {
@@ -35,7 +36,7 @@ class ExamOverviewState extends State<ExamOverviewScreen> {
               itemCount: _session.exams.length, // danh sách các bài kiểm tra
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                  title: ExamView(t: _session.exams[index]),
+                  title: ExamView(t: _session.exams[index], sessionShown: User.instance.isStudent,),
                 );
               },
             ),

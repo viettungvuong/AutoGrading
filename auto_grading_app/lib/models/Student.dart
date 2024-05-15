@@ -86,4 +86,22 @@ class Student{
       return [];
     }
   }
+
+  double calculateAvgScore(){
+    if (_studentExamMap.containsKey(this)==false){
+      return 0.0;
+    }
+
+    double res = 0.0;
+    int count = 0;
+
+    _studentExamMap[this]!.forEach((exam) {
+      res+=exam.getScore();
+      count+=1;
+    });
+
+    res = res / count;
+
+    return res;
+  }
 }

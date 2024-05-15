@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../models/User.dart';
 import '../models/examSession.dart';
 import '../screens/cameraScreen.dart';
 import 'View.dart';
@@ -39,7 +40,7 @@ class ExamSessionView extends ObjectView<ExamSession> { // hien bai ktra cua hoc
                           );
                         }
                         else{
-                          return ExamView(t: t.exams[indexExam-1]);
+                          return ExamView(t: t.exams[indexExam-1], sessionShown: User.instance.isStudent);
                         }
 
                       },

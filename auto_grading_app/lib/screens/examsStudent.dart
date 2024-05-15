@@ -127,24 +127,7 @@ class ExamStudentState extends State<ExamStudentScreen> {
                     );
                   } else {
                     final exams = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: exams.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          child: Card(
-                            elevation: 4.0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: ExamView(t: exams[index]),
-                            ),
-                          ),
-                        );
-                      },
-                    );
+                    return examsList(exams, false);
                   }
                 },
               ),
