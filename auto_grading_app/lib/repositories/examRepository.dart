@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/logic/Repository.dart';
+import 'package:auto_grading_mobile/repositories/Repository.dart';
 import 'package:auto_grading_mobile/logic/backendDatabase.dart';
 import 'package:auto_grading_mobile/logic/examConverter.dart';
 import 'package:auto_grading_mobile/structs/pair.dart';
@@ -10,7 +10,7 @@ import 'package:path/path.dart';
 import '../models/Exam.dart';
 import '../models/Student.dart';
 import '../models/User.dart';
-import 'localPreferences.dart';
+import '../logic/localPreferences.dart';
 
 const String lastUpdateKey = "last_updated_exam";
 const String tableName = 'exams';

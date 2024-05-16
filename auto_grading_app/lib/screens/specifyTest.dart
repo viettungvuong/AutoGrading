@@ -1,5 +1,5 @@
-import 'package:auto_grading_mobile/logic/classRepository.dart';
-import 'package:auto_grading_mobile/logic/examSessionRepository.dart';
+import 'package:auto_grading_mobile/repositories/classRepository.dart';
+import 'package:auto_grading_mobile/repositories/examSessionRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:auto_grading_mobile/screens/cameraScreen.dart';
 import 'package:flutter/cupertino.dart';

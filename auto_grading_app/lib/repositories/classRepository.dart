@@ -1,12 +1,12 @@
-import 'package:auto_grading_mobile/logic/Repository.dart';
+import 'package:auto_grading_mobile/repositories/Repository.dart';
 import 'package:auto_grading_mobile/structs/pair.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/Class.dart';
-import 'backendDatabase.dart';
-import 'classConverter.dart';
+import '../logic/backendDatabase.dart';
+import '../logic/classConverter.dart';
 
 class ClassRepository extends BaseRepository<Class>{
   // private constructor

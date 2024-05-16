@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../logic/Repository.dart';
+import '../repositories/Repository.dart';
 import '../structs/pair.dart';
 
 class DropdownRepository extends StatefulWidget {

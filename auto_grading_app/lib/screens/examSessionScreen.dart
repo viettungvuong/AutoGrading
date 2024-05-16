@@ -2,7 +2,7 @@ import 'package:auto_grading_mobile/screens/specifyTest.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../logic/examSessionRepository.dart';
+import '../repositories/examSessionRepository.dart';
 import '../models/examSession.dart';
 import '../views/examView.dart';
 import '../views/sessionView.dart';

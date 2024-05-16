@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_grading_mobile/api_url.dart';
 import 'package:auto_grading_mobile/logic/authController.dart';
-import 'package:auto_grading_mobile/logic/examSessionRepository.dart';
+import 'package:auto_grading_mobile/repositories/examSessionRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 
 import '../models/Class.dart';

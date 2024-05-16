@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:auto_grading_mobile/api_url.dart';
 import 'package:auto_grading_mobile/logic/authController.dart';
-import 'package:auto_grading_mobile/logic/classRepository.dart';
-import 'package:auto_grading_mobile/logic/examSessionRepository.dart';
+import 'package:auto_grading_mobile/repositories/classRepository.dart';
+import 'package:auto_grading_mobile/repositories/examSessionRepository.dart';
 import 'package:auto_grading_mobile/logic/localPreferences.dart';
 import 'package:auto_grading_mobile/logic/notificationController.dart';
 
-import 'package:auto_grading_mobile/logic/studentRepository.dart';
+import 'package:auto_grading_mobile/repositories/studentRepository.dart';
 import 'package:auto_grading_mobile/models/Notification.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -18,7 +18,7 @@ import 'package:http/http.dart' as http;
 import '../structs/pair.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-import 'examRepository.dart';
+import '../repositories/examRepository.dart';
 
 const String serverUrl="$backendUrl/login";
 

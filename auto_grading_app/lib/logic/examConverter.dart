@@ -1,11 +1,11 @@
-import 'package:auto_grading_mobile/logic/studentRepository.dart';
+import 'package:auto_grading_mobile/repositories/studentRepository.dart';
 
 import '../models/Exam.dart';
 import '../models/Student.dart';
 import '../models/User.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'examRepository.dart';
+import '../repositories/examRepository.dart';
 
 Future<Exam?> examFromJsonStudentMode(Map<String,dynamic> exam, Transaction? txn) async {
   double score = exam["score"].toDouble();

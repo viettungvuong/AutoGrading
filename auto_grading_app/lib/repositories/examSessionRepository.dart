@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../structs/pair.dart';
 
 import 'Repository.dart';
-import 'examSessionConverter.dart';
+import '../logic/examSessionConverter.dart';
 
 
 class ExamSessionRepository extends BaseRepository<ExamSession> {

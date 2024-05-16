@@ -1,7 +1,7 @@
-import 'package:auto_grading_mobile/logic/classRepository.dart';
-import 'package:auto_grading_mobile/logic/examRepository.dart';
-import 'package:auto_grading_mobile/logic/examSessionRepository.dart';
-import 'package:auto_grading_mobile/logic/studentRepository.dart';
+import 'package:auto_grading_mobile/repositories/classRepository.dart';
+import 'package:auto_grading_mobile/repositories/examRepository.dart';
+import 'package:auto_grading_mobile/repositories/examSessionRepository.dart';
+import 'package:auto_grading_mobile/repositories/studentRepository.dart';
 import 'package:auto_grading_mobile/screens/classManagement.dart';
 import 'package:auto_grading_mobile/screens/examOverview.dart';
 import 'package:auto_grading_mobile/screens/examSessionScreen.dart';

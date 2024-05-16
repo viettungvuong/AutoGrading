@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_grading_mobile/logic/backendDatabase.dart';
 import 'package:auto_grading_mobile/logic/classConverter.dart';
-import 'package:auto_grading_mobile/logic/classRepository.dart';
+import 'package:auto_grading_mobile/repositories/classRepository.dart';
 import 'package:auto_grading_mobile/screens/classManagement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

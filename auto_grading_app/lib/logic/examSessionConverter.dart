@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:auto_grading_mobile/api_url.dart';
 import 'package:auto_grading_mobile/logic/backendDatabase.dart';
 import 'package:auto_grading_mobile/logic/examConverter.dart';
-import 'package:auto_grading_mobile/logic/studentRepository.dart';
+import 'package:auto_grading_mobile/repositories/studentRepository.dart';
 
 import '../models/Exam.dart';
 import '../models/Student.dart';
@@ -11,8 +11,8 @@ import '../models/examSession.dart';
 import 'package:http/http.dart' as http;
 
 import 'authController.dart';
-import 'classRepository.dart';
-import 'examSessionRepository.dart';
+import '../repositories/classRepository.dart';
+import '../repositories/examSessionRepository.dart';
 Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async {
   List<dynamic> examIds = json["exams"];
   List<Exam> exams = [];

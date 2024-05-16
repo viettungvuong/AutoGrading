@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/logic/classRepository.dart';
+import 'package:auto_grading_mobile/repositories/classRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';

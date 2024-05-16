@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:auto_grading_mobile/logic/examSessionRepository.dart';
-import 'package:auto_grading_mobile/logic/studentRepository.dart';
+import 'package:auto_grading_mobile/repositories/examSessionRepository.dart';
+import 'package:auto_grading_mobile/repositories/studentRepository.dart';
 import 'package:auto_grading_mobile/widgets/dropDownList.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
