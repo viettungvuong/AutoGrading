@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../controllers/localPreferences.dart';
+import '../logic/localPreferences.dart';
 import '../main.dart';
 import '../structs/pair.dart';
-import '../controllers/userController.dart';
+import '../logic/userController.dart';
 
 Future<void> saveLoginInfo(String username, String password) async {
   await Preferences.instance.initPreferences();

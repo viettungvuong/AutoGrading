@@ -1,6 +1,6 @@
 import 'package:auto_grading_mobile/api_url.dart';
-import 'package:auto_grading_mobile/controllers/examConverter.dart';
-import 'package:auto_grading_mobile/controllers/notificationConverter.dart';
+import 'package:auto_grading_mobile/logic/examConverter.dart';
+import 'package:auto_grading_mobile/logic/notificationConverter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

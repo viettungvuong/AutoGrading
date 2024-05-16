@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:auto_grading_mobile/controllers/studentConverter.dart';
+import 'package:auto_grading_mobile/logic/studentConverter.dart';
 
-import '../controllers/authController.dart';
-import '../controllers/backendDatabase.dart';
+import '../logic/authController.dart';
+import '../logic/backendDatabase.dart';
 import 'Student.dart';
 import 'package:http/http.dart' as http;
 

@@ -1,7 +1,7 @@
-import 'package:auto_grading_mobile/controllers/classRepository.dart';
-import 'package:auto_grading_mobile/controllers/examRepository.dart';
-import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
-import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+import 'package:auto_grading_mobile/logic/classRepository.dart';
+import 'package:auto_grading_mobile/logic/examRepository.dart';
+import 'package:auto_grading_mobile/logic/examSessionRepository.dart';
+import 'package:auto_grading_mobile/logic/studentRepository.dart';
 import 'package:auto_grading_mobile/screens/classManagement.dart';
 import 'package:auto_grading_mobile/screens/examOverview.dart';
 import 'package:auto_grading_mobile/screens/examSessionScreen.dart';
@@ -21,8 +21,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'controllers/backendDatabase.dart';
-import 'controllers/examSessionConverter.dart';
+import 'logic/backendDatabase.dart';
+import 'logic/examSessionConverter.dart';
 import 'models/User.dart';
 import 'models/examSession.dart';
 

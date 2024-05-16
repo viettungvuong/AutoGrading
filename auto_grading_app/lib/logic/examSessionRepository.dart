@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
+import 'package:auto_grading_mobile/logic/backendDatabase.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

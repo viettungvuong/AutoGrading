@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:auto_grading_mobile/controllers/backendGrade.dart';
+import 'package:auto_grading_mobile/logic/backendGrade.dart';
 import 'package:auto_grading_mobile/screens/resultScreen.dart';
 import 'package:auto_grading_mobile/screens/cameraScreen.dart';
 import 'package:camera/camera.dart';

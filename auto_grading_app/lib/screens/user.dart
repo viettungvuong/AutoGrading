@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/controllers/userController.dart';
+import 'package:auto_grading_mobile/logic/userController.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';

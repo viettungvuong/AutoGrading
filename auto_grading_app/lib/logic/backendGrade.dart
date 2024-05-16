@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_grading_mobile/api_url.dart';
-import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
+import 'package:auto_grading_mobile/logic/examSessionRepository.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;

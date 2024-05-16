@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/controllers/notificationController.dart';
+import 'package:auto_grading_mobile/logic/notificationController.dart';
 
 import 'Exam.dart';
 

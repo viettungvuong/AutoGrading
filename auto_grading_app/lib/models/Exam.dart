@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/controllers/examConverter.dart';
+import 'package:auto_grading_mobile/logic/examConverter.dart';
 
 import 'Student.dart';
 

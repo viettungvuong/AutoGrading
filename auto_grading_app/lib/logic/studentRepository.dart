@@ -1,5 +1,5 @@
-import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
-import 'package:auto_grading_mobile/controllers/studentConverter.dart';
+import 'package:auto_grading_mobile/logic/backendDatabase.dart';
+import 'package:auto_grading_mobile/logic/studentConverter.dart';
 import 'package:auto_grading_mobile/models/Student.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';

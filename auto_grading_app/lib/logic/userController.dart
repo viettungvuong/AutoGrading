@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:auto_grading_mobile/api_url.dart';
-import 'package:auto_grading_mobile/controllers/authController.dart';
-import 'package:auto_grading_mobile/controllers/classRepository.dart';
-import 'package:auto_grading_mobile/controllers/examSessionRepository.dart';
-import 'package:auto_grading_mobile/controllers/localPreferences.dart';
-import 'package:auto_grading_mobile/controllers/notificationController.dart';
+import 'package:auto_grading_mobile/logic/authController.dart';
+import 'package:auto_grading_mobile/logic/classRepository.dart';
+import 'package:auto_grading_mobile/logic/examSessionRepository.dart';
+import 'package:auto_grading_mobile/logic/localPreferences.dart';
+import 'package:auto_grading_mobile/logic/notificationController.dart';
 
-import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+import 'package:auto_grading_mobile/logic/studentRepository.dart';
 import 'package:auto_grading_mobile/models/Notification.dart';
 import 'package:flutter/cupertino.dart';
 

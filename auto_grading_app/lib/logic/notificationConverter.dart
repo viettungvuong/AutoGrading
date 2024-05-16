@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:auto_grading_mobile/controllers/examConverter.dart';
+import 'package:auto_grading_mobile/logic/examConverter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import '../api_url.dart';

@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+import 'package:auto_grading_mobile/logic/studentRepository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/controllers/Repository.dart';
+import 'package:auto_grading_mobile/logic/Repository.dart';
 import 'package:auto_grading_mobile/structs/pair.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';

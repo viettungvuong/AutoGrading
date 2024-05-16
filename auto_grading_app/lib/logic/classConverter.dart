@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_grading_mobile/api_url.dart';
-import 'package:auto_grading_mobile/controllers/studentConverter.dart';
+import 'package:auto_grading_mobile/logic/studentConverter.dart';
 
 import '../models/Class.dart';
 import '../models/Student.dart';

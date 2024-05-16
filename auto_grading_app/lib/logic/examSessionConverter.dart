@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:auto_grading_mobile/api_url.dart';
-import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
-import 'package:auto_grading_mobile/controllers/examConverter.dart';
-import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+import 'package:auto_grading_mobile/logic/backendDatabase.dart';
+import 'package:auto_grading_mobile/logic/examConverter.dart';
+import 'package:auto_grading_mobile/logic/studentRepository.dart';
 
 import '../models/Exam.dart';
 import '../models/Student.dart';

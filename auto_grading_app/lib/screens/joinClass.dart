@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:auto_grading_mobile/controllers/backendDatabase.dart';
-import 'package:auto_grading_mobile/controllers/classConverter.dart';
-import 'package:auto_grading_mobile/controllers/classRepository.dart';
+import 'package:auto_grading_mobile/logic/backendDatabase.dart';
+import 'package:auto_grading_mobile/logic/classConverter.dart';
+import 'package:auto_grading_mobile/logic/classRepository.dart';
 import 'package:auto_grading_mobile/screens/classManagement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
-import '../controllers/authController.dart';
+import '../logic/authController.dart';
 import '../models/Class.dart';
 import '../models/User.dart';
 

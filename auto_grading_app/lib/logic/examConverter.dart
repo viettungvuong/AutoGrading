@@ -1,4 +1,4 @@
-import 'package:auto_grading_mobile/controllers/studentRepository.dart';
+import 'package:auto_grading_mobile/logic/studentRepository.dart';
 
 import '../models/Exam.dart';
 import '../models/Student.dart';
