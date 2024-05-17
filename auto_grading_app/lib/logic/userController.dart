@@ -56,8 +56,6 @@ Future<Pair> Signin(String username, String password) async {
       }),
     );
 
-    print(response.statusCode);
-    print(jsonDecode(response.body));
 
     if (response.statusCode == 200) {
       // thanh cong
@@ -68,7 +66,6 @@ Future<Pair> Signin(String username, String password) async {
       User.instance.email=username; // set user
       User.instance.isStudent=jsonResponse["isStudent"];
 
-      print(jsonResponse["isStudent"]);
 
       // SocketController.instance.emitLogin(username);
       await _entry();

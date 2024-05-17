@@ -127,7 +127,7 @@ class ExamStudentState extends State<ExamStudentScreen> {
                     );
                   } else {
                     final exams = snapshot.data!;
-                    return examsList(exams, false);
+                    return examsList(exams, true);
                   }
                 },
               ),

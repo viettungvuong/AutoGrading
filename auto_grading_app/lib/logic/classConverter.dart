@@ -44,6 +44,7 @@ Future<Class?> classFromJson(Map<String, dynamic> json) async{
 
 }
 Future<List<Class>> classesFromJson(Map<String, dynamic> json) async{
+  print(json);
   List<dynamic> jsonArray = json["classes"];
   List<Class> classes  = [];
 
