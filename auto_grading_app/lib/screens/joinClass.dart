@@ -29,12 +29,11 @@ class _JoinClassScreenState extends ConsumerState<JoinClassScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Padding(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
               padding: const EdgeInsets.all(16.0),
               child: _isLoading
                   ? Center(
@@ -57,15 +56,16 @@ class _JoinClassScreenState extends ConsumerState<JoinClassScreen> {
                 ],
               ),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: ClassManagementScreen(),
-          ),
-        ],
+            Container(
+              height: MediaQuery.of(context).size.height * 2 / 3, // Adjust as needed
+              child: ClassManagementScreen(), // display the class list
+            ),
+          ],
+        ),
       ),
     );
   }
+
 
   Future<void> _joinClass() async {
     setState(() {

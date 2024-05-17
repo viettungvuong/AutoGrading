@@ -167,6 +167,7 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
 void Logout() async{
   User.instance.email="";
 
+
   // xoa nhung thu lien quan toi repo
   ExamSessionRepository.instance.resetAll();
   StudentRepository.instance.resetAll();
@@ -178,9 +179,12 @@ void Logout() async{
 
   if (User.instance.isStudent){
     await ExamRepository.instance.clearCache();
+    ExamRepository.instance.resetAll();
     ExamNotification.clear();
     User.instance.resetStudent(); // xoá student liên kết vs user
   }
+
+  User.instance.isStudent=false;
 
   // xoa cache
 

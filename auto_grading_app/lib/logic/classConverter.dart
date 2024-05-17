@@ -15,7 +15,7 @@ Future<Class?> classFromJson(Map<String, dynamic> json) async{
   String name = json["name"];
   String classId = json["classId"];
 
-  if (User.instance.isStudent==false){
+  if (User.instance.isStudent==false){ // neu khong la student
     String id = json["_id"]; // id de tim thong tin
     String serverUrl="$backendUrl/class/byId/$id"; // tìm student của class nay
 

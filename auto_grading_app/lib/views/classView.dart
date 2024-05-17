@@ -55,46 +55,6 @@ class ClassView extends ObjectView<Class> {
             },
           );
         }
-        else{
-          showModalBottomSheet(
-            context: context,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
-            ),
-            builder: (BuildContext context) {
-              return IntrinsicHeight(
-                  child: Container(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                          child: Text("Invitation code: "),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: SelectableText(
-                                t.getCode(),
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                _copyToClipboard(t.getCode());
-                              },
-                              icon: Icon(Icons.copy),
-                              label: Text("Copy"),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-              );
-            },
-          );
-        }
       },
       child: Container(
         decoration: BoxDecoration(

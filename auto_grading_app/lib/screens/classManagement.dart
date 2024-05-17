@@ -123,12 +123,12 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen> {
                     backgroundColor: Colors.black,
                     textColor: Colors.white,
                   );
-                  return; // Added return to stop further execution
+                  return;
                 }
                 String name = _newClassController.text;
                 String id = _newClassController2.text;
                 await ClassRepository.instance.add(Class(name, id));
-                ref.refresh(classesProvider); // refresh content of class
+                ref.refresh(classesProvider); // refresh content (refresh list of classes)
                 _newClassController.text = "";
                 _newClassController2.text = "";
 
