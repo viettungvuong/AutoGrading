@@ -25,19 +25,6 @@ class _ExamSessionScreenState extends State<ExamSessionScreen> {
     });
   }
 
-  Future<void> _loadInitialize() async {
-    // if (User.instance.isStudent==false){
-    //   await StudentRepository.instance.initialize();
-    //   await ClassRepository.instance.initialize();
-    //   await ExamSessionRepository.instance.initialize();
-    // }
-    // else{
-    //   await ExamRepository.instance.initialize();
-    // }
-
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -66,7 +53,7 @@ class _ExamSessionScreenState extends State<ExamSessionScreen> {
                 child: Text('Start grading'),
               ),
             ),
-            SizedBox(height: 20), // Add some space between the buttons
+            SizedBox(height: 20),
             Search(onSearch: (query) {
               setState(() {
                 _sessions = Future.value(ExamSessionRepository.instance.filter(query));

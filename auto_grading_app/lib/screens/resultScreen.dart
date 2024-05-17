@@ -75,8 +75,6 @@ class _ResultScreenState extends State<ResultScreen> {
   }
 
   Future<void> _addExamToSession() async {
-
-
     if (_selectedStudent==null){
       return;
     }
@@ -84,7 +82,8 @@ class _ResultScreenState extends State<ResultScreen> {
     Exam exam=Exam(_selectedStudent!,score);
     exam.setGradedPaperLink(widget.imagePath);
 
-    print(exam.getStudent().getStudentId());
+    exam.setSession(widget.session.getName()); // lien ket voi session
+    Student.linkExamToStudent(_selectedStudent!, exam); // them vao map
 
     widget.session.exams.add(exam); // them bai ktra cua hoc sinh nay vao
     ExamSessionRepository.instance.updateToDatabase(widget.session);

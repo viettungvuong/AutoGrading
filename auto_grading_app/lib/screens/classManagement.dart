@@ -8,36 +8,59 @@ import '../models/User.dart';
 import '../views/classView.dart';
 import '../widgets/searchBar.dart';
 
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
 final classesProvider = FutureProvider<List<Class>>((ref) async {
-  return ClassRepository.instance.getAll();
+  final searchQuery = ref.watch(searchQueryProvider);
+  print(searchQuery);
+  if (searchQuery.isEmpty) {
+    return ClassRepository.instance.getAll();
+  } else {
+    return ClassRepository.instance.filter(searchQuery);
+  }
 });
 
-class ClassManagementScreen extends ConsumerWidget {
+class ClassManagementScreen extends ConsumerStatefulWidget {
+  @override
+  _ClassManagementScreenState createState() => _ClassManagementScreenState();
+}
+
+class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen> {
   final TextEditingController _newClassController = TextEditingController();
   final TextEditingController _newClassController2 = TextEditingController();
 
+  @override
+  void dispose() {
+    _newClassController.dispose();
+    _newClassController2.dispose();
+    super.dispose();
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.refresh(classesProvider);
+  Widget build(BuildContext context) {
     final classesAsyncValue = ref.watch(classesProvider);
-        return Scaffold(
-      resizeToAvoidBottomInset: false,
 
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Column(
           children: [
             Search(
               onSearch: (query) {
-                // Implement search functionality
+                setState(() {
+                  ref.read(searchQueryProvider.state).state = query;
+                });
+
               },
             ),
-            User.instance.isStudent==false?IconButton(
+            User.instance.isStudent == false
+                ? IconButton(
               onPressed: () {
-                _showAddDialog(context,ref);
+                _showAddDialog(context, ref);
               },
               icon: Icon(Icons.add),
-            ):SizedBox(),
+            )
+                : SizedBox(),
             Expanded(
               child: classesAsyncValue.when(
                 data: (classes) {
@@ -100,16 +123,16 @@ class ClassManagementScreen extends ConsumerWidget {
                     backgroundColor: Colors.black,
                     textColor: Colors.white,
                   );
+                  return; // Added return to stop further execution
                 }
                 String name = _newClassController.text;
                 String id = _newClassController2.text;
-                await ClassRepository.instance.add(Class(name,id));
-                ref.refresh(classesProvider); // refresh noi dung class
+                await ClassRepository.instance.add(Class(name, id));
+                ref.refresh(classesProvider); // refresh content of class
                 _newClassController.text = "";
                 _newClassController2.text = "";
 
                 Navigator.of(context).pop();
-
               },
               child: Text('Add'),
             ),
@@ -125,5 +148,3 @@ class ClassManagementScreen extends ConsumerWidget {
     );
   }
 }
-
-
