@@ -1,11 +1,15 @@
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 import 'Class.dart';
 import 'Exam.dart';
 
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xcel;
 
 class ExamSession{
   late String _name;
@@ -66,40 +70,31 @@ class ExamSession{
 
 
   void generateExcelFile() async {
-    // Create Excel file
-    final excel = Excel.createExcel();
-    Sheet sheetObject = excel['GradeSheet'];
 
-    // Add column names
-    sheetObject.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0)).value = 'Name' as CellValue;
-    sheetObject.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0)).value = 'Student ID' as CellValue;
-    sheetObject.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0)).value = 'Score' as CellValue;
+    final xcel.Workbook workbook = xcel.Workbook();
+    final xcel.Worksheet sheet = workbook.worksheets[0];
 
-    // Add exam data
+
+    sheet.getRangeByIndex(1, 1).setText("Name");
+    sheet.getRangeByIndex(1, 2).setText("StudentID");
+    sheet.getRangeByIndex(1, 3).setText("Score");
+
+    // them du lieu
     for (int i = 0; i < exams.length; i++) {
       final exam = exams[i];
-      sheetObject.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: i + 1)).value = exam.getStudent().getName() as CellValue;
-      sheetObject.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: i + 1)).value = exam.getStudent().getStudentId() as CellValue;
-      sheetObject.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: i + 1)).value = exam.getScore() as CellValue;
+      sheet.getRangeByIndex(i+2, 1).setText(exam.getStudent().getName());
+      sheet.getRangeByIndex(i+2, 2).setText(exam.getStudent().getStudentId());
+      sheet.getRangeByIndex(i+2, 3).setText(exam.getScore().toString());
+
     }
 
-    // Allow the user to pick where to save the file
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['xlsx'],
-      dialogTitle: 'Save Excel File As',
-    );
+    final List<int> bytes = workbook.saveAsStream();
+    final documentsDirectory = "/storage/emulated/0/Documents";
+    final filePath = '${documentsDirectory}/$_name.xlsx';
+    await File(filePath).writeAsBytes(bytes);
+    workbook.dispose();
+    Fluttertoast.showToast(msg:'Excel file saved at: $filePath');
 
-    if (result != null) {
-      // Save Excel file to selected location
-      File file = File(result.files.single.path!);
-      file.writeAsBytesSync(excel.encode()!);
-
-      print('Excel file saved at: ${file.path}');
-    } else {
-      // User canceled file picking
-      print('No file selected');
-    }
   }
 
   bool operator==(Object other) =>

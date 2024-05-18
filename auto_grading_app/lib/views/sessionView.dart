@@ -62,18 +62,28 @@ class ExamSessionView extends ObjectView<ExamSession> { // hien bai ktra cua hoc
               children: [
                 Text(
                   t.getName(),
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 ),
-                ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => CameraScreen(examSession: t,))
-                      );
-
-                    },
-                    icon: Icon(Icons.play_arrow), label: Text("Continue"),
-                )
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        t.generateExcelFile();
+                      },
+                      icon: Center(
+                        child: Icon(Icons.save),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CameraScreen(examSession: t,)));
+                      },
+                      icon: Center(
+                        child: Icon(Icons.play_arrow),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             )
           ),
