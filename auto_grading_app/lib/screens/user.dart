@@ -6,6 +6,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restart_app/restart_app.dart';
 
 import '../main.dart';
@@ -84,6 +85,7 @@ class UserScreen extends StatelessWidget {
                 }
                 else{
                   wrongPassword=true;
+                  Fluttertoast.showToast(msg: "Wrong password");
                 }
 
               },
