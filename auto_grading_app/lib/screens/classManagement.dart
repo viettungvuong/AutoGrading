@@ -134,7 +134,7 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen> {
                 String name = _newClassController.text;
                 String id = _newClassController2.text;
                 await ClassRepository.instance.add(Class(name, id));
-                ref.refresh(classesProvider); // refresh content (refresh list of classes)
+                ref.refresh(classesProvider); // refresh danh sach class
                 _newClassController.text = "";
                 _newClassController2.text = "";
 

@@ -161,16 +161,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> checkAutoSignIn() async {
     await Preferences.instance.initPreferences();
+    final autologin = Preferences.instance[prefKey];
     final username = Preferences.instance[userNameKey];
     final password = Preferences.instance[passwordKey];
 
-    print(username);
-    print(password);
-
-    if (username != null &&
-        password != null &&
-        username.isNotEmpty &&
-        password.isNotEmpty) {
+    if (autologin!=null&&autologin==true) {
       login(username, password);
     }
   }

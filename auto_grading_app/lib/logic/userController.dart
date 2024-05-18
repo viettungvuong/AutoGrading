@@ -162,18 +162,18 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
   }
 }
 
-Future<void> Logout() async{
+void Logout(){
   User.instance.email="";
 
   // xoa nhung thu lien quan toi repo
   BaseRepository.reset();
-
   Preferences.instance[prefKey]=false;
-  Preferences.instance[userNameKey]="";
-  Preferences.instance[passwordKey]="";
+  Preferences.instance[userNameKey]=null;
+  Preferences.instance[passwordKey]=null;
+
 
   if (User.instance.isStudent){
-    await ExamRepository.instance.clearCache();
+    // await ExamRepository.instance.clearCache();
     ExamNotification.clear(); // xoa notification
     User.instance.resetStudent(); // xoá student liên kết vs user
   }

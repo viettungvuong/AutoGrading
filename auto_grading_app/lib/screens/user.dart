@@ -101,7 +101,7 @@ class UserScreen extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmation'),
-          content: Text('Do you want to logout? Logout involves closing the application and reopens it again.'
+          content: Text('Do you want to logout?'
             , style: TextStyle(fontWeight: FontWeight.bold),),
           actions: <Widget>[
             TextButton(
@@ -111,10 +111,16 @@ class UserScreen extends StatelessWidget {
               child: Text('No'),
             ),
             TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop(); // Close the dialog
-                await Logout(); // logout
-                exit(0); // dong app lai
+              onPressed: () {
+                Logout(); // logout
+
+                Navigator.pushAndRemoveUntil<dynamic>(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => LoginScreen(),
+                  ),
+                      (route) => false,
+                );
               },
               child: Text('Yes'),
             ),
@@ -165,15 +171,6 @@ class UserScreen extends StatelessWidget {
               onPressed: () async {
                 if (User.instance.isSignedIn()) {
                   _showLogoutDialog(context);
-
-                  // Navigator.pushAndRemoveUntil<dynamic>(
-                  //   context,
-                  //   MaterialPageRoute<dynamic>(
-                  //     builder: (BuildContext context) => LoginScreen(),
-                  //   ),
-                  //       (route) => false,
-                  // );
-
                 }
 
               },

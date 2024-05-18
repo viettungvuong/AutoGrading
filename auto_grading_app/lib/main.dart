@@ -80,6 +80,7 @@ class MainScreen extends ConsumerWidget{ // man hinh tong
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(selectedIndexProvider);
+    ref.refresh(classesProvider);
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent going back

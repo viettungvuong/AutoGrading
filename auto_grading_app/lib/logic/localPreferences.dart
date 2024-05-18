@@ -19,6 +19,7 @@ class Preferences {
       return;
     }
     _prefs = await SharedPreferences.getInstance();
+    await _prefs.reload();
     _initialized=true;
   }
 
@@ -43,6 +44,11 @@ class Preferences {
   }
 
   dynamic operator [](String key) {
+    if (_initialized==false){
+      initPreferences();
+    }
+    while (_initialized==false){
+    }
     if (_prefs.containsKey(key)==false){
       return null;
     }
@@ -62,6 +68,11 @@ class Preferences {
   }
 
   void operator []=(String key, dynamic value) {
+    if (_initialized==false){
+      initPreferences();
+    }
+    while (_initialized==false){
+    }
     try{
       if (value is bool){
         saveBoolean(key, value);
