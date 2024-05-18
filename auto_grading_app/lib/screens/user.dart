@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:auto_grading_mobile/logic/userController.dart';
@@ -14,7 +15,7 @@ import '../models/Student.dart';
 import '../models/User.dart';
 import '../structs/pair.dart';
 
-class StudentInfo extends StatelessWidget{
+class StudentInfo extends StatelessWidget {
   final Student student;
 
   StudentInfo({required this.student});
@@ -28,26 +29,30 @@ class StudentInfo extends StatelessWidget{
       child: Column(
         children: [
           Text(student.getName(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-
-          Text("Student ID: ${student.getStudentId()}", style: TextStyle(fontSize: 15),)
+          Text("Student ID: ${student.getStudentId()}", style: TextStyle(fontSize: 15)),
         ],
       ),
     );
   }
-
-
 }
 
-class UserScreen extends StatelessWidget {
+class UserScreen extends StatefulWidget {
   final User user;
 
   UserScreen({required this.user});
 
+  @override
+  _UserScreenState createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
+  bool _isLoading = false;
+
   void _showChangePasswordDialog(BuildContext context) {
-    // mo popup doi mat khau
     String confirmPassword = '';
     String newPassword = '';
-    bool wrongPassword=false;
+    bool wrongPassword = false;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -56,16 +61,18 @@ class UserScreen extends StatelessWidget {
           content: Column(
             children: [
               TextField(
-                  onChanged: (value) {
-                    confirmPassword = value;
-                  },
-                  decoration: InputDecoration(labelText: "Confirm password")),
-              (wrongPassword)?Text("This password does not match with the current password",style: TextStyle(color: Colors.red),):SizedBox(),
+                onChanged: (value) {
+                  confirmPassword = value;
+                },
+                decoration: InputDecoration(labelText: "Confirm password"),
+              ),
+              (wrongPassword) ? Text("This password does not match with the current password", style: TextStyle(color: Colors.red),) : SizedBox(),
               TextField(
-                  onChanged: (value) {
-                    newPassword = value;
-                  },
-                  decoration: InputDecoration(labelText: "New Password")),
+                onChanged: (value) {
+                  newPassword = value;
+                },
+                decoration: InputDecoration(labelText: "New Password"),
+              ),
             ],
           ),
           actions: <Widget>[
@@ -77,19 +84,28 @@ class UserScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                Pair res = await ChangePassword(User.instance.email!, confirmPassword, newPassword);
-                print(res.a);
+                setState(() {
+                  _isLoading = true; // Set loading state to true
+                });
 
-                if (res.a){ // true
+                Pair res = await ChangePassword(User.instance.email!, confirmPassword, newPassword);
+
+                setState(() {
+                  _isLoading = false; // Set loading state to false
+                });
+
+                if (res.a) {
                   Navigator.of(context).pop(); // Close the dialog
-                }
-                else{
-                  wrongPassword=true;
+                } else {
+                  setState(() {
+                    wrongPassword = true;
+                  });
                   Fluttertoast.showToast(msg: "Wrong password");
                 }
-
               },
-              child: Text('Change'),
+              child: _isLoading
+                  ? CircularProgressIndicator() // DANG LOAD
+                  : Text('Change'),
             ),
           ],
         );
@@ -103,8 +119,10 @@ class UserScreen extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmation'),
-          content: Text('Do you want to logout?'
-            , style: TextStyle(fontWeight: FontWeight.bold),),
+          content: Text(
+            'Do you want to logout?',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -139,10 +157,10 @@ class UserScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          User.instance.isStudent?FutureBuilder<Student?>(
+          User.instance.isStudent ? FutureBuilder<Student?>(
             future: User.instance.toStudent(),
             builder: (BuildContext context, AsyncSnapshot<Student?> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
+              if (_isLoading) {
                 return CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
@@ -159,7 +177,7 @@ class UserScreen extends StatelessWidget {
                 }
               }
             },
-          ):SizedBox(),
+          ) : SizedBox(),
           SizedBox(height: 20),
           Text(
             User.instance.email ?? "",
@@ -170,26 +188,25 @@ class UserScreen extends StatelessWidget {
           ),
           SizedBox(height: 20),
           ElevatedButton(
-              onPressed: () async {
-                if (User.instance.isSignedIn()) {
-                  _showLogoutDialog(context);
-                }
-
-              },
-              child: Text(
-                User.instance.isSignedIn() ? "Sign out" : "Sign in",
-                style: TextStyle(
-                    color:
-                        User.instance.isSignedIn() ? Colors.red : Colors.green),
-              )),
+            onPressed: () async {
+              if (User.instance.isSignedIn()) {
+                _showLogoutDialog(context);
+              }
+            },
+            child: Text(
+              User.instance.isSignedIn() ? "Sign out" : "Sign in",
+              style: TextStyle(
+                color: User.instance.isSignedIn() ? Colors.red : Colors.green,
+              ),
+            ),
+          ),
           SizedBox(height: 20),
-          (User.instance.isSignedIn())?          ElevatedButton(
+          (User.instance.isSignedIn()) ? ElevatedButton(
             onPressed: () {
               _showChangePasswordDialog(context); // Show change password dialog
             },
             child: Text("Change Password"),
-          ):SizedBox(),
-
+          ) : SizedBox(),
         ],
       ),
     );
