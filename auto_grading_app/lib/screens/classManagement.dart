@@ -19,6 +19,7 @@ final classesProvider = FutureProvider<List<Class>>((ref) async {
   }
 });
 
+
 class ClassManagementScreen extends ConsumerStatefulWidget {
   @override
   _ClassManagementScreenState createState() => _ClassManagementScreenState();

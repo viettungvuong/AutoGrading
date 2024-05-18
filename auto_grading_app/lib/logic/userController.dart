@@ -162,7 +162,7 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
   }
 }
 
-void Logout() async{
+Future<void> Logout() async{
   User.instance.email="";
 
   // xoa nhung thu lien quan toi repo

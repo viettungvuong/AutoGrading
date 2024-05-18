@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_grading_mobile/logic/userController.dart';
 import 'package:auto_grading_mobile/screens/loginRegister.dart';
 import 'package:camera/camera.dart';
@@ -93,6 +95,35 @@ class UserScreen extends StatelessWidget {
     );
   }
 
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmation'),
+          content: Text('Do you want to logout? Logout involves closing the application and reopens it again.'
+            , style: TextStyle(fontWeight: FontWeight.bold),),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop(); // Close the dialog
+                await Logout(); // logout
+                exit(0); // dong app lai
+              },
+              child: Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -133,15 +164,16 @@ class UserScreen extends StatelessWidget {
           ElevatedButton(
               onPressed: () async {
                 if (User.instance.isSignedIn()) {
-                  Logout(); // thoat dang nhap
+                  _showLogoutDialog(context);
 
-                  Navigator.pushAndRemoveUntil<dynamic>(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => LoginScreen(),
-                    ),
-                        (route) => false,
-                  ); // logout
+                  // Navigator.pushAndRemoveUntil<dynamic>(
+                  //   context,
+                  //   MaterialPageRoute<dynamic>(
+                  //     builder: (BuildContext context) => LoginScreen(),
+                  //   ),
+                  //       (route) => false,
+                  // );
+
                 }
 
               },
