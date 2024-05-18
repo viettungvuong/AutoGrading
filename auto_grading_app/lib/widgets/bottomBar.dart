@@ -29,7 +29,7 @@ class BottomBar extends ConsumerWidget {
       currentIndex: ref.watch(selectedIndexProvider),
       selectedItemColor: Colors.amber[800],
       onTap: (selected) {
-        ref.read(selectedIndexProvider.state).state = selected; // chinh so trong provider thanh selected
+        ref.read(selectedIndexProvider.state).state = selected; // chinh so thanh index cua selected
       },
       // Set type to BottomNavigationBarType.fixed to ensure all items are visible
       type: BottomNavigationBarType.fixed,

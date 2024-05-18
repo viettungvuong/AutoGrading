@@ -12,7 +12,6 @@ final searchQueryProvider = StateProvider<String>((ref) => '');
 
 final classesProvider = FutureProvider<List<Class>>((ref) async {
   final searchQuery = ref.watch(searchQueryProvider);
-  print(searchQuery);
   if (searchQuery.isEmpty) {
     return ClassRepository.instance.getAll();
   } else {
@@ -28,6 +27,7 @@ class ClassManagementScreen extends ConsumerStatefulWidget {
 class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen> {
   final TextEditingController _newClassController = TextEditingController();
   final TextEditingController _newClassController2 = TextEditingController();
+  late AsyncValue<List<Class>> classesAsyncValue; // luu class
 
   @override
   void dispose() {
@@ -37,9 +37,14 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final classesAsyncValue = ref.watch(classesProvider);
+  void initState(){
+    super.initState();
+    ref.read(classesProvider);
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    classesAsyncValue = ref.watch(classesProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(

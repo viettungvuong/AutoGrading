@@ -63,9 +63,7 @@ class _DropdownListStudentState extends State<DropdownListStudent> {
             ),
           ),
           onChanged: (value) {
-            print("Choosing student");
             final selectedIndex = _dropdownOptions.indexOf(value!);
-            print(_list[selectedIndex].getStudentId());
             widget.onChanged(_list[selectedIndex]);
             setState(() => _selectedItem = value);
           },

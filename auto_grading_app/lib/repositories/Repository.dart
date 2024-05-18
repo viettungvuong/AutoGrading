@@ -1,3 +1,8 @@
+import 'package:auto_grading_mobile/repositories/classRepository.dart';
+import 'package:auto_grading_mobile/repositories/examRepository.dart';
+import 'package:auto_grading_mobile/repositories/examSessionRepository.dart';
+import 'package:auto_grading_mobile/repositories/studentRepository.dart';
+
 import '../structs/pair.dart';
 
 abstract class BaseRepository<T> {
@@ -36,4 +41,11 @@ abstract class BaseRepository<T> {
   List<Pair> convertForDropdown();
 
   BaseRepository clone();
+
+  static void reset(){
+    ClassRepository.instance.resetAll();
+    ExamRepository.instance.resetAll();
+    ExamSessionRepository.instance.resetAll();
+    StudentRepository.instance.resetAll();
+  }
 }

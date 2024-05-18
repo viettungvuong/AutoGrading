@@ -15,6 +15,7 @@ import '../models/Student.dart';
 import '../models/User.dart';
 import 'package:http/http.dart' as http;
 
+import '../repositories/Repository.dart';
 import '../structs/pair.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -164,11 +165,8 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
 void Logout() async{
   User.instance.email="";
 
-
   // xoa nhung thu lien quan toi repo
-  ExamSessionRepository.instance.resetAll();
-  StudentRepository.instance.resetAll();
-  ClassRepository.instance.resetAll();
+  BaseRepository.reset();
 
   Preferences.instance[prefKey]=false;
   Preferences.instance[userNameKey]="";
@@ -176,8 +174,7 @@ void Logout() async{
 
   if (User.instance.isStudent){
     await ExamRepository.instance.clearCache();
-    ExamRepository.instance.resetAll();
-    ExamNotification.clear();
+    ExamNotification.clear(); // xoa notification
     User.instance.resetStudent(); // xoá student liên kết vs user
   }
 

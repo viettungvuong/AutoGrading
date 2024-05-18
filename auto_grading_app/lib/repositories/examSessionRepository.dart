@@ -124,30 +124,8 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
 
       return null;
     }
-
-
   }
 
-  // void updateLatestSession(ExamSession session) async {
-  //   Pair res = await updateExamSessionToDatabase(session,_lastId); // update len database
-  //   if (res.a==null){
-  //     Fluttertoast.showToast(
-  //       msg: res.b,
-  //       toastLength: Toast.LENGTH_LONG,
-  //       gravity: ToastGravity.BOTTOM,
-  //       timeInSecForIosWeb: 1,
-  //       backgroundColor: Colors.black45,
-  //       textColor: Colors.white,
-  //       fontSize: 16.0,
-  //     );
-  //   }
-  //   else{
-  //     session.id = res.a;
-  //     _lastId = res.a;
-  //     items.removeLast();
-  //     items.add(session);
-  //   }
-  // }
 
   List<ExamSession> filter(String query){
     return items.where((element) => element.getName().toLowerCase().contains(query.toLowerCase())).toList();

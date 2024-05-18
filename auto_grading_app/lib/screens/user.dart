@@ -135,13 +135,14 @@ class UserScreen extends StatelessWidget {
                 if (User.instance.isSignedIn()) {
                   Logout(); // thoat dang nhap
 
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  Navigator.pushAndRemoveUntil<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => LoginScreen(),
+                    ),
                         (route) => false,
-                  );
+                  ); // logout
                 }
-
-                // chay lai app
 
               },
               child: Text(
