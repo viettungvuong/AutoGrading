@@ -24,6 +24,10 @@ class ExamNotification implements NotificationModel{
     _count = _notifications.length;
   }
 
+  static void removeNotification(ExamNotification notification){
+    _notifications.remove(notification);
+  }
+
   static List<ExamNotification> getNotifications(){
     return _notifications;
   }
@@ -41,6 +45,7 @@ class ExamNotification implements NotificationModel{
     _read = true;
     _count--; // giam so luong noti chua doc
 
+    ExamNotification.removeNotification(this); // xoá khỏi danh sách notification
     NotificationController.setRead(this);
   }
 

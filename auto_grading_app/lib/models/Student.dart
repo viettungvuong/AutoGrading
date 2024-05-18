@@ -80,7 +80,7 @@ class Student{
   }
   static List<Exam> getExamsOfStudent(Student student){
     if (_studentExamMap.containsKey(student)==true){
-      return _studentExamMap[student]!;
+      return _studentExamMap[student]!.toSet().toList();
     }
     else{
       return [];

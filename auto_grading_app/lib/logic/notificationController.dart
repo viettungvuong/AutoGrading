@@ -41,7 +41,6 @@ class NotificationController{
         throw Exception('Failed to load notifications');
       }
     } catch (error) {
-      print('Error fetching notifications: $error');
       Fluttertoast.showToast(
         msg: '$error. Please try again later.',
         toastLength: Toast.LENGTH_SHORT,
@@ -60,14 +59,13 @@ class NotificationController{
     try {
       final response = await http.put(Uri.parse(url), headers: AuthController.instance.getHeader());
 
-
       if (response.statusCode == 200) {
         return true;
       } else {
         throw Exception('Failed to load notifications');
       }
     } catch (error) {
-      print('Error setting read of a notification: $error');
+
       Fluttertoast.showToast(
         msg: '$error. Please try again later.',
         toastLength: Toast.LENGTH_SHORT,

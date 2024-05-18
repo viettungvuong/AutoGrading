@@ -19,14 +19,24 @@ class StudentView extends ObjectView<Student> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
       ),
       builder: (BuildContext context) {
-        return Container(
-          height: 500,
-          child:Student.getExamsOfStudent(student).isNotEmpty?examsList(Student.getExamsOfStudent(student),true)
-              :Center(child: Text("No exams")),
+        return Column(
+          children: <Widget>[
+            Container(
+              height: 50, // Adjust the height as needed
+              alignment: Alignment.center,
+              child: Text("Average score: ${student.calculateAvgScore()}", style: TextStyle(fontSize: 15),),
+            ),
+            Expanded(
+              child: Student.getExamsOfStudent(student).isNotEmpty
+                  ? examsList(Student.getExamsOfStudent(student), true)
+                  : Center(child: Text("No exams")),
+            ),
+          ],
         );
       },
     );
   }
+
 
 
   StudentView({required super.t});
