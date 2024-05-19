@@ -40,7 +40,6 @@ abstract class BaseRepository<T> {
 
   List<Pair> convertForDropdown();
 
-  BaseRepository clone();
 
   static void reset(){
     ClassRepository.instance.resetAll();

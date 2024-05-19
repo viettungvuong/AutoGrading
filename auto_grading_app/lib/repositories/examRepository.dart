@@ -27,13 +27,6 @@ class ExamRepository extends BaseRepository<Exam> {
   // Singleton
   static final ExamRepository _instance = ExamRepository._();
 
-  ExamRepository.copy(ExamRepository other) : super.copy(other);
-
-  @override
-  ExamRepository clone() {
-    return ExamRepository.copy(this);
-  }
-
   static ExamRepository get instance => _instance;
 
   @override

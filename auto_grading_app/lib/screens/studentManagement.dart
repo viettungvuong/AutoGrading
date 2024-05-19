@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/Student.dart';
 import '../views/studentView.dart';
+import '../views/viewFactory.dart';
 import '../widgets/searchBar.dart';
 
 class StudentManagementScreen extends StatefulWidget {
@@ -65,7 +66,7 @@ class _StudentManagementScreenState extends State<StudentManagementScreen> {
                     return ListView.builder(
                       itemCount: students.length,
                       itemBuilder: (context, index) {
-                        return StudentView(t: students[index],);
+                        return ObjectViewFactory.getView(students[index]);
                       },
                     );
                   }

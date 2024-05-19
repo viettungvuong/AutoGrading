@@ -4,6 +4,7 @@ import '../models/Exam.dart';
 import '../models/Notification.dart';
 import '../views/examView.dart';
 import '../views/notificationView.dart';
+import '../views/viewFactory.dart';
 
 class ExamNotificationsScreen extends StatefulWidget {
   @override
@@ -30,8 +31,7 @@ class _ExamNotificationsScreenState extends State<ExamNotificationsScreen> {
                 ExamNotification.getNotifications().removeAt(index);
               });
               showPopup(context, notification.exam); // Show exam info
-            },
-            child: NotificationView(t: notification),
+            }, child: ObjectViewFactory.getView(notification)
           );
         },
       )

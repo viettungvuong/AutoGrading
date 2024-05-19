@@ -13,13 +13,6 @@ class ClassRepository extends BaseRepository<Class>{
   // private constructor
   ClassRepository._() : super();
 
-  ClassRepository.copy(ClassRepository other): super.copy(other);
-
-  @override
-  ClassRepository clone() {
-    return ClassRepository.copy(this);
-  }
-
 
   // singleton
   static final ClassRepository _instance = ClassRepository._();

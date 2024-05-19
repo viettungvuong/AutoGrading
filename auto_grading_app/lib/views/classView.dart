@@ -1,4 +1,5 @@
 import 'package:auto_grading_mobile/views/studentView.dart';
+import 'package:auto_grading_mobile/views/viewFactory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,8 +42,7 @@ class ClassView extends ObjectView<Class> {
                     ? ListView.builder(
                   itemCount: t.students.toSet().length,
                   itemBuilder: (context, index) {
-                    print(t.students.toSet());
-                    return StudentView(t: t.students.toSet().toList()[index]);
+                    return ObjectViewFactory.getView(t.students.toSet().toList()[index]);
                   },
                 )
                     : Container(

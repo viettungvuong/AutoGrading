@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../models/Class.dart';
 import '../models/User.dart';
 import '../views/classView.dart';
+import '../views/viewFactory.dart';
 import '../widgets/searchBar.dart';
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
@@ -78,7 +79,7 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen> {
                     return ListView.builder(
                       itemCount: classes.length,
                       itemBuilder: (context, index) {
-                        return ClassView(t: classes[index]);
+                        return ObjectViewFactory.getView(classes[index]);
                       },
                     );
                   }

@@ -2,6 +2,7 @@ import 'package:auto_grading_mobile/repositories/examRepository.dart';
 import 'package:auto_grading_mobile/logic/notificationController.dart';
 import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:auto_grading_mobile/screens/notificationScreen.dart';
+import 'package:auto_grading_mobile/views/viewFactory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,7 +52,7 @@ class ExamStudentState extends State<ExamStudentScreen> {
                     });
                     showPopup(context, notification.exam); // hien thong tin bai ktra
                   },
-                  child: NotificationView(t: notification,)
+                  child: ObjectViewFactory.getView(notification)
               );
             },
           ):Center(child: Text("No notifications")),

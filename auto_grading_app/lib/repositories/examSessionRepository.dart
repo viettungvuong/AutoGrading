@@ -16,16 +16,6 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
   // private constructor
   ExamSessionRepository._() : super();
 
-  ExamSessionRepository.copy(ExamSessionRepository other): super.copy(other);
-  // {
-  //   this._lastId=other._lastId;
-  // }
-
-  @override
-  ExamSessionRepository clone() {
-    return ExamSessionRepository.copy(this);
-  }
-
 
   // singleton
   static final ExamSessionRepository _instance = ExamSessionRepository._();

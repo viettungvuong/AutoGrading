@@ -6,6 +6,7 @@ import '../repositories/examSessionRepository.dart';
 import '../models/examSession.dart';
 import '../views/examView.dart';
 import '../views/sessionView.dart';
+import '../views/viewFactory.dart';
 import '../widgets/searchBar.dart';
 
 class ExamSessionScreen extends StatefulWidget { // Convert HomeScreen to StatefulWidget
@@ -81,7 +82,7 @@ class _ExamSessionScreenState extends State<ExamSessionScreen> {
                     return ListView.builder(
                       itemCount: sessions.length,
                       itemBuilder: (context, index) {
-                        return ExamSessionView(t: sessions[index]);
+                        return ObjectViewFactory.getView(sessions[index]);
                       },
                     );
                   }
