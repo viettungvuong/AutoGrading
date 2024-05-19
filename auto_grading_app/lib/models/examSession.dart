@@ -16,7 +16,6 @@ class ExamSession{
   late Map<int,int> _answers; // đáp án đúng
   late int _availableChoices;
   late int _questions;
-  String? id; // id tren database
 
   late Class _class;
 

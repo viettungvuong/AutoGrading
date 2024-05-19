@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../logic/mapDb.dart';
 import '../models/Class.dart';
 import '../logic/backendDatabase.dart';
 import '../logic/classConverter.dart';
@@ -42,7 +43,8 @@ class ClassRepository extends BaseRepository<Class>{
     }
     else{
       item.setCode(res.b.a); // dat invitation code
-      item.dbId=res.b.b;
+
+      MapDatabase.instance.ids[item]=res.b.b;
 
       super.items.add(item);
     }
@@ -82,7 +84,7 @@ class ClassRepository extends BaseRepository<Class>{
   }
 
   Class? findByDbId(String dbId) {
-    return items.firstWhereOrNull((element) => element.dbId == dbId);
+    return items.firstWhereOrNull((element) =>       MapDatabase.instance.ids[element] == dbId);
   }
 
 

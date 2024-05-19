@@ -3,6 +3,7 @@ import 'package:auto_grading_mobile/models/examSession.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../logic/mapDb.dart';
 import '../structs/pair.dart';
 
 import 'Repository.dart';
@@ -71,7 +72,7 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
       return false;
     } else {
       String id = res.a;
-      item.id = id;
+      MapDatabase.instance.ids[item]=id;
       items.add(item);
       // _lastId = id;
       return true;
@@ -87,10 +88,10 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
   @override
   Future<Pair?> updateToDatabase(ExamSession item) async {
     try{
-      if (item.id==null){
+      if (MapDatabase.instance.ids[item]==null){
         throw Exception("Not initialized on database yet");
       }
-      Pair res = await updateExamSessionToDatabase(item, item.id!);
+      Pair res = await updateExamSessionToDatabase(item, MapDatabase.instance.ids[item]!);
       if (res.a == null) {
         Fluttertoast.showToast(
           msg: res.b,
@@ -102,7 +103,7 @@ class ExamSessionRepository extends BaseRepository<ExamSession> {
           fontSize: 16.0,
         );
       } else {
-        item.id = res.a;
+        MapDatabase.instance.ids[item]=res.a;
         // _lastId = res.a;
         items.remove(item);
         items.add(item);

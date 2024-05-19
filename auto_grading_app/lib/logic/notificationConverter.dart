@@ -7,6 +7,7 @@ import '../api_url.dart';
 import '../models/Exam.dart';
 import '../models/Notification.dart';
 import 'authController.dart';
+import 'mapDb.dart';
 
 Future<List<ExamNotification>> notificationsFromJson(Map<String,dynamic> json) async {
   dynamic notifications = json["notifications"];
@@ -31,8 +32,9 @@ Future<List<ExamNotification>> notificationsFromJson(Map<String,dynamic> json) a
 
       String dbId = notification["_id"];
 
-      ExamNotification noti = ExamNotification(dbId: dbId, exam: exam, dateTime: dateTime);
 
+      ExamNotification noti = ExamNotification(exam: exam, dateTime: dateTime);
+      MapDatabase.instance.ids[noti]=dbId;
       res.add(noti);
     } else {
       print('Failed with status code: ${response.statusCode}');

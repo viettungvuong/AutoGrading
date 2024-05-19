@@ -12,6 +12,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'authController.dart';
+import 'mapDb.dart';
 
 const notifyUrl = "$backendUrl/exam/notify";
 
@@ -54,7 +55,7 @@ class NotificationController{
   }
 
   static Future<bool> setRead(ExamNotification notification) async {
-    final url = "$notifyUrl/${notification.dbId}";
+    final url = "$notifyUrl/${MapDatabase.instance.ids[notification]}";
 
     try {
       final response = await http.put(Uri.parse(url), headers: AuthController.instance.getHeader());

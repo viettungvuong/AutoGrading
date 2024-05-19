@@ -13,13 +13,14 @@ import 'package:http/http.dart' as http;
 import 'authController.dart';
 import '../repositories/classRepository.dart';
 import '../repositories/examSessionRepository.dart';
+import 'mapDb.dart';
 Future<ExamSession?> sessionFromJson(Map<String, dynamic> json) async {
   List<dynamic> examIds = json["exams"];
   List<Exam> exams = [];
 
   ExamSession session = ExamSession();
   session.setName(json["name"]);
-  session.id = json["_id"];
+  MapDatabase.instance.ids[session]=json["_id"];
   session.setAvailableChoices(json["available_choices"]);
   session.setNumOfQuestions(json["questions"]);
   session.setClass(ClassRepository.instance.findByDbId(json['schoolClass'])!);

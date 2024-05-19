@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
+import 'mapDb.dart';
+
 const String serverUrl=gradingUrl;
 
 Future<Map<String, dynamic>?> ConnectToGrade(XFile image, ExamSession session) async {
@@ -25,7 +27,7 @@ Future<Map<String, dynamic>?> ConnectToGrade(XFile image, ExamSession session) a
   final request = http.MultipartRequest("POST", url);
   request.fields['available_choices'] = availableChoices.toString();
   request.fields['right_answers'] = convertedAnswers.toString();
-  request.fields['session_id']=session.id!;
+  request.fields['session_id']=MapDatabase.instance.ids[session]!;
   print(convertedAnswers);
   request.files.add(await http.MultipartFile.fromPath(
     'file',

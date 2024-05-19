@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_grading_mobile/api_url.dart';
+import 'package:auto_grading_mobile/logic/mapDb.dart';
 import 'package:auto_grading_mobile/logic/studentConverter.dart';
 
 import '../models/Class.dart';
@@ -27,7 +28,7 @@ Future<Class?> classFromJson(Map<String, dynamic> json) async{
       Class schoolClass = Class(name,classId); // tao class moi
       schoolClass.setCode(code);
       schoolClass.students.addAll(studentsFetched); // thêm các học sinh vào lớp học
-      schoolClass.dbId=id;
+      MapDatabase.instance.ids[schoolClass]=id;
       return schoolClass;
     } else {
       // Request failed
