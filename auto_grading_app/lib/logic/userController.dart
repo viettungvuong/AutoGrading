@@ -52,10 +52,11 @@ Future<Pair> Signin(String username, String password) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'email': username,
+        'email': username.toLowerCase(),
         'password': password,
       }),
     );
+
 
 
     if (response.statusCode == 200) {
@@ -64,7 +65,7 @@ Future<Pair> Signin(String username, String password) async {
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
 
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
-      User.instance.email=username; // set user
+      User.instance.email=username.toLowerCase(); // set user
       User.instance.isStudent=jsonResponse["isStudent"];
 
 
@@ -96,7 +97,7 @@ Future<Pair> Signup(String name, String username, String password, bool isStuden
       },
       body: jsonEncode(<String, dynamic>{
         'name': name,
-        'email': username,
+        'email': username.toLowerCase(),
         'password': password,
         'isStudent': isStudent,
         'studentId': studentId
@@ -108,7 +109,7 @@ Future<Pair> Signup(String name, String username, String password, bool isStuden
       // thanh cong
       jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       AuthController.instance.setToken(jsonResponse["token"]); //dat token xac thuc
-      User.instance.email=username; // set user
+      User.instance.email=username.toLowerCase(); // set user
       User.instance.isStudent=isStudent;
 
       // SocketController.instance.emitLogin(username);
@@ -138,7 +139,7 @@ Future<Pair> ChangePassword(String username, String confirmPassword, String newP
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'email': username,
+        'email': username.toLowerCase(),
         'confirmPassword': confirmPassword,
         'newPassword': newPassword
       }),

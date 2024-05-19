@@ -9,7 +9,7 @@ import '../logic/userController.dart';
 Future<void> saveLoginInfo(String username, String password) async {
   await Preferences.instance.initPreferences();
   Preferences.instance[prefKey]=true;
-  Preferences.instance[userNameKey]=username;
+  Preferences.instance[userNameKey]=username.toLowerCase();
   Preferences.instance[passwordKey]=password;
 
   // Preferences.instance.saveBoolean(prefKey, true);
