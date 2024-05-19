@@ -88,8 +88,8 @@ class ExamSession{
     }
 
     final List<int> bytes = workbook.saveAsStream();
-    final documentsDirectory = "/storage/emulated/0/Documents";
-    final filePath = '${documentsDirectory}/$_name.xlsx';
+    const documentsDirectory = "/storage/emulated/0/Documents";
+    final filePath = '$documentsDirectory/$_name.xlsx';
     await File(filePath).writeAsBytes(bytes);
     workbook.dispose();
     Fluttertoast.showToast(msg:'Excel file saved at: $filePath');

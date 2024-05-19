@@ -34,7 +34,7 @@ class User {
       dynamic map = jsonDecode(response.body) as Map<String, dynamic>;
 
       _student = studentFromJson(map);
-      _student?.studentEmail=email;
+      _student?.studentEmail=email!;
       return _student;
     } else {
       return null;
@@ -45,3 +45,5 @@ class User {
     _student=null;
   }
 }
+
+

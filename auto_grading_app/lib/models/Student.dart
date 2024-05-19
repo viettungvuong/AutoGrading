@@ -8,6 +8,13 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'User.dart';
 
+abstract class IStudent{
+  late String _name;
+  late String _studentId;
+  String? studentEmail; // email tài khoản của student
+  List<Class> classes = [];
+}
+
 class Student{
   late String _name;
   late String _studentId;
@@ -19,8 +26,8 @@ class Student{
   Student.blank();
 
   Student.copy(Student other){
-    this._name=other._name;
-    this._studentId=other._studentId;
+    _name=other._name;
+    _studentId=other._studentId;
   }
 
   String getName(){
