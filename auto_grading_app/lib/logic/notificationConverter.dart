@@ -24,7 +24,7 @@ Future<List<ExamNotification>> notificationsFromJson(Map<String,dynamic> json) a
 
     if (response.statusCode == 200) {
       dynamic jsonFor = jsonDecode(response.body) as Map<String, dynamic>;
-      Exam? exam = await examFromJsonStudentMode(jsonFor, null);
+      Exam? exam = await examFromJsonStudentMode(jsonFor);
       if (exam==null){
         continue;
       }

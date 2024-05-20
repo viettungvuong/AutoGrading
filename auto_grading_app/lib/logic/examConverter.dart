@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../repositories/examRepository.dart';
 
-Future<Exam?> examFromJsonStudentMode(Map<String,dynamic> exam, Transaction? txn) async {
+Future<Exam?> examFromJsonStudentMode(Map<String,dynamic> exam) async {
   double score = exam["score"].toDouble();
   Student? student = await User.instance.toStudent();
   if (student != null) {
@@ -16,9 +16,6 @@ Future<Exam?> examFromJsonStudentMode(Map<String,dynamic> exam, Transaction? txn
     current.setGradedPaperLink(exam["graded_paper_img"]);
     current.setSession(exam["session_name"]);
 
-    if (txn != null) { // cache
-      txn.insert(tableName, current.toMap()); // cache lai
-    }
     return current;
   }
 
@@ -44,11 +41,11 @@ Future<Exam?> examFromJsonTeacherMode(Map<String,dynamic> exam) async {
   }
 }
 
-Future<List<Exam>> examsFromJson(Map<String,dynamic> json, Transaction? txn) async {
+Future<List<Exam>> examsFromJson(Map<String,dynamic> json) async {
   dynamic exams = json["exams"];
   List<Exam> res = [];
   for (var exam in exams) {
-      Exam? current = await examFromJsonStudentMode(exam, txn);
+      Exam? current = await examFromJsonStudentMode(exam);
 
       if (current == null) {
         continue;

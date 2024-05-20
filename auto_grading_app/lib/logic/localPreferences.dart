@@ -54,17 +54,7 @@ class Preferences {
     }
     dynamic res = _prefs.get(key);
 
-    if (res is String) {
-      try {
-        // thu xem co phai dateTime khong
-        return DateTime.parse(res);
-      } catch (e) {
-        return res;
-      }
-    }
-    else{
-      return res;
-    }
+    return res;
   }
 
   void operator []=(String key, dynamic value) {

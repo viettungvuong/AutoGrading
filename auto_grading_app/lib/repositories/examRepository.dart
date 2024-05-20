@@ -12,8 +12,6 @@ import '../models/Student.dart';
 import '../models/User.dart';
 import '../logic/localPreferences.dart';
 
-const String lastUpdateKey = "last_updated_exam";
-const String tableName = 'exams';
 
 class ExamRepository extends BaseRepository<Exam> {
   ExamRepository._() : super();
@@ -44,84 +42,23 @@ class ExamRepository extends BaseRepository<Exam> {
     throw UnimplementedError();
   }
 
-  Future<void> clearCache() async{
-    await _database.transaction((txn) async {
-      await txn.delete(tableName); // xoa cache cu
-    });
 
-    await Preferences.instance.initPreferences();
-    if (Preferences.instance[lastUpdateKey]!=null){
-      Preferences.instance[lastUpdateKey]=null;
-    }
-  }
 
-  Future<bool> needToRefresh() async {
-    // if (initialized==false){
-    //   return true;
-    // }
-    await Preferences.instance.initPreferences();
-    if (Preferences.instance[lastUpdateKey]==null){
-      return true;
-    }
-    else{
-      return DateTime.now().difference(Preferences.instance[lastUpdateKey]).inMinutes >= _cachedTime;
-    }
 
-  }
-
-  Future<void> _openDatabase() async {
-    final databasesPath = await getDatabasesPath();
-    final path = join(databasesPath, 'exam_database.db');
-
-    _database = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (Database db, int version) async {
-        // Create the table for caching exams
-        await db.execute('''
-          CREATE TABLE $tableName (
-            id INTEGER PRIMARY KEY,
-            student TEXT,
-            score REAL,
-            graded_paper_img TEXT,
-            session TEXT
-          )
-        ''');
-      },
-    );
-  }
-
-  void triggerReinitialize(){ // bat buoc refresh lai
-    initialized=false;
-    initialize();
-  }
 
   @override
   Future<void> initialize() async {
-    bool refresh = await needToRefresh();
-    // se luon phai load khi moi mo app lai
-    // refresh la de khi dang dung app co gi no se refresh
-
-    items.clear();
-
-    if (initialized==false||refresh) {
+    if (initialized==false) {
       if (User.instance.isStudent == false || User.instance.isSignedIn() == false) {
         return;
       }
 
 
-      await _openDatabase();
-
       try {
         dynamic json = await GetExamsFromDatabase(User.instance.email!);
+        items.addAll(await examsFromJson(json));
 
-        await _database.transaction((txn) async {
-          clearCache();
-
-          items.addAll(await examsFromJson(json, txn));
-        });
         initialized = true;
-        Preferences.instance[lastUpdateKey]=DateTime.now();
       } catch (err) {
         Fluttertoast.showToast(
           msg: err.toString(),
@@ -133,17 +70,6 @@ class ExamRepository extends BaseRepository<Exam> {
           fontSize: 16.0,
         );
       }
-    } else {
-      //  load tu cache
-      await _openDatabase();
-      List<Map<String, dynamic>> maps = await _database.query(tableName);
-      items.addAll(List.generate(maps.length, (i) {
-        Exam current = Exam.fromMap(maps[i]);
-        return current;
-      }).where((current) {
-        // loc nhung item thao dieu kien
-        return current.getStudent().studentEmail == User.instance.email;
-      }));
     }
   }
 }
