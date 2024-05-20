@@ -25,7 +25,6 @@ class StudentInfo extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20),
       margin: EdgeInsets.all(50),
-      color: Colors.white70,
       child: Column(
         children: [
           Text(student.getName(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),

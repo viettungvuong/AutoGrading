@@ -13,6 +13,7 @@ import 'package:auto_grading_mobile/screens/loginRegister.dart';
 import 'package:auto_grading_mobile/screens/specifyTest.dart';
 import 'package:auto_grading_mobile/screens/studentManagement.dart';
 import 'package:auto_grading_mobile/screens/user.dart';
+import 'package:auto_grading_mobile/theme.dart';
 import 'package:auto_grading_mobile/views/examView.dart';
 import 'package:auto_grading_mobile/widgets/bottomBar.dart';
 import 'package:auto_grading_mobile/screens/cameraScreen.dart';
@@ -45,9 +46,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Auto Grading',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: appTheme(),
       home: LoginScreen(),
     );
   }

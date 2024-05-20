@@ -27,7 +27,7 @@ class BottomBar extends ConsumerWidget {
         // ),
       ],
       currentIndex: ref.watch(selectedIndexProvider),
-      selectedItemColor: Colors.amber[800],
+      selectedItemColor: Colors.greenAccent,
       onTap: (selected) {
         ref.read(selectedIndexProvider.state).state = selected; // chinh so thanh index cua selected
       },

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -44,28 +46,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              style: style,
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: 'Name',
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: TextField(
+                controller: _nameController,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  labelStyle: TextStyle(color: Colors.white),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(16),
+                ),
               ),
             ),
             SizedBox(height: 16.0),
-            TextField(
-              style: style,
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: TextField(
+                controller: _emailController,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.white),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(16),
+                ),
               ),
             ),
             SizedBox(height: 16.0),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              style: style,
-              decoration: InputDecoration(
-                labelText: 'Password',
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: TextField(
+                controller: _passwordController,
+                obscureText: true,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  labelStyle: TextStyle(color: Colors.white),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(16),
+                ),
               ),
             ),
             SizedBox(height: 16.0),
@@ -73,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               value: _userType,
               items: [
                 DropdownMenuItem(child: Text('Teacher'), value: 'Teacher'),
-                DropdownMenuItem(child: Text('Student'), value: 'Student'),
+                DropdownMenuItem(child: Text('Student')),
               ],
               onChanged: (value) {
                 setState(() {
@@ -82,22 +111,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
               },
             ),
             SizedBox(height: 16.0),
-            _userType=="Student"?TextField( // chi nhap studentId khi chon student
-              controller: _studentIdController,
-              style: style,
-              decoration: InputDecoration(
-                labelText: 'Student ID',
+            _userType == "Student"
+                ? Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(12),
               ),
-            ):SizedBox(),
+              child: TextField(
+                controller: _studentIdController,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Student ID',
+                  labelStyle: TextStyle(color: Colors.white),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(16),
+                ),
+              ),
+            )
+                : SizedBox(),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _isLoading ? null : register,
-              child: _isLoading
-                  ? CircularProgressIndicator()
-                  : Text('Register'),
+              child: _isLoading ? CircularProgressIndicator() : Text('Register'),
             ),
           ],
         ),
+
       ),
     );
   }
@@ -184,26 +223,62 @@ class _LoginScreenState extends State<LoginScreen> {
               : Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Center(
+                  child: Text(
+                    "AutoGrading",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 50),
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextField(
+                  controller: _emailController,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    labelStyle: TextStyle(color: Colors.white), // Make label text white
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(16),
+                  ),
                 ),
               ),
               SizedBox(height: 16.0),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextField(
+                  controller: _passwordController,
+                  style: TextStyle(color: Colors.white),
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: TextStyle(color: Colors.white), // Make label text white
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(16),
+                  ),
                 ),
               ),
+
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _isLoading
                     ? null
-                    : () => login(
-                    _emailController.text, _passwordController.text),
+                    : () => login(_emailController.text, _passwordController.text),
                 child: Text('Login'),
               ),
               SizedBox(height: 16.0),
@@ -211,8 +286,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => RegisterScreen()),
+                    MaterialPageRoute(builder: (context) => RegisterScreen()),
                   );
                 },
                 child: Text('Register'),
@@ -223,6 +297,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
 
   Future<void> login(String username, String password) async {
     setState(() {
